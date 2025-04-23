@@ -95,9 +95,9 @@ The idea came from imagining a “Perplexity meets Miro” product, a canvas for
 
 ## 🙌 Contributors
 
-- **Petar [@yourhandle]** – Developer, Designer, Prompt Magician  
+- **Peter [@PetarRan]** – Developer, Designer, Prompt Magician  
 - Powered by [Perplexity AI](https://www.perplexity.ai)
 
 ## 📄 License
 
-MIT License
+MIT License (also coming soon, if I don't forget)
