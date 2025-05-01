@@ -1,4 +1,5 @@
-# PerplexiGrid
+![image](https://github.com/user-attachments/assets/8b614a14-1511-4407-9617-d92527854b0f)
+<hr>
 
 PerplexiGrid is an analytics tool that enables rapid dashboard creation by combining your datasources with live web search. Built as a Perplexity API wrapper, it transforms natural language queries into interactive visual dashboards in seconds. Think of it as Perplexity for Analytics Dashboards.
 
@@ -80,7 +81,7 @@ npm run dev
 This project was developed for the Sonar API hackathon as an exploration of Perplexity's Sonar API capabilities for data visualization and analytics.
 
 - **Category**: [Still thinking]
-- **Team**: Peter (@PetarRan) & Alessandro (@AlessandroDodi)
+- **Team**: Peter ([@PetarRan](https://github.com/PetarRan)) & Alessandro ([@AlessandroDodi](https://github.com/AlessandroDodi))
 - **Repository**: Private, shared with `james.liounis@perplexity.ai` and `testing@devpost.com` as per the hackathon rulebook.
 
 ## License
