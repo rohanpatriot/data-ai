@@ -4,7 +4,9 @@ import './index.css'
 import App from './App'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  // TODO PLZ remember to remove the 
+  // StrictMode when we wanna see prod or we can just make prod/dev build
+  <StrictMode> 
     <App />
   </StrictMode>,
 )

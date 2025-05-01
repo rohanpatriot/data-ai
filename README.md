@@ -1,103 +1,88 @@
-# 🧠 PerplexiGrid
+# PerplexiGrid
 
-**PerplexiGrid** is an interactive AI research canvas powered by Perplexity’s Sonar API. Inspired by tools like Miro and Notion, PerplexiGrid combines free-form visual creativity with real-time AI chat and data visualization capabilities. Users can click anywhere on the canvas to spawn contextual AI-powered chat inputs that generate insightful, dynamic visual elements — bar charts, tables, summaries, and more — all tied to live queries and citations using Perplexity's cutting-edge reasoning API.
+PerplexiGrid is an analytics tool that enables rapid dashboard creation by combining your datasources with live web search. Built as a Perplexity API wrapper, it transforms natural language queries into interactive visual dashboards in seconds. Think of it as Perplexity for Analytics Dashboards.
 
-## 🚀 Features
+## What's under the hood of PerplexiGrid?
 
-- ⚡️ **Grid-based whiteboard canvas**  
-  - Interactable grid that supports zooming, panning, and snapping for intuitive visual layout design.
-- 💬 **Click-to-chat AI interface**  
-  - Spawn a chat input by clicking anywhere on the canvas. Supports natural language prompts like:  
-    “Show a bar chart of Bitcoin transactions over the past 3 months by week.”
-- 📊 **Dynamic visualizations**  
-  - Charts and visual components are generated in-place and anchored to user-selected positions. Currently using mock data, later upgraded via Perplexity Sonar.
-- 🪄 **Drag, resize, move**  
-  - Miro-style UX for manipulating components. Prevents overlapping and aligns them to a defined grid system.
-- 🗺 **Composable dashboards**  
-  - Build dashboards by arranging multiple generated elements and saving layout state.
-- ⌨️ **Keyboard interaction & UX polish**  
-  - ESC to dismiss, clicking outside closes modals, intelligent anchor positioning, and cursor improvements for a smooth experience.
+PerplexiGrid leverages the **Sonar API** from Perplexity to scrape relevant web data and transform it into structured, visual components. Users can create projects, generate dashboards through conversational prompts, and refine visualizations through a collaborative interface.
 
-## 🧠 How Sonar API Is Used
+## Core Functionality
 
-PerplexiGrid integrates with **Perplexity’s Sonar Reasoning API** to allow:
-- Natural language questions answered in real-time
-- AI-generated insights for data summarization and exploratory visualizations
-- Potential for follow-up interactions (planned using Sonar Reasoning Pro)
+- **Instant Dashboard Generation**: Convert natural language queries into complete dashboards with multiple visualization widgets
+- **Mixed Data Sources**: Combine your own data with real-time web information via Perplexity's Sonar API
+- **Collaborative Workspace**: Invite team members to develop dashboards together through a shared chat interface
+- **Flexible Layout System**: Rearrange widgets on a grid canvas with drag-and-drop functionality
+- **Widget Customization**: Select and edit individual widgets without affecting the entire dashboard
+- **Quick Editor**: Modify widget appearance and settings through an intuitive interface
 
-The user provides a prompt through a chat bubble, which is sent to Sonar. The response is parsed for type (e.g. visualization, summary, link), and rendered into a corresponding UI component.
+## Technical Implementation
 
-In the production version, we’ll use the following Sonar endpoints:
-- `sonar.research.query()` — to handle custom data retrieval or explanation
-- `sonar.reasoning()` — for follow-up chains, context-aware enhancements
+- **Frontend**: React + Vite + MUI + more soon...
+- **Canvas System**: React Grid Layout for precise widget positioning
+- **Data Visualization**: Recharts(or d3js!) library for responsive charts and graphs
+- **API Integration**: Perplexity Sonar API for web-based research and reasoning + our own Engine for turning data into insights
 
-## 🛠️ Tech Stack
+## Usage Flow
 
-- **Frontend:** React + Vite + TailwindCSS
-- **Canvas Layer:** `react-grid-layout` + `react-resizable` for grid anchoring and UI precision
-- **Visualization:** `Recharts` for data-driven visual components (charts, tables, etc.)
-- **State Management:** Zustand (lightweight, scalable)
-- **API Layer:** Axios + Perplexity Sonar API (via secure API key)
+1. Create a new project
+2. Type a natural language query like "Create a dashboard analyzing renewable energy adoption rates in Europe"
+3. Review the auto-generated dashboard with multiple widgets
+4. Rearrange widgets by dragging them across the grid
+5. Select any widget to customize or refine through follow-up prompts
+6. Invite collaborators to enhance the dashboard through chat
+7. Type some more
+8. Have a quick coffee break
+9. Iterate
 
-## ⚙️ Setup Instructions
+## Sonar API Integration
 
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/yourusername/perplexigrid.git
-   cd perplexigrid
-   ```
-2. Install dependenices
-    ```bash
-    npm install
-    ```
-3. Add your .env: (STILL NOT IMPLEMENTED)
-    ```bash
-    VITE_SONAR_API_KEY=your_perplexity_api_key_here
-    ```
-4. Start the dev server and have fun :)
-    ```bash
-    npm run dev
-    ```
+PerplexiGrid uses Perplexity's Sonar API in several key ways:
 
-    ## 🧪 Usage Guide
+- **Research-Driven Visualization**: Converting web search results into structured data formats
+- **Contextual Understanding**: Maintaining conversation context for follow-up queries and refinements
+- **Multi-Modal Output**: Transforming search results into appropriate visualization types based on data characteristics
 
-- Click anywhere on the whiteboard → a chat bubble appears.
-- Type a natural query, like:
-  > "Give me a pie chart of top 5 most spoken languages in 2023"
-- Hit Enter → a new visualization is generated right where you clicked.
-- Resize, drag, or delete as needed.
-- ESC or outside-click closes the current bubble.
+## Setup Instructions
 
-## 🎯 Future Roadmap
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/perplexigrid.git
+cd perplexigrid
 
-- [ ] Full Sonar API integration with live internet results
-- [ ] Save/load dashboards via Supabase or Firebase
-- [ ] Shareable links for collaborative mode
-- [ ] Component palette for different types: charts, text, citations, code, etc.
-- [ ] Export as PDF or image for reports
-- [ ] Connect to a Datasource
+# navigate to server and start it
+cd server
+node index.js
 
-## 🧑‍⚖️ Hackathon Submission Notes
+cd ..
 
-- Project Category: **Still thinking tbh**
-- Sonar Features Used:
-  - Sonar Reasoning
-  - Sonar Deep Research (planned for next iteration)
-- Dev Stack: React (Vite) + Tailwind + Recharts + Zustand + Perplexity API
-- Submission includes:
-  - Demo video [Soon to come :)]
-  - Private repo shared with:  
-    `james.liounis@perplexity.ai` and `testing@devpost.com`
+# navigate to client and Install dependencies
+cd client
+npm install
 
-## 💡 Inspiration
+# Add your Perplexity API key
+# Create a .env file with:
+VITE_SONAR_API_KEY=your_perplexity_api_key_here
 
-The idea came from imagining a “Perplexity meets Miro” product, a canvas for thinkers and professionals to organize thoughts, generate insights, and build dashboards or knowledge maps, all powered by real-time research and AI reasoning.
+# Start the development server
+npm run dev
+```
 
-## 🙌 Contributors
+## Some more feature we are doing
 
-- **Peter [@PetarRan]** – Developer, Designer, Prompt Magician  
-- Powered by [Perplexity AI](https://www.perplexity.ai)
+- Dashboard export functionality (PDF, image, shareable links)
+- Advanced data source connections (spreadsheets, APIs, JSON)
+- Custom widget creation
+- Template library for common dashboard types
+- Version history and change tracking
 
-## 📄 License
+## Hackathon Submission Notes
 
-MIT License (also coming soon, if I don't forget)
+This project was developed for the Sonar API hackathon as an exploration of Perplexity's Sonar API capabilities for data visualization and analytics.
+
+- **Category**: [Still thinking]
+- **Team**: Peter (@PetarRan) & Alessandro (@AlessandroDodi)
+- **Repository**: Private, shared with `james.liounis@perplexity.ai` and `testing@devpost.com` as per the hackathon rulebook.
+
+## License
+
+MIT License
