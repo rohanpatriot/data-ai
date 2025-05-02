@@ -1,6 +1,13 @@
 #root {
   margin: 0 auto;
   text-align: center;
+  
+  --primary: 275 87% 54%;         /* #A224F0 */
+  --text-primary: 210 14% 18%;    /* #293133 */
+  --secondary: 208 39% 93%;       /* #E6EEF4 */
+  --accent: 0 0% 40%;             /* #666666C4 → #666666 as HSL (alpha not supported in variables) */
+  --bg-primary: 0 0% 100%;        /* #FFFFFF */
+  --icon-accent: 0 0% 0%;         /* #000000 */
 }
 
 .logo {
