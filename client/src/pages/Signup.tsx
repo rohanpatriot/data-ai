@@ -1,1 +1,10 @@
-// I added a bunch of pages based on the Figma, still need to implement.
+// Last page that needs to be created is the signup, I can do that tomorrow
+import React from 'react';
+
+const Signup = () => {
+    return (
+        <h1>Sign up</h1>
+    )
+}
+
+export default Signup;

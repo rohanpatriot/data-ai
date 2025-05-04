@@ -7,6 +7,8 @@ import NotFound from './pages/NotFound';
 import ForgotPassword from './pages/ForgotPassword';
 import { AnimatePresence } from 'motion/react';
 import Projects from './pages/Projects';
+import Dashboard from './pages/Dashboard';
+import Signup from './pages/Signup';
 
 const theme = createTheme({
   typography: {
@@ -31,13 +33,12 @@ function App() {
     <AnimatePresence>
       <Routes>
         <Route path="/login" element={<Login />} />
-        {/* <Route path="/signup" element={<Signup />} /> */}
+        <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/projects" element={<Projects />} />
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-
-         <Route path="/" element={<Navigate to="/login" replace />} />
-         <Route path="*" element={<NotFound />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       </AnimatePresence>
     </BrowserRouter>
