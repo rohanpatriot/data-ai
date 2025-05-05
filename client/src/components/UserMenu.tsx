@@ -12,7 +12,7 @@ import { supabase } from "../supabase-client";
 
 const UserMenu: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [userImage, setUserImage] = useState("/src/assets/dev/avatar.svg");
+  const [userImage, setUserImage] = useState("/src/assets/dev/user.webp");
   const navigate = useNavigate();
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
