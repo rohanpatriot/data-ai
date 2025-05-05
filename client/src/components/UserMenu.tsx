@@ -6,12 +6,13 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabase-client";
 
 const UserMenu: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [userImage, setUserImage] = useState("/src/assets/dev/avatar.svg");
   const navigate = useNavigate();
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -32,13 +33,22 @@ const UserMenu: React.FC = () => {
     // Implement profile nav here
     handleCloseMenu();
   };
+  const fetchUser = async () => {
+    const { data } = await supabase.auth.getUser();
+    if (data.user) {
+      setUserImage(data.user?.user_metadata.avatar_url); // Avatar URL from Google profile
+    }
+  };
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return (
     <>
       <IconButton onClick={handleOpenMenu} sx={{ p: 0 }}>
         <Avatar
           alt="User Avatar"
-          src="/src/assets/dev/avatar.svg"
+          src={userImage}
           sx={{ width: 36, height: 36 }}
         />
       </IconButton>

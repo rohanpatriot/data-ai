@@ -121,6 +121,11 @@ const Login = () => {
                     backgroundColor: "transparent",
                   },
                 }}
+                onClick={() => {
+                  supabase.auth.signInWithOAuth({
+                    provider: "google",
+                  });
+                }}
               >
                 Log in with Google
               </Button>

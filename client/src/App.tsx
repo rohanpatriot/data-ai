@@ -29,33 +29,23 @@ function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchSession = async () => {
-    try {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) {
-        console.error("Error fetching session:", error);
-      }
-      setSession(data.session);
-    } catch (error) {
-      console.error("Exception fetching session:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchSession();
+    const initAuth = async () => {
+      const { data } = await supabase.auth.getSession();
+      setSession(data.session);
+      setLoading(false);
+    };
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (_event, newSession) => {
-        console.log("Auth state changed:", _event, newSession);
-        setSession(newSession);
-        setLoading(false); // Make sure to update loading state here too
+    initAuth();
+
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
       }
     );
 
     return () => {
-      authListener?.subscription.unsubscribe();
+      listener?.subscription.unsubscribe();
     };
   }, []);
 
@@ -68,32 +58,18 @@ function App() {
       <BrowserRouter>
         <AnimatePresence>
           <Routes>
-            <Route
-              path="/projects"
-              element={
-                loading ? (
-                  <div>Loading...</div>
-                ) : session ? (
-                  <Projects />
-                ) : (
-                  <Navigate to="/login" replace />
-                )
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                loading ? (
-                  <div>Loading...</div>
-                ) : session ? (
-                  <Navigate to="/projects" replace />
-                ) : (
-                  <Login />
-                )
-              }
-            />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/" element={<Navigate to="/projects" replace />} />
+            {loading ? null : session ? (
+              <>
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/" element={<Navigate to="/projects" replace />} />
+              </>
+            ) : (
+              <>
+                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<Navigate to="/login" replace />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+              </>
+            )}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AnimatePresence>

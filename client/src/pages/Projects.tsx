@@ -218,16 +218,16 @@ const Projects = () => {
                         <path
                           d="M6 11C8.76142 11 11 8.76142 11 6C11 3.23858 8.76142 1 6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11Z"
                           stroke="#666666"
-                          stroke-opacity="0.77"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeOpacity="0.77"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
                         <path
                           d="M6 3.5V6L7.5 7.5"
                           stroke="#666666"
-                          stroke-opacity="0.77"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeOpacity="0.77"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
                       </svg>
                     </Box>
