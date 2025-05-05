@@ -9,7 +9,8 @@ import Projects from "./pages/Projects";
 import { useEffect, useState } from "react";
 import { supabase } from "./supabase-client";
 import { Session } from "@supabase/supabase-js";
-
+import Dashboard from "./pages/Dashboard";
+import Signup from "./pages/Signup";
 const theme = createTheme({
   typography: {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
@@ -76,6 +77,22 @@ function App() {
       </BrowserRouter>
     </ThemeProvider>
   );
+  //   <CssBaseline />
+  //   <BrowserRouter>
+  //   <AnimatePresence>
+  //     <Routes>
+  //       <Route path="/login" element={<Login />} />
+  //       <Route path="/signup" element={<Signup />} />
+  //       <Route path="/forgot-password" element={<ForgotPassword />} />
+  //       <Route path="/projects" element={<Projects />} />
+  //       <Route path="/dashboard" element={<Dashboard />} />
+  //       <Route path="/" element={<Navigate to="/login" replace />} />
+  //       <Route path="*" element={<NotFound />} />
+  //     </Routes>
+  //     </AnimatePresence>
+  //   </BrowserRouter>
+  // </ThemeProvider>
+  // )
 }
 
 export default App;
