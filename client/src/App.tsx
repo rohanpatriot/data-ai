@@ -61,6 +61,7 @@ function App() {
           <Routes>
             {loading ? null : session ? (
               <>
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/" element={<Navigate to="/projects" replace />} />
               </>
