@@ -80,7 +80,6 @@ const ChatBox: React.FC<ChatBoxProps> = ({
               borderRadius: 2,
               fontWeight: 500,
               fontSize: "0.875rem",
-              border: "1px solid hsl(var(--secondary))",
               py: 0.5,
               px: 1.5,
               minWidth: "auto",
