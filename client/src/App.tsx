@@ -1,7 +1,13 @@
 import "./App.css";
 import Login from "./pages/Login";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
+import {
+  createTheme,
+  ThemeProvider,
+  CssBaseline,
+  Box,
+  CircularProgress,
+} from "@mui/material";
 import NotFound from "./pages/NotFound";
 import ForgotPassword from "./pages/ForgotPassword";
 import { AnimatePresence } from "motion/react";
@@ -53,47 +59,77 @@ function App() {
   // For debugging
   console.log("Current state:", { session, loading });
 
+  // Loading component
+  const LoadingScreen = () => (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <CircularProgress sx={{ color: "hsl(var(--primary))" }} />
+    </Box>
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
         <AnimatePresence>
-          <Routes>
-            {loading ? null : session ? (
-              <>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/projects" element={<Projects />} />
-                <Route path="/" element={<Navigate to="/projects" replace />} />
-              </>
-            ) : (
-              <>
-                <Route path="/login" element={<Login />} />
-                <Route path="/" element={<Navigate to="/login" replace />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-              </>
-            )}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          {loading ? (
+            <LoadingScreen />
+          ) : (
+            <Routes>
+              {/* Always include both sets of routes, but use Navigate to redirect */}
+              <Route
+                path="/dashboard"
+                element={
+                  session ? <Dashboard /> : <Navigate to="/login" replace />
+                }
+              />
+              <Route
+                path="/projects"
+                element={
+                  session ? <Projects /> : <Navigate to="/login" replace />
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  !session ? <Login /> : <Navigate to="/projects" replace />
+                }
+              />
+              <Route
+                path="/signup"
+                element={
+                  !session ? <Signup /> : <Navigate to="/projects" replace />
+                }
+              />
+              <Route
+                path="/forgot-password"
+                element={
+                  !session ? (
+                    <ForgotPassword />
+                  ) : (
+                    <Navigate to="/projects" replace />
+                  )
+                }
+              />
+              <Route
+                path="/"
+                element={
+                  <Navigate to={session ? "/projects" : "/login"} replace />
+                }
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          )}
         </AnimatePresence>
       </BrowserRouter>
     </ThemeProvider>
   );
-  //   <CssBaseline />
-  //   <BrowserRouter>
-  //   <AnimatePresence>
-  //     <Routes>
-  //       <Route path="/login" element={<Login />} />
-  //       <Route path="/signup" element={<Signup />} />
-  //       <Route path="/forgot-password" element={<ForgotPassword />} />
-  //       <Route path="/projects" element={<Projects />} />
-  //       <Route path="/dashboard" element={<Dashboard />} />
-  //       <Route path="/" element={<Navigate to="/login" replace />} />
-  //       <Route path="*" element={<NotFound />} />
-  //     </Routes>
-  //     </AnimatePresence>
-  //   </BrowserRouter>
-  // </ThemeProvider>
-  // )
 }
 
 export default App;
