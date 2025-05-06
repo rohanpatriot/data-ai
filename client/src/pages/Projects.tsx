@@ -9,6 +9,7 @@ import {
   Toolbar,
   Skeleton,
   useTheme,
+  Card,
 } from "@mui/material";
 import Logo from "../components/Logo";
 import UserMenu from "../components/UserMenu";
@@ -127,12 +128,9 @@ const Projects = () => {
       </Box>
 
       <Container maxWidth="lg" sx={{ mt: 6, pb: 8 }}>
-        <Paper
-          elevation={0}
+        <Card
           sx={{
             p: 4,
-            borderRadius: 4,
-            border: `1px solid ${theme.palette.divider}`,
             maxWidth: "800px",
             mx: "auto",
           }}
@@ -145,11 +143,7 @@ const Projects = () => {
               mb: 2,
             }}
           >
-            <Typography
-              variant="h4"
-              component="h1"
-              sx={{ fontWeight: "normal", color: theme.palette.text.primary }}
-            >
+            <Typography variant="h4" component="h1">
               Projects
             </Typography>
             <Button variant="contained" onClick={() => setOpenAddModal(true)}>
@@ -173,7 +167,7 @@ const Projects = () => {
                   ></Skeleton>
                 ))
               : projects.map((project) => (
-                  <Paper
+                  <Card
                     key={project.id}
                     elevation={0}
                     onClick={() => handleProjectClick(project.id)}
@@ -181,8 +175,6 @@ const Projects = () => {
                       p: 1,
                       pl: 2,
                       mb: 1.25,
-                      borderRadius: 2,
-                      border: `1px solid ${theme.palette.divider}`,
                       cursor: "pointer",
                       "&:hover": {
                         backgroundColor: theme.palette.action.hover,
@@ -303,10 +295,10 @@ const Projects = () => {
                         </Typography>
                       </Box>
                     </Box>
-                  </Paper>
+                  </Card>
                 ))}
           </Box>
-        </Paper>
+        </Card>
       </Container>
 
       <AddProjectModal

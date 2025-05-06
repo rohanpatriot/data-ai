@@ -44,6 +44,19 @@ const theme = createTheme({
     },
   },
   components: {
+    // Add Card component styling
+    MuiCard: {
+      defaultProps: {
+        elevation: 0, // Default elevation of 0
+      },
+      styleOverrides: {
+        root: {
+          border: `1px solid ${palette.divider}`, // Border color matching divider
+          borderRadius: 10, // Matching your theme's border radius
+          padding: 10, // Padding of 2 (16px)
+        },
+      },
+    },
     MuiTableCell: {
       styleOverrides: {
         root: {

@@ -31,7 +31,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
   };
 
   return (
-    <Card>
+    <Card sx={{ p: 0.5 }}>
       <Stack spacing={1}>
         <TextField
           fullWidth
