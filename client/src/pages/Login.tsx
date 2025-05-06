@@ -17,22 +17,39 @@ import { supabase } from "../supabase-client";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) {
-      console.log(error.message);
+
+    if (!email || !password) {
+      setError("Please enter both email and password");
+      return;
     }
-    // TODO Authentication logic here
-    // For now, just navigate to projects page if email and password are provided
-    // do we use oauth? what do you suggest? let's talk monday.
-    if (email && password) {
-      navigate("/projects");
+
+    setError("");
+    setLoading(true);
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        console.error("Login error:", error.message);
+        setError(error.message);
+      } else if (data.user) {
+        // Only navigate if login was successful
+        navigate("/projects");
+      }
+    } catch (err) {
+      console.error("Exception during login:", err);
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -68,13 +85,14 @@ const Login = () => {
             <Typography
               variant="h4"
               component="h1"
-              sx={{ fontWeight: "none", mb: 1, textAlign: "start" }}
+              sx={{ mb: 1, textAlign: "start" }}
             >
               Log in
             </Typography>
             <Typography
               variant="body1"
-              sx={{ color: "text.secondary", mb: 4, textAlign: "start" }}
+              color="text.secondary"
+              sx={{ mb: 4, textAlign: "start" }}
             >
               Enter your credentials to access your account.
             </Typography>
@@ -83,6 +101,7 @@ const Login = () => {
               <Button
                 fullWidth
                 variant="outlined"
+                color="secondary"
                 startIcon={
                   <Box
                     component="span"
@@ -109,18 +128,6 @@ const Login = () => {
                     </svg>
                   </Box>
                 }
-                sx={{
-                  textTransform: "none",
-                  borderColor: "divider",
-                  color: "#000",
-
-                  borderRadius: 2,
-                  py: 1.5,
-                  "&:hover": {
-                    borderColor: "text.secondary",
-                    backgroundColor: "transparent",
-                  },
-                }}
                 onClick={() => {
                   supabase.auth.signInWithOAuth({
                     provider: "google",
@@ -129,14 +136,17 @@ const Login = () => {
               >
                 Log in with Google
               </Button>
+
               <Button
                 fullWidth
                 variant="outlined"
+                color="secondary"
                 startIcon={
                   <Box
                     component="span"
                     sx={{ display: "flex", alignItems: "center" }}
                   >
+                    {/* Apple SVG */}
                     <svg
                       width="18"
                       height="18"
@@ -147,16 +157,10 @@ const Login = () => {
                     </svg>
                   </Box>
                 }
-                sx={{
-                  textTransform: "none",
-                  color: "#000",
-                  borderColor: "divider",
-                  borderRadius: 2,
-                  py: 1.5,
-                  "&:hover": {
-                    borderColor: "text.secondary",
-                    backgroundColor: "transparent",
-                  },
+                onClick={() => {
+                  supabase.auth.signInWithOAuth({
+                    provider: "google",
+                  });
                 }}
               >
                 Log in with Apple
@@ -168,7 +172,8 @@ const Login = () => {
               <Typography
                 variant="body2"
                 component="span"
-                sx={{ px: 2, color: "text.secondary" }}
+                color="text.secondary"
+                sx={{ px: 2 }}
               >
                 or log in with email
               </Typography>
@@ -197,11 +202,6 @@ const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   variant="outlined"
-                  InputProps={{
-                    sx: {
-                      borderRadius: 2,
-                    },
-                  }}
                 />
               </Box>
               <Box sx={{ mb: 1 }}>
@@ -224,8 +224,8 @@ const Login = () => {
                   <MuiLink
                     component={Link}
                     to="/forgot-password"
-                    underline="none"
-                    sx={{ color: "hsl(var(--primary))", fontSize: "0.875rem" }}
+                    color="primary"
+                    sx={{ fontSize: "0.875rem" }}
                   >
                     Forgot password?
                   </MuiLink>
@@ -238,32 +238,26 @@ const Login = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   variant="outlined"
-                  InputProps={{
-                    sx: {
-                      borderRadius: 2,
-                    },
-                  }}
                 />
+                {error && (
+                  <Typography
+                    variant="caption"
+                    color="error"
+                    sx={{ display: "block", mt: 1, textAlign: "start" }}
+                  >
+                    {error}
+                  </Typography>
+                )}
               </Box>
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{
-                  mt: 4,
-                  mb: 2,
-                  py: 1.5,
-                  borderRadius: 2,
-                  backgroundColor: "hsl(var(--primary))",
-                  textTransform: "none",
-                  fontWeight: 500,
-                  fontSize: "1rem",
-                  "&:hover": {
-                    backgroundColor: "#8200FF",
-                  },
-                }}
+                color="primary"
+                disabled={loading}
+                sx={{ mt: 4, mb: 2, py: 1.5 }}
               >
-                Log in
+                {loading ? "Logging in..." : "Log in"}
               </Button>
               <Box sx={{ textAlign: "start", mt: 2 }}>
                 <Typography variant="body2" sx={{ display: "inline" }}>
@@ -272,13 +266,8 @@ const Login = () => {
                 <MuiLink
                   component={Link}
                   to="/signup"
-                  underline="none"
-                  sx={{
-                    ml: 0.5,
-                    color: "hsl(var(--primary))",
-                    fontWeight: 500,
-                    fontSize: "0.875rem",
-                  }}
+                  color="primary"
+                  sx={{ ml: 0.5, fontWeight: 500, fontSize: "0.875rem" }}
                 >
                   Sign up
                 </MuiLink>
@@ -309,4 +298,5 @@ const Login = () => {
     </motion.div>
   );
 };
+
 export default Login;

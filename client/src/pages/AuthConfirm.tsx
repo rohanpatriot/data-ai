@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "../supabase-client";
-import { Box, CircularProgress, Typography, Container, Alert } from "@mui/material";
+import { Box, CircularProgress, Typography, Container } from "@mui/material";
 
 const AuthConfirm = () => {
   const [searchParams] = useSearchParams();
@@ -50,7 +50,8 @@ const AuthConfirm = () => {
           {error}
         </Typography>
         <Typography variant="body2">
-          Please try resetting your password again or contact support if the problem persists.
+          Please try resetting your password again or contact support if the
+          problem persists.
         </Typography>
       </Container>
     );

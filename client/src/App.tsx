@@ -1,7 +1,8 @@
 import "./App.css";
 import Login from "./pages/Login";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import theme from "./theme"; // Import the new theme
 import NotFound from "./pages/NotFound";
 import ForgotPassword from "./pages/ForgotPassword";
 import { AnimatePresence } from "motion/react";
@@ -13,20 +14,6 @@ import Dashboard from "./pages/Dashboard";
 import Signup from "./pages/Signup";
 import UpdateUser from "./pages/UpdateUser";
 import AuthConfirm from "./pages/AuthConfirm"; // Add this import
-const theme = createTheme({
-  typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: "none",
-        },
-      },
-    },
-  },
-});
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
