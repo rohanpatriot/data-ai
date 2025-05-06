@@ -11,8 +11,9 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Typography,
+  useTheme,
 } from "@mui/material";
-
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 interface AddDataSourceProps {
   showAddDataSourceModal: boolean;
   setShowAddDataSourceModal: (show: boolean) => void;
@@ -36,6 +37,7 @@ const AddDataSource: React.FC<AddDataSourceProps> = ({
   setNewDataSource,
   handleAddDataSource,
 }) => {
+  const theme = useTheme();
   return (
     <Dialog
       open={showAddDataSourceModal}
@@ -48,11 +50,7 @@ const AddDataSource: React.FC<AddDataSourceProps> = ({
         <Typography variant="h5" component="div">
           Add Data Source
         </Typography>
-        <Typography
-          variant="body1"
-          color="text.secondary"
-          sx={{ mt: 1, fontWeight: 600 }}
-        >
+        <Typography variant="body1" color="text.secondary">
           Add a new data source by uploading a file or providing a URL
         </Typography>
       </DialogTitle>
@@ -83,6 +81,7 @@ const AddDataSource: React.FC<AddDataSourceProps> = ({
             <ToggleButtonGroup
               fullWidth
               color="primary"
+              size="small"
               value={newDataSource.sourceType}
               exclusive
               onChange={(e) =>
@@ -92,18 +91,8 @@ const AddDataSource: React.FC<AddDataSourceProps> = ({
                 })
               }
               sx={{
-                "& .MuiToggleButton-root": {
-                  textTransform: "none",
-                  bgcolor: "#f5f5f5",
-                  color: "#333",
-                  "&.Mui-selected": {
-                    bgcolor: "#e0e0e0",
-                    color: "#333",
-                    fontWeight: 500,
-                  },
-                },
-                border: "1px solid #e0e0e0",
-                borderRadius: "5px",
+                borderRadius: 2,
+                border: `1px solid ${theme.palette.divider}`,
               }}
             >
               <ToggleButton value="File">File</ToggleButton>
@@ -126,35 +115,7 @@ const AddDataSource: React.FC<AddDataSourceProps> = ({
                         component="span"
                         sx={{ mr: 2, width: 16, height: 16 }}
                       >
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                          <g
-                            id="SVGRepo_tracerCarrier"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          ></g>
-                          <g id="SVGRepo_iconCarrier">
-                            {" "}
-                            <path
-                              d="M13.5 3H12H8C6.34315 3 5 4.34315 5 6V18C5 19.6569 6.34315 21 8 21H12M13.5 3L19 8.625M13.5 3V7.625C13.5 8.17728 13.9477 8.625 14.5 8.625H19M19 8.625V11.8125"
-                              stroke="#293133"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            ></path>{" "}
-                            <path
-                              d="M17.5 21L17.5 15M17.5 15L20 17.5M17.5 15L15 17.5"
-                              stroke="#293133"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            ></path>{" "}
-                          </g>
-                        </svg>
+                        <AttachFileIcon />
                       </Box>
                     ),
                   }}

@@ -4,7 +4,6 @@ import {
   Box,
   Typography,
   Button,
-  Paper,
   AppBar,
   Toolbar,
   Skeleton,
