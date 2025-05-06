@@ -191,7 +191,7 @@ const Login = () => {
                 variant="contained"
                 color="primary"
                 disabled={loading}
-                sx={{ mt: 4, mb: 2, py: 1.5 }}
+                sx={{ mt: 4 }}
               >
                 {loading ? "Logging in..." : "Log in"}
               </Button>
@@ -203,7 +203,7 @@ const Login = () => {
                   component={Link}
                   to="/signup"
                   color="primary"
-                  sx={{ ml: 0.5, fontWeight: 500, fontSize: "0.875rem" }}
+                  sx={{ ml: 0.5 }}
                 >
                   Sign up
                 </MuiLink>
@@ -221,14 +221,7 @@ const Login = () => {
             padding: "2.5%",
           }}
         >
-          <motion.div
-            initial={{ x: -500 }}
-            animate={{ x: 0 }}
-            exit={{ x: 500 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
-            <SharedImage />
-          </motion.div>
+          <SharedImage />
         </Box>
       </Container>
     </motion.div>

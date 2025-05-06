@@ -97,14 +97,7 @@ const UpdateUser = () => {
             padding: "2.5%",
           }}
         >
-          <motion.div
-            initial={{ x: 500 }}
-            animate={{ x: 0 }}
-            exit={{ x: -500 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
-            <SharedImage />
-          </motion.div>
+          <SharedImage />
         </Box>
         <Box
           sx={{
@@ -192,15 +185,7 @@ const UpdateUser = () => {
                 >
                   Your password has been updated successfully. Redirecting...
                 </Typography>
-                <MuiLink
-                  component={Link}
-                  to="/projects"
-                  underline="none"
-                  sx={{
-                    color: "hsl(var(--primary))",
-                    fontSize: "0.875rem",
-                  }}
-                >
+                <MuiLink component={Link} to="/projects" underline="none">
                   Go to projects
                 </MuiLink>
               </Box>
@@ -271,19 +256,6 @@ const UpdateUser = () => {
                   fullWidth
                   variant="contained"
                   disabled={loading}
-                  sx={{
-                    mt: 4,
-                    mb: 2,
-                    py: 1.5,
-                    borderRadius: 2,
-                    backgroundColor: "hsl(var(--primary))",
-                    textTransform: "none",
-                    fontWeight: 500,
-                    fontSize: "1rem",
-                    "&:hover": {
-                      backgroundColor: "#8200FF",
-                    },
-                  }}
                 >
                   {loading ? "Updating..." : "Update Password"}
                 </Button>

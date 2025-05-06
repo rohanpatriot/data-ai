@@ -44,40 +44,40 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          border: "none",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          maxWidth: "150px",
+          styleOverrides: {
+            root: {
+              border: "none",
+            },
+          },
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
           textTransform: "none",
-          borderRadius: 10, // Reduced from 8
-          padding: "6px 12px", // Reduced from 10px 16px
-          fontWeight: 500,
-          fontSize: "0.875rem", // Added smaller font size
-        },
-        contained: {
+          borderRadius: 10,
           boxShadow: "none",
           "&:hover": {
             boxShadow: "none",
           },
         },
-        outlined: {
-          borderColor: "#E9ECEF",
-          "&:hover": {
-            backgroundColor: "transparent",
-            borderColor: "#6C757D",
-          },
-        },
+        // Add styles for the secondary outlined button
         outlinedSecondary: {
-          color: "#212529", // Black text
-          borderColor: "#6C757D", // Grey border
+          color: "#212529", // Black/very dark grey text color
+          borderColor: "#ced4da", // Light grey border color
           "&:hover": {
-            backgroundColor: "transparent",
-            borderColor: "#495057", // Darker grey on hover
+            backgroundColor: "rgba(0, 0, 0, 0.04)", // Standard light grey hover background
+            borderColor: "#adb5bd", // Slightly darker border on hover (optional)
           },
-        },
-        // Add size variant for small buttons
-        sizeSmall: {
-          padding: "4px 10px",
-          fontSize: "0.8125rem",
         },
       },
     },
@@ -85,7 +85,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           "& .MuiOutlinedInput-root": {
-            borderRadius: 6, // Reduced from 8
+            borderRadius: 10, // Reduced from 8
             fontSize: "0.9rem", // Smaller text in fields
           },
           "& .MuiInputBase-input": {

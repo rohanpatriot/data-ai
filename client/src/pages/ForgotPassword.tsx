@@ -16,12 +16,13 @@ import { supabase } from "../supabase-client";
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  //const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
       try {
+        setLoading(true);
         const { error } = await supabase.auth.resetPasswordForEmail(email);
 
         if (error) {
@@ -34,6 +35,7 @@ const ForgotPassword = () => {
         console.error("Exception when sending reset password email:", err);
         // You might want to add error handling UI here
       }
+      setLoading(false);
     }
   };
 
@@ -59,14 +61,7 @@ const ForgotPassword = () => {
             padding: "2.5%",
           }}
         >
-          <motion.div
-            initial={{ x: 500 }}
-            animate={{ x: 0 }}
-            exit={{ x: -500 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
-            <SharedImage />
-          </motion.div>
+          <SharedImage />
         </Box>
         {/* Right Section */}
         <Box
@@ -142,34 +137,13 @@ const ForgotPassword = () => {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{
-                    mt: 4,
-                    mb: 2,
-                    py: 1.5,
-                    borderRadius: 2,
-                    backgroundColor: "hsl(var(--primary))",
-                    textTransform: "none",
-                    fontWeight: 500,
-                    fontSize: "1rem",
-                    "&:hover": {
-                      backgroundColor: "#8200FF",
-                    },
-                  }}
+                  disabled={loading}
                 >
-                  Send reset link
+                  {loading ? "Sending..." : "Send reset link"}
                 </Button>
 
                 <Box sx={{ textAlign: "start", mt: 1 }}>
-                  <MuiLink
-                    component={Link}
-                    to="/login"
-                    underline="none"
-                    sx={{
-                      color: "hsl(var(--primary))",
-                      fontSize: "0.875rem",
-                      textAlign: "start",
-                    }}
-                  >
+                  <MuiLink component={Link} to="/login" underline="none">
                     Back to login
                   </MuiLink>
                 </Box>
