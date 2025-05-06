@@ -289,16 +289,7 @@ const UpdateUser = () => {
                 </Button>
 
                 <Box sx={{ textAlign: "start", mt: 1 }}>
-                  <MuiLink
-                    component={Link}
-                    to="/projects"
-                    underline="none"
-                    sx={{
-                      color: "hsl(var(--primary))",
-                      fontSize: "0.875rem",
-                      textAlign: "start",
-                    }}
-                  >
+                  <MuiLink component={Link} to="/projects" underline="none">
                     Cancel
                   </MuiLink>
                 </Box>
