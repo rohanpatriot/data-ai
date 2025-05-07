@@ -118,40 +118,10 @@ const AddProjectModal: React.FC<AddProjectModalProps> = ({
         </Box>
       </DialogContent>
       <DialogActions sx={{ justifyContent: "flex-end", pt: 0.5 }}>
-        <Button
-          onClick={handleCancel}
-          variant="outlined"
-          sx={{
-            mr: 2,
-            px: 4,
-            py: 1,
-            borderRadius: 2,
-            textTransform: "none",
-            color: "black",
-            borderColor: "666666C4", // hsl(var(--accent))
-            "&:hover": {
-              borderColor: "666666C4",
-              backgroundColor: "transparent",
-            },
-          }}
-        >
+        <Button onClick={handleCancel} variant="outlined" color="secondary">
           Cancel
         </Button>
-        <Button
-          onClick={handleAdd}
-          variant="contained"
-          disabled={!name.trim()} // Disable the button if name is empty or contains only whitespace
-          sx={{
-            px: 4,
-            py: 1,
-            borderRadius: 2,
-            textTransform: "none",
-            backgroundColor: "#A224F0", // hsl doesn't work here??? hsl(var(--primary))
-            "&:hover": {
-              backgroundColor: "#8200FF",
-            },
-          }}
-        >
+        <Button onClick={handleAdd} variant="contained" disabled={!name.trim()}>
           Add project
         </Button>
       </DialogActions>

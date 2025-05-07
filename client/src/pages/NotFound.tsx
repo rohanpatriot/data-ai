@@ -1,10 +1,12 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { Box, Typography, Button, Container, useTheme } from "@mui/material";
+import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 
-// This page is kind of ugly, but it is a placeholder for now.
-// It will be replaced with a more user-friendly 404 page in the future.
 const NotFound = () => {
   const location = useLocation();
+  const theme = useTheme();
 
   useEffect(() => {
     console.error(
@@ -14,15 +16,50 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
-        </a>
-      </div>
-    </div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Container
+        maxWidth="xl"
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: theme.palette.background.default,
+        }}
+      >
+        <Box sx={{ textAlign: "center" }}>
+          <Typography
+            variant="h1"
+            component="h1"
+            sx={{
+              fontSize: "6rem",
+              fontWeight: 700,
+              color: theme.palette.primary.main,
+              mb: 2,
+            }}
+          >
+            404
+          </Typography>
+          <Typography variant="h5" color="text.secondary" sx={{ mb: 4 }}>
+            Oops! Page not found
+          </Typography>
+          <Button
+            component={Link}
+            to="/"
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+          >
+            Return to Home
+          </Button>
+        </Box>
+      </Container>
+    </motion.div>
   );
 };
 
