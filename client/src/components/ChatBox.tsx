@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, TextField, Button, IconButton, Stack, Card } from "@mui/material";
 
 interface ChatBoxProps {
@@ -14,12 +14,12 @@ const ChatBox: React.FC<ChatBoxProps> = ({
   handleSendMessage,
   setShowDataSourcesModal,
 }) => {
-  const [message, setMessage] = useState(""); // Local state for the message input
 
   const handleSend = () => {
-    if (message.trim()) {
-      console.log("Sending message:", message);
-      setMessage("");
+    if (newMessage.trim()) {
+      console.log("Sending message:", newMessage);
+      setNewMessage("");
+      handleSendMessage();
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Box,
@@ -16,6 +16,12 @@ import ChatSidePanel from "../components/ChatSidePanel";
 import DataSourcesModal from "../components/DataSourcesModal";
 import AddDataSource from "../components/AddDataSource";
 import DataSourcesSidePanel from "../components/DataSourcesSidePanel";
+import { supabase } from "../supabase-client";
+import ShareModal from "../components/ShareModal";
+import ExportMenu from "../components/ExportMenu";
+import TripleDotIcon from "../assets/icons/TripleDotIcon";
+import EditProjectModal from "../components/EditProjectModal";
+import MoreMenu from "../components/MoreMenu";
 
 interface Message {
   sender: "user" | "system";
@@ -40,6 +46,15 @@ const Dashboard: React.FC = () => {
   //   const navigate = useNavigate();
   const [chatOpen, setChatOpen] = useState(true);
   const [DSPanelOpen, setDSPanelOpen] = useState(false);
+  const [userImage, setUserImage] = useState("/src/assets/dev/user.webp");
+  const [userEmail, setUserEmail] = useState();
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
+  const [exportMenuOpen, setExportMenuOpen] = useState(false);
+  const [shareMenuAnchor, setShareMenuAnchor] = useState<HTMLElement | null>(null);
+  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
+  const [moreMenuAnchor, setMoreMenuAnchor] = useState<HTMLElement | null>(null);
+
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: "user",
@@ -86,6 +101,19 @@ const Dashboard: React.FC = () => {
     type: "",
     sourceType: "File",
   });
+
+  // Perhaps we move these to some api/ directory or fetch them at entry point then cache? It doesnt change. @ale
+    const fetchUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (data.user) {
+        setUserImage(data.user?.user_metadata.avatar_url);
+        setUserEmail(data.user?.user_metadata?.email);
+      }
+    };
+
+    useEffect(() => {
+      fetchUser();
+    }, []);
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
@@ -149,6 +177,7 @@ const Dashboard: React.FC = () => {
                 handleSendMessage={handleSendMessage}
                 setChatOpen={setChatOpen}
                 setShowDataSourcesModal={setShowDataSourcesModal}
+                user={{email: userEmail || "", avatar_url: userImage}}
               />
             </motion.div>
           )}
@@ -209,11 +238,17 @@ const Dashboard: React.FC = () => {
                   Data sources
                 </Button>
 
-                <Button variant="outlined" size="medium" color="secondary">
+                <Button variant="outlined" size="medium" color="secondary" onClick={(e) => {setShareMenuAnchor(e.currentTarget); setExportMenuOpen(true);}}>
                   Export
                 </Button>
+                <ExportMenu
+                  setExportMenuOpen={setExportMenuOpen}
+                  exportMenuOpen={exportMenuOpen}
+                  shareMenuAnchor={shareMenuAnchor}
+                  setIsShareModalOpen={setIsShareModalOpen}
+                />
 
-                <IconButton>
+                <IconButton onClick={(e) => {setMoreMenuAnchor(e.currentTarget); setMoreMenuOpen(true);}}>
                   <Box
                     component="span"
                     sx={{
@@ -222,23 +257,19 @@ const Dashboard: React.FC = () => {
                       display: "flex",
                     }}
                   >
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 18 4"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M1 2C1 2.26522 1.10536 2.51957 1.29289 2.70711C1.48043 2.89464 1.73478 3 2 3C2.26522 3 2.51957 2.89464 2.70711 2.70711C2.89464 2.51957 3 2.26522 3 2C3 1.73478 2.89464 1.48043 2.70711 1.29289C2.51957 1.10536 2.26522 1 2 1C1.73478 1 1.48043 1.10536 1.29289 1.29289C1.10536 1.48043 1 1.73478 1 2ZM8 2C8 2.26522 8.10536 2.51957 8.29289 2.70711C8.48043 2.89464 8.73478 3 9 3C9.26522 3 9.51957 2.89464 9.70711 2.70711C9.89464 2.51957 10 2.26522 10 2C10 1.73478 9.89464 1.48043 9.70711 1.29289C9.51957 1.10536 9.26522 1 9 1C8.73478 1 8.48043 1.10536 8.29289 1.29289C8.10536 1.48043 8 1.73478 8 2ZM15 2C15 2.26522 15.1054 2.51957 15.2929 2.70711C15.4804 2.89464 15.7348 3 16 3C16.2652 3 16.5196 2.89464 16.7071 2.70711C16.8946 2.51957 17 2.26522 17 2C17 1.73478 16.8946 1.48043 16.7071 1.29289C16.5196 1.10536 16.2652 1 16 1C15.7348 1 15.4804 1.10536 15.2929 1.29289C15.1054 1.48043 15 1.73478 15 2Z"
-                        stroke="black"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
+                    <TripleDotIcon />
                   </Box>
                 </IconButton>
+                <MoreMenu 
+                  setIsShareModalOpen={setIsShareModalOpen}
+                  setEditProjectModalOpen={() => {
+                    setIsEditProjectModalOpen(true);
+                    setMoreMenuOpen(false);
+                  }}
+                  moreMenuAnchor={moreMenuAnchor}
+                  moreMenuOpen={moreMenuOpen}
+                  setMoreMenuOpen={setMoreMenuOpen}
+                />
                 <UserMenu />
               </Box>
             </Toolbar>
@@ -287,6 +318,24 @@ const Dashboard: React.FC = () => {
           setNewDataSource={setNewDataSource}
           handleAddDataSource={handleAddDataSource}
         />
+
+        <ShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+          />
+
+        <EditProjectModal 
+          isOpen={isEditProjectModalOpen}
+          onClose={() => setIsEditProjectModalOpen(false)}
+          projectName="Untitled Project"
+          projectDescription="This is a sample project description."
+          onSave={(name, description) => {
+            console.log("Project name:", name);
+            console.log("Project description:", description);
+            // @Ale - logic here to save the project name and description
+            setIsEditProjectModalOpen(false);
+          }}
+          />
       </Box>
     </motion.div>
   );

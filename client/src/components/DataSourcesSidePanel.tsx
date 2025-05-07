@@ -17,6 +17,15 @@ interface DataSourcesSidePanel {
 }
 
 const DataSourcesSidePanel: React.FC<DataSourcesSidePanel> = ({ setDSPanelOpen, DSPanelOpen, dataSources, setShowAddDataSourceModal }) => {
+  const [sources, setSources] = React.useState(dataSources);
+
+  const handleEditDataSource = (id: string, newName: string) => {
+    setSources(prev =>
+      prev.map(src => (src.id === id ? { ...src, name: newName } : src))
+    );
+    // API HERE @TODO Ale
+  };
+  
   return (
     <Drawer
         anchor="right"
@@ -60,9 +69,13 @@ const DataSourcesSidePanel: React.FC<DataSourcesSidePanel> = ({ setDSPanelOpen, 
             </Button>
             </Box>
           <List>
-                {dataSources.map((source, index) => (
+                {sources.map((source, index) => (
                 <React.Fragment key={source.id + index}>
-                    <DataSourceCard source={source} handleDeleteDataSource={() => {}} handleEditDataSource={() => {}}/>
+                    <DataSourceCard 
+                      source={source} 
+                      handleDeleteDataSource={() => {}} 
+                      handleEditDataSource={handleEditDataSource}
+                    />
                 </React.Fragment>
                 ))}
             </List>

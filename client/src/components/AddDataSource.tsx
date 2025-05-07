@@ -93,10 +93,11 @@ const AddDataSource: React.FC<AddDataSourceProps> = ({
               sx={{
                 borderRadius: 2,
                 border: `1px solid ${theme.palette.divider}`,
+                padding: '0.325rem',
               }}
             >
-              <ToggleButton value="File">File</ToggleButton>
-              <ToggleButton value="Url">Url</ToggleButton>
+              <ToggleButton sx={{border: 'none', borderRadius: 2}} value="File">File</ToggleButton>
+              <ToggleButton sx={{border: 'none', borderRadius: 2}} value="Url">Url</ToggleButton>
             </ToggleButtonGroup>
           </Box>
 
@@ -113,7 +114,7 @@ const AddDataSource: React.FC<AddDataSourceProps> = ({
                     startAdornment: (
                       <Box
                         component="span"
-                        sx={{ mr: 2, width: 16, height: 16 }}
+                        sx={{ mr: 2, width: 14, height: 20 }}
                       >
                         <AttachFileIcon />
                       </Box>

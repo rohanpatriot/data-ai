@@ -5,11 +5,13 @@ import { SupabaseClient } from "@supabase/supabase-js";
 interface AppleLoginButtonProps {
   supabase: SupabaseClient;
   fullWidth?: boolean;
+  signup?: boolean;
 }
 
 const AppleLoginButton: React.FC<AppleLoginButtonProps> = ({
   supabase,
   fullWidth = true,
+  signup = false,
 }) => {
   return (
     <Button
@@ -29,7 +31,7 @@ const AppleLoginButton: React.FC<AppleLoginButtonProps> = ({
         });
       }}
     >
-      Log in with Apple
+      {signup ? "Sign up with Apple" : "Log in with Apple"}
     </Button>
   );
 };

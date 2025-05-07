@@ -5,11 +5,13 @@ import { SupabaseClient } from "@supabase/supabase-js";
 interface GoogleLoginButtonProps {
   supabase: SupabaseClient;
   fullWidth?: boolean;
+  signup?: boolean;
 }
 
 const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
   supabase,
   fullWidth = true,
+  signup = false,
 }) => {
   return (
     <Button
@@ -45,7 +47,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
         });
       }}
     >
-      Log in with Google
+      {signup ? "Sign up with Google" : "Log in with Google"}
     </Button>
   );
 };

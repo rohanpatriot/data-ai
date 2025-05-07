@@ -1,6 +1,10 @@
-import React from "react";
-import { Box, Card, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Card, TextField, Typography } from "@mui/material";
 import { ListItem, ListItemText, IconButton } from "@mui/material";
+import DeleteDataSource from "./DeleteDataSource";
+import { CheckSharp } from "@mui/icons-material";
+import FileIcon from "../assets/icons/FileIcon";
+import ClockIcon from "../assets/icons/ClockIcon";
 
 interface DataSourceCardProps {
   source: {
@@ -11,7 +15,7 @@ interface DataSourceCardProps {
     size: string;
   };
   handleDeleteDataSource: (id: string) => void;
-  handleEditDataSource: (id: string) => void;
+  handleEditDataSource: (id: string, newName: string) => void;
 }
 
 const DataSourceCard: React.FC<DataSourceCardProps> = ({
@@ -19,7 +23,22 @@ const DataSourceCard: React.FC<DataSourceCardProps> = ({
   handleDeleteDataSource,
   handleEditDataSource,
 }) => {
+
+  const handleDelete = () => {
+    setShowDeleteDialog(true);
+  };
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [name, setName] = useState(source.name);
+  const handleSave = () => {
+    setEditing(false);
+    if (name !== source.name) {
+      handleEditDataSource(source.id, name);
+    }
+  };
+
   return (
+    <>
     <Card
       sx={{
         p: 0,
@@ -29,9 +48,22 @@ const DataSourceCard: React.FC<DataSourceCardProps> = ({
       <ListItem>
         <ListItemText
           primary={
+            editing ? (
+              <TextField
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                onBlur={handleSave}
+                onKeyDown={(e) => e.key === "Enter" && handleSave()}
+                autoFocus
+                size="small"
+                variant="standard"
+                sx={{width: "90%", height: "70%"}}
+              />
+            ) : (
             <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
               {source.name}
             </Typography>
+            )
           }
           secondary={
             <Box
@@ -48,28 +80,7 @@ const DataSourceCard: React.FC<DataSourceCardProps> = ({
                     width: 12,
                   }}
                 >
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 12 11"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6 10.5C8.76142 10.5 11 8.26142 11 5.5C11 2.73858 8.76142 0.5 6 0.5C3.23858 0.5 1 2.73858 1 5.5C1 8.26142 3.23858 10.5 6 10.5Z"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M6 3V5.5L7.5 7"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
+                  <ClockIcon />
                 </Box>
                 <Typography variant="body2" color="text.secondary">
                   Added {source.addedAt}
@@ -86,135 +97,7 @@ const DataSourceCard: React.FC<DataSourceCardProps> = ({
                     width: 12,
                   }}
                 >
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 10 13"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0.5 2.75V10.2464"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-width="0.9995"
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="M9.5 5V10.25"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-width="0.9995"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M2 1.25H5.75"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-width="0.9995"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M2 11.75H8"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-width="0.9995"
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="M9.5 10.25C9.5041 10.9991 8.75 11.75 8 11.75"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-width="0.9995"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M0.5 10.25C0.5 11 1.25 11.75 2 11.75"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-width="0.9995"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M0.5 2.74892C0.5 2 1.25 1.26671 2 1.25"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-width="0.9995"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M9.4959 5.00336L5.75 1.25"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-width="0.9995"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M5.75 3.5C5.75231 4.24592 6.50302 5 7.25 5"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-width="0.9995"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M5.75 3.5V1.25"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-width="0.9995"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M7.25 5H9.5"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-width="0.9995"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M2 9.5H6.5"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M2 8H6.5"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M2.75 7.25V10.25"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M4.25 7.25V10.25"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M5.75 7.25V10.25"
-                      stroke="#666666"
-                      stroke-opacity="0.77"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
+                  <FileIcon/>
                 </Box>
                 <Typography variant="body2" color="text.secondary">
                   {source.fileType}
@@ -255,25 +138,30 @@ const DataSourceCard: React.FC<DataSourceCardProps> = ({
         <Box sx={{ display: "flex", gap: 1 }}>
           <IconButton
             size="small"
-            onClick={() => handleEditDataSource(source.id)}
+            onClick={editing ? handleSave : () => setEditing(true)}
             sx={{ borderRadius: 2, border: "1px solid #E6EEF4", padding: 0.75 }}
           >
-            <svg
+            {!editing ? ( 
+              <svg
               width="18"
               height="18"
               viewBox="0 0 12 12"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                d="M11.3077 2.9775C11.5453 2.73984 11.5453 2.34375 11.3077 2.11828L9.88172 0.692341C9.65625 0.454685 9.26016 0.454685 9.0225 0.692341L7.90125 1.8075L10.1864 4.09265M0.515625 9.19921V11.4844H2.80078L9.54047 4.73859L7.25531 2.45343L0.515625 9.19921Z"
-                fill="black"
-              />
-            </svg>
+                <path
+                  d="M11.3077 2.9775C11.5453 2.73984 11.5453 2.34375 11.3077 2.11828L9.88172 0.692341C9.65625 0.454685 9.26016 0.454685 9.0225 0.692341L7.90125 1.8075L10.1864 4.09265M0.515625 9.19921V11.4844H2.80078L9.54047 4.73859L7.25531 2.45343L0.515625 9.19921Z"
+                  fill="black"
+                />
+              </svg>  
+            ) : 
+            (
+              <CheckSharp fontSize="small" />
+            )}
           </IconButton>
           <IconButton
             size="small"
-            onClick={() => handleDeleteDataSource(source.id)}
+            onClick={() => handleDelete()}
             sx={{ borderRadius: 2, border: "1px solid #E6EEF4", padding: 0.75 }}
           >
             <svg
@@ -292,6 +180,13 @@ const DataSourceCard: React.FC<DataSourceCardProps> = ({
         </Box>
       </ListItem>
     </Card>
+    <DeleteDataSource
+      open={showDeleteDialog}
+      onCancel={() => setShowDeleteDialog(false)}
+      onDelete={handleDeleteDataSource}
+      dataSourceName={source.name}
+    />
+    </>
   );
 };
 

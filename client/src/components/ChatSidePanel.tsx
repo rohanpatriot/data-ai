@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Box, IconButton, Typography, Avatar } from "@mui/material";
 import Logo from "./Logo";
 import ChatBox from "./ChatBox";
@@ -10,6 +10,10 @@ interface ChatSidePanelProps {
   setNewMessage: (message: string) => void;
   handleSendMessage: () => void;
   setShowDataSourcesModal: (show: boolean) => void;
+  user: {
+    email: string;
+    avatar_url: string;
+  };
 }
 
 const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
@@ -19,7 +23,16 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
   setNewMessage,
   handleSendMessage,
   setShowDataSourcesModal,
+  user,
 }) => {
+
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   return (
     <Box
       sx={{
@@ -75,7 +88,7 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
           >
             {msg.sender === "user" ? (
               <Avatar
-                src="/src/assets/dev/avatar.svg"
+                src={user.avatar_url}
                 sx={{ mr: 2, width: 36, height: 36 }}
               />
             ) : (
@@ -96,7 +109,7 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
                   {msg.sender === "user" ? "you" : "perplexigrid"}
                 </Typography>
               </Box>
-              <Typography variant="body2" sx={{ textAlign: "start" }}>
+              <Typography ref={messagesEndRef} variant="body2" sx={{ textAlign: "start" }}>
                 {msg.text}
               </Typography>
             </Box>

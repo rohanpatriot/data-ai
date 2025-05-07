@@ -9,10 +9,13 @@ import {
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabase-client";
+import ProfileModal from "./ProfileModal";
 
 const UserMenu: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [userImage, setUserImage] = useState("/src/assets/dev/user.webp");
+  const [userEmail, setUserEmail] = useState();
+  const [profileOpen, setProfileOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -30,13 +33,14 @@ const UserMenu: React.FC = () => {
   };
 
   const handleProfile = () => {
-    // Implement profile nav here
+    setProfileOpen(true);
     handleCloseMenu();
   };
   const fetchUser = async () => {
     const { data } = await supabase.auth.getUser();
     if (data.user) {
       setUserImage(data.user?.user_metadata.avatar_url); // Avatar URL from Google profile
+      setUserEmail(data.user?.user_metadata?.email); // Email from Google profile
     }
   };
   useEffect(() => {
@@ -141,6 +145,13 @@ const UserMenu: React.FC = () => {
           </Box>
         </MenuItem>
       </Menu>
+      <ProfileModal 
+        open={profileOpen}
+        onClose={() => setProfileOpen(false)}
+        user={{
+          email: userEmail || "",
+          avatar_url: userImage,
+        }} />
     </>
   );
 };
