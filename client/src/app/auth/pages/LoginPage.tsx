@@ -100,7 +100,6 @@ const LoginPage = () => {
 
             <Box sx={{ mb: 3, display: "flex", gap: 2 }}>
               <GoogleLoginButton supabase={supabase} />
-              <AppleLoginButton supabase={supabase} />
             </Box>
 
             <Box sx={{ display: "flex", alignItems: "center", my: 3 }}>

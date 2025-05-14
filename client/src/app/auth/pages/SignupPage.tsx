@@ -13,7 +13,6 @@ import Logo from "../../../shared/components/Logo";
 import { motion } from "motion/react";
 import { supabase } from "../../../supabase-client";
 import GoogleLoginButton from "../components/GoogleLoginButton";
-import AppleLoginButton from "../components/AppleLoginButton";
 import SignupDialog from "../components/SignupDialog";
 
 const SignupPage = () => {
@@ -101,7 +100,6 @@ const SignupPage = () => {
 
             <Box sx={{ mb: 3, display: "flex", gap: 2 }}>
               <GoogleLoginButton supabase={supabase} signup={true} />
-              <AppleLoginButton supabase={supabase} signup={true} />
             </Box>
 
             <Box sx={{ display: "flex", alignItems: "center", my: 3 }}>
