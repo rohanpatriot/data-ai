@@ -14,7 +14,6 @@ import SharedImage from "../components/SharedImage";
 import { motion } from "motion/react";
 import { supabase } from "../../../supabase-client";
 import GoogleLoginButton from "../components/GoogleLoginButton";
-import AppleLoginButton from "../components/AppleLoginButton";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
