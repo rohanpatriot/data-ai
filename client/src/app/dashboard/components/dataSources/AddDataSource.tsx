@@ -93,11 +93,21 @@ const AddDataSource: React.FC<AddDataSourceProps> = ({
               sx={{
                 borderRadius: 2,
                 border: `1px solid ${theme.palette.divider}`,
-                padding: '0.325rem',
+                padding: "0.325rem",
               }}
             >
-              <ToggleButton sx={{border: 'none', borderRadius: 2}} value="File">File</ToggleButton>
-              <ToggleButton sx={{border: 'none', borderRadius: 2}} value="Url">Url</ToggleButton>
+              <ToggleButton
+                sx={{ border: "none", borderRadius: 2 }}
+                value="File"
+              >
+                File
+              </ToggleButton>
+              <ToggleButton
+                sx={{ border: "none", borderRadius: 2 }}
+                value="Url"
+              >
+                Url
+              </ToggleButton>
             </ToggleButtonGroup>
           </Box>
 
@@ -151,11 +161,11 @@ const AddDataSource: React.FC<AddDataSourceProps> = ({
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                         <g
                           id="SVGRepo_tracerCarrier"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         ></g>
                         <g id="SVGRepo_iconCarrier">
                           {" "}
