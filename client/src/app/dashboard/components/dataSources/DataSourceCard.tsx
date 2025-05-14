@@ -6,6 +6,8 @@ import DeleteDataSource from "./DeleteDataSource";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import BackupIcon from "@mui/icons-material/Backup";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 interface DataSourceCardProps {
   source: {
     id: string;
@@ -113,20 +115,9 @@ const DataSourceCard: React.FC<DataSourceCardProps> = ({
               }}
             >
               {!editing ? (
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11.3077 2.9775C11.5453 2.73984 11.5453 2.34375 11.3077 2.11828L9.88172 0.692341C9.65625 0.454685 9.26016 0.454685 9.0225 0.692341L7.90125 1.8075L10.1864 4.09265M0.515625 9.19921V11.4844H2.80078L9.54047 4.73859L7.25531 2.45343L0.515625 9.19921Z"
-                    fill="black"
-                  />
-                </svg>
+                <EditIcon fontSize="small" sx={{ color: "black" }} />
               ) : (
-                <CheckSharp fontSize="small" />
+                <CheckSharp fontSize="small" sx={{ color: "black" }} />
               )}
             </IconButton>
             <IconButton
@@ -138,18 +129,7 @@ const DataSourceCard: React.FC<DataSourceCardProps> = ({
                 padding: 0.75,
               }}
             >
-              <svg
-                width="16"
-                height="18"
-                viewBox="0 0 10 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.08317 1.33333H7.0415L6.45817 0.75H3.5415L2.95817 1.33333H0.916504V2.5H9.08317M1.49984 10.0833C1.49984 10.3928 1.62275 10.6895 1.84155 10.9083C2.06034 11.1271 2.35708 11.25 2.6665 11.25H7.33317C7.64259 11.25 7.93934 11.1271 8.15813 10.9083C8.37692 10.6895 8.49984 10.3928 8.49984 10.0833V3.08333H1.49984V10.0833Z"
-                  fill="black"
-                />
-              </svg>
+              <DeleteIcon fontSize="small" sx={{ color: "black" }} />
             </IconButton>
           </Box>
         </ListItem>
