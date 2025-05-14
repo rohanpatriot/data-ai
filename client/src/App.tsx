@@ -13,6 +13,8 @@ import Dashboard from "./pages/Dashboard";
 import Signup from "./pages/Signup";
 import UpdateUser from "./pages/UpdateUser";
 import AuthConfirm from "./pages/AuthConfirm"; // Add this import
+import Loading from "./pages/Loading";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -48,33 +50,50 @@ function App() {
       <BrowserRouter>
         <AnimatePresence>
           <Routes>
-            {/* Add this route outside of the conditional rendering */}
             <Route path="/auth/confirm" element={<AuthConfirm />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/account/update-password" element={<UpdateUser />} />
+            <Route path="/loading" element={<Loading />} />
 
-            {loading ? null : session ? (
-              <>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/projects" element={<Projects />} />
-                <Route path="/" element={<Navigate to="/projects" replace />} />
-                {/* Allow authenticated users to update password */}
-                <Route
-                  path="/account/update-password"
-                  element={<UpdateUser />}
-                />
-              </>
-            ) : (
-              <>
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/" element={<Navigate to="/login" replace />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                {/* Allow unauthenticated users to access update-password via token */}
-                <Route
-                  path="/account/update-password"
-                  element={<UpdateUser />}
-                />
-              </>
-            )}
+            {/* Protected Routes */}
+            <Route
+              path="/dashboard"
+              element={
+                loading ? (
+                  <Loading />
+                ) : (
+                  <ProtectedRoute session={session}>
+                    <Dashboard />
+                  </ProtectedRoute>
+                )
+              }
+            />
+            <Route
+              path="/projects"
+              element={
+                loading ? (
+                  <Loading />
+                ) : (
+                  <ProtectedRoute session={session}>
+                    <Projects />
+                  </ProtectedRoute>
+                )
+              }
+            />
+            <Route
+              path="/"
+              element={
+                loading ? (
+                  <Loading />
+                ) : session ? (
+                  <Navigate to="/projects" replace />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AnimatePresence>
