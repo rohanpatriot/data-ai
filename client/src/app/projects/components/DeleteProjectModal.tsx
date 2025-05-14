@@ -12,14 +12,14 @@ interface DeleteProjectModalProps {
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  projectName?: string;
+  // projectName?: string;
 }
 
 const DeleteProjectModal: React.FC<DeleteProjectModalProps> = ({
   open,
   onClose,
   onConfirm,
-  projectName,
+  // projectName,
 }) => {
   return (
     <Dialog
