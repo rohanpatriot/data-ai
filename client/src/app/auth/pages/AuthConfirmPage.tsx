@@ -17,7 +17,7 @@ const AuthConfirmPage = () => {
       if (tokenHash && type) {
         try {
           const { error } = await supabase.auth.verifyOtp({
-            type: type as any, // Type assertion needed since EmailOtpType is not directly imported
+            type: type as any,
             token_hash: tokenHash,
           });
 

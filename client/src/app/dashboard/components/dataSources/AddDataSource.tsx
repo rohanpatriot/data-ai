@@ -44,7 +44,6 @@ const AddDataSource: React.FC<AddDataSourceProps> = ({
       onClose={() => setShowAddDataSourceModal(false)}
       fullWidth
       maxWidth="sm"
-      PaperProps={{ sx: { borderRadius: 4 } }}
     >
       <DialogTitle>
         <Typography variant="h5" component="div">

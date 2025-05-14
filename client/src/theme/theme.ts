@@ -43,6 +43,7 @@ const theme = createTheme({
       fontSize: "0.7rem", // Reduced from 0.75rem
     },
   },
+  // Add the MuiDialog component styling to the components section
   components: {
     // Add Card component styling
     MuiCard: {
@@ -121,6 +122,17 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           textDecoration: "none",
+        },
+      },
+    },
+    MuiDialog: {
+      defaultProps: {
+        PaperProps: {
+          sx: {
+            borderRadius: 4,
+            py: 2,
+            px: 2,
+          },
         },
       },
     },

@@ -83,12 +83,8 @@ const SignupPage = () => {
           </Box>
 
           <Box sx={{ maxWidth: 480, width: "100%", mx: "auto" }}>
-            <Typography
-              variant="h4"
-              component="h1"
-              sx={{ mb: 1, textAlign: "start" }}
-            >
-              Log in
+            <Typography variant="h4" component="h1" sx={{ mb: 1 }}>
+              Sign up
             </Typography>
             <Typography
               variant="body1"
@@ -110,7 +106,7 @@ const SignupPage = () => {
                 color="text.secondary"
                 sx={{ px: 2 }}
               >
-                or log in with email
+                or sign up with email
               </Typography>
               <Divider sx={{ flex: 1 }} />
             </Box>

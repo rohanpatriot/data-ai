@@ -39,18 +39,7 @@ const AddProjectModal: React.FC<AddProjectModalProps> = ({
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      fullWidth
-      maxWidth="sm"
-      PaperProps={{
-        sx: {
-          borderRadius: 2,
-          p: 2,
-        },
-      }}
-    >
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle
         variant="h4"
         sx={{ fontWeight: "bold", mb: 0.5, color: "#293133" }}

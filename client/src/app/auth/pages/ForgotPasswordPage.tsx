@@ -6,12 +6,14 @@ import {
   TextField,
   Button,
   Link as MuiLink,
+  Card,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import Logo from "../../../shared/components/Logo";
 import SharedImage from "../components/SharedImage";
 import { motion } from "motion/react";
 import { supabase } from "../../../supabase-client";
+import { CheckEmail } from "../../../shared/components/Icons";
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");
@@ -124,12 +126,6 @@ const ForgotPasswordPage = () => {
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    variant="outlined"
-                    InputProps={{
-                      sx: {
-                        borderRadius: 2,
-                      },
-                    }}
                   />
                 </Box>
 
@@ -138,48 +134,18 @@ const ForgotPasswordPage = () => {
                   fullWidth
                   variant="contained"
                   disabled={loading}
+                  sx={{ mb: 2 }}
                 >
                   {loading ? "Sending..." : "Send reset link"}
                 </Button>
 
-                <Box sx={{ textAlign: "start", mt: 1 }}>
-                  <MuiLink component={Link} to="/login" underline="none">
-                    Back to login
-                  </MuiLink>
-                </Box>
+                <MuiLink component={Link} to="/login">
+                  Back to login
+                </MuiLink>
               </Box>
             ) : (
-              <Box sx={{ mt: 4, textAlign: "center" }}>
-                <Box
-                  component="div"
-                  sx={{
-                    width: 64,
-                    height: 64,
-                    borderRadius: "50%",
-                    bgcolor: "#f0e6ff",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    margin: "0 auto",
-                    mb: 3,
-                  }}
-                >
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M22 12h-4l-3 9L9 3l-3 9H2"
-                      stroke="#B066FF"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </Box>
+              <Card sx={{ textAlign: "center" }}>
+                <CheckEmail />
                 <Typography variant="h5" sx={{ fontWeight: "bold", mb: 2 }}>
                   Check your email
                 </Typography>
@@ -189,19 +155,10 @@ const ForgotPasswordPage = () => {
                 >
                   We've sent a password reset link to {email}
                 </Typography>
-                <MuiLink
-                  component={Link}
-                  to="/login"
-                  underline="none"
-                  sx={{
-                    color: "#B066FF",
-                    fontSize: "0.875rem",
-                    textAlign: "start",
-                  }}
-                >
+                <MuiLink component={Link} to="/login" underline="none">
                   Back to login
                 </MuiLink>
-              </Box>
+              </Card>
             )}
           </Box>
         </Box>

@@ -27,7 +27,6 @@ const DeleteProjectModal: React.FC<DeleteProjectModalProps> = ({
       onClose={onClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
-      PaperProps={{ sx: { borderRadius: 3 } }}
     >
       <DialogTitle id="alert-dialog-title">Delete Project?</DialogTitle>
       <DialogContent>
@@ -37,19 +36,10 @@ const DeleteProjectModal: React.FC<DeleteProjectModalProps> = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions sx={{ p: 2 }}>
-        <Button
-          onClick={onClose}
-          variant="outlined"
-          color="secondary"
-        >
+        <Button onClick={onClose} variant="outlined" color="secondary">
           Cancel
         </Button>
-        <Button
-          onClick={onConfirm}
-          variant="contained"
-          color="error"
-          autoFocus
-        >
+        <Button onClick={onConfirm} variant="contained" color="error" autoFocus>
           Delete
         </Button>
       </DialogActions>
