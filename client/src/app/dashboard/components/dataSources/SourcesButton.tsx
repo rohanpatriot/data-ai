@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@mui/material";
-import SourcesIcon from "../icons/SourcesIcon";
+import SourcesIcon from "../chat/SourcesIcon";
 
 interface SourcesButtonProps {
   onClick?: () => void;

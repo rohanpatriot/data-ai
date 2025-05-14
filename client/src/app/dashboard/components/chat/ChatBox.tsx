@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, TextField, Stack, Card } from "@mui/material";
-import SourcesButton from "./buttons/SourcesButton";
-import SendButton from "./buttons/SendButton";
+import SourcesButton from "../dataSources/SourcesButton";
+import SendButton from "./SendButton";
 
 // Main component
 interface ChatBoxProps {

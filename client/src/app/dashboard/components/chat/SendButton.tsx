@@ -1,6 +1,6 @@
 import React from "react";
 import { IconButton, Box } from "@mui/material";
-import SendIcon from "../icons/SendIcon";
+import SendIcon from "./SendIcon";
 
 interface SendButtonProps {
   onClick: () => void;

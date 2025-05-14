@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Box, IconButton, Typography, Avatar } from "@mui/material";
 import Logo from "../../../../shared/components/Logo";
-import ChatBox from "../ChatBox";
+import ChatBox from "./ChatBox";
 
 interface ChatSidePanelProps {
   setChatOpen: (open: boolean) => void;
