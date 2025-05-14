@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Box, Card, TextField, Typography } from "@mui/material";
 import { ListItem, ListItemText, IconButton } from "@mui/material";
 import { CheckSharp } from "@mui/icons-material";
-import FileIcon from "../../../../assets/icons/FileIcon";
-import ClockIcon from "../../../../assets/icons/ClockIcon";
 import DeleteDataSource from "./DeleteDataSource";
+import file from "@/assets/icons/file_icon.svg";
+import clock from "@/assets/icons/clock_icon.svg"
 
 interface DataSourceCardProps {
   source: {
@@ -79,7 +79,7 @@ const DataSourceCard: React.FC<DataSourceCardProps> = ({
                       width: 12,
                     }}
                   >
-                    <ClockIcon />
+                    {clock}
                   </Box>
                   <Typography variant="body2" color="text.secondary">
                     Added {source.addedAt}
@@ -96,7 +96,7 @@ const DataSourceCard: React.FC<DataSourceCardProps> = ({
                       width: 12,
                     }}
                   >
-                    <FileIcon />
+                    {file}
                   </Box>
                   <Typography variant="body2" color="text.secondary">
                     {source.fileType}

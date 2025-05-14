@@ -1,5 +1,3 @@
-export default function ClockIcon() {
-  return (
     <svg
       width="12"
       height="12"
@@ -22,5 +20,3 @@ export default function ClockIcon() {
         strokeLinejoin="round"
       />
     </svg>
-  );
-}

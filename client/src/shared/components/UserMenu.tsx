@@ -10,10 +10,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../supabase-client";
 import ProfileModal from "./ProfileModal";
+import user from '@/assets/dev/user.webp'
 
 const UserMenu: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [userImage, setUserImage] = useState("/src/assets/dev/user.webp");
+  const [userImage, setUserImage] = useState(user);
   const [userEmail, setUserEmail] = useState();
   const [profileOpen, setProfileOpen] = useState(false);
   const navigate = useNavigate();

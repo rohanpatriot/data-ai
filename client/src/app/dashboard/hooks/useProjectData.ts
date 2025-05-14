@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "../../../supabase-client";
 import { useNavigate } from "react-router-dom";
 import { ProjectData } from "../../../types/project";
+import user from "@/assets/dev/user.webp";
 
 export const useProjectData = (projectId: string | null) => {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ export const useProjectData = (projectId: string | null) => {
     null
   );
   const [loading, setLoading] = useState(true);
-  const [userImage, setUserImage] = useState("/src/assets/dev/user.webp");
+  const [userImage, setUserImage] = useState(user);
   const [userEmail, setUserEmail] = useState<string>();
 
   // Fetch user data

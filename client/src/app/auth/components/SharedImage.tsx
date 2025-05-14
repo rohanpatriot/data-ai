@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import loginBanner from '@/assets/login_banner.svg';
 
 export default function SharedImage() {
   return (
@@ -8,7 +9,7 @@ export default function SharedImage() {
         textAlign: "center",
         width: "100%",
         height: "100%",
-        backgroundImage: "url(/src/assets/login_banner.svg)",
+        backgroundImage: `url(${loginBanner})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",

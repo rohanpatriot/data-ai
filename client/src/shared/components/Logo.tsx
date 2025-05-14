@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
 import { Link } from "react-router-dom";
+import logo from "@/assets/logo.svg";
+import brandmark from "@/assets/brandmark.svg";
+// import brandKit from "@/assets/brand-kit.zip?url";
 
 const Logo: React.FC = () => {
   const [anchor, setAnchor] = useState<null | {
@@ -18,9 +21,8 @@ const Logo: React.FC = () => {
   };
 
   const handleCopy = async (type: "full" | "brandmark") => {
-    const response = await fetch(
-      type === "full" ? "/src/assets/logo.svg" : "/src/assets/brandmark.svg"
-    );
+    const svgPath = type === "full" ? logo : brandmark;
+    const response = await fetch(svgPath);
     const svgText = await response.text();
     await navigator.clipboard.writeText(svgText);
     handleClose();
@@ -28,7 +30,7 @@ const Logo: React.FC = () => {
 
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = "src/assets/brand-kit.zip";
+    // link.href = brandKit;
     link.download = "Perplexigrid-BrandKit.zip";
     link.click();
     handleClose();
@@ -43,7 +45,7 @@ const Logo: React.FC = () => {
       >
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <img
-            src="/src/assets/logo.svg"
+            src={logo}
             alt="Perplexigrid Logo"
             style={{ height: "34px", marginRight: "8px" }}
           />
@@ -85,7 +87,7 @@ const Logo: React.FC = () => {
           &nbsp;Copy Logo as SVG
         </MenuItem>
         <MenuItem onClick={() => handleCopy("brandmark")}>
-          <img width="23px" height="22px" src="/src/assets/brandmark.svg" />
+          <img width="23px" height="22px" src={brandmark} />
           &nbsp;Copy Brandmark as SVG
         </MenuItem>
         <MenuItem onClick={handleDownload}>
