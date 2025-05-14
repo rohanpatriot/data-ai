@@ -18,9 +18,7 @@ import DataSourcesSidePanel from "../components/dataSources/DataSourcesSidePanel
 import { supabase } from "../../../supabase-client";
 import ShareModal from "../components/share/ShareModal";
 import ExportMenu from "../components/export/ExportMenu";
-import TripleDotIcon from "../../../assets/icons/TripleDotIcon";
-import EditProjectModal from "../components/EditProjectModal";
-import MoreMenu from "../components/MoreMenu";
+import EditProjectModal from "../../projects/components/EditProjectModal";
 
 interface Message {
   sender: "user" | "system";
@@ -51,10 +49,6 @@ const DashboardPage: React.FC = () => {
   const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
   const [shareMenuAnchor, setShareMenuAnchor] = useState<HTMLElement | null>(
-    null
-  );
-  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
-  const [moreMenuAnchor, setMoreMenuAnchor] = useState<HTMLElement | null>(
     null
   );
 
@@ -257,34 +251,6 @@ const DashboardPage: React.FC = () => {
                   exportMenuOpen={exportMenuOpen}
                   shareMenuAnchor={shareMenuAnchor}
                   setIsShareModalOpen={setIsShareModalOpen}
-                />
-
-                <IconButton
-                  onClick={(e) => {
-                    setMoreMenuAnchor(e.currentTarget);
-                    setMoreMenuOpen(true);
-                  }}
-                >
-                  <Box
-                    component="span"
-                    sx={{
-                      width: 20,
-                      height: 20,
-                      display: "flex",
-                    }}
-                  >
-                    <TripleDotIcon />
-                  </Box>
-                </IconButton>
-                <MoreMenu
-                  setIsShareModalOpen={setIsShareModalOpen}
-                  setEditProjectModalOpen={() => {
-                    setIsEditProjectModalOpen(true);
-                    setMoreMenuOpen(false);
-                  }}
-                  moreMenuAnchor={moreMenuAnchor}
-                  moreMenuOpen={moreMenuOpen}
-                  setMoreMenuOpen={setMoreMenuOpen}
                 />
                 <UserMenu />
               </Box>

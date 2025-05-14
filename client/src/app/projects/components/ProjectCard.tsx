@@ -1,10 +1,12 @@
-import React from "react";
-import { Box, Typography, Card, useTheme } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Typography, Card, useTheme, IconButton } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
-  SourcesIcon,
   TimeIcon,
+  SourcesIcon,
   WidgetsIcon,
 } from "../../../shared/components/Icons";
+import ProjectMoreMenu from "./ProjectMoreMenu";
 
 interface ProjectCardProps {
   id: string;
@@ -13,6 +15,8 @@ interface ProjectCardProps {
   widgets: number;
   updatedAt: string;
   onClick: (id: string) => void;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -22,88 +26,124 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   widgets,
   updatedAt,
   onClick,
+  onEdit,
+  onDelete,
 }) => {
   const theme = useTheme();
+  const [moreMenuAnchor, setMoreMenuAnchor] = useState<null | HTMLElement>(
+    null
+  );
+  const moreMenuOpen = Boolean(moreMenuAnchor);
+
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Prevent card click when clicking on the more button
+    if (e.defaultPrevented) return;
+    onClick(id);
+  };
+
+  const handleMoreClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault(); // Prevent card click
+    event.stopPropagation(); // Stop event propagation
+    setMoreMenuAnchor(event.currentTarget);
+  };
+
+  const handleMoreClose = () => {
+    setMoreMenuAnchor(null);
+  };
 
   return (
-    <Card
-      elevation={0}
-      onClick={() => onClick(id)}
-      sx={{
-        p: 1,
-        pl: 2,
-        mb: 1.25,
-        cursor: "pointer",
-        "&:hover": {
-          backgroundColor: theme.palette.action.hover,
-        },
-      }}
-    >
-      <Box
+    <>
+      <Card
+        elevation={0}
+        onClick={handleCardClick}
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          p: 1,
+          pl: 2,
+          mb: 1.25,
+          cursor: "pointer",
+          "&:hover": {
+            backgroundColor: theme.palette.action.hover,
+          },
         }}
       >
-        <Typography variant="h6" sx={{ color: theme.palette.text.primary }}>
-          {title}
-        </Typography>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Box
-            component="span"
-            sx={{
-              mr: 0.5,
-              display: "inline-flex",
-            }}
-          >
-            <TimeIcon />
-          </Box>
-          <Typography
-            variant="body2"
-            sx={{ color: theme.palette.text.secondary }}
-          >
-            {updatedAt}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h6" sx={{ color: theme.palette.text.primary }}>
+            {title}
           </Typography>
-        </Box>
-      </Box>
-      <Box sx={{ display: "flex", mt: 0 }}>
-        <Box sx={{ display: "flex", alignItems: "center", mr: 3 }}>
-          <Box
-            component="span"
-            sx={{
-              mr: 0.5,
-              display: "inline-flex",
-            }}
-          >
-            <SourcesIcon />
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              component="span"
+              sx={{
+                mr: 0.5,
+                display: "inline-flex",
+              }}
+            >
+              <TimeIcon />
+            </Box>
+            <Typography
+              variant="body2"
+              sx={{ color: theme.palette.text.secondary }}
+            >
+              {updatedAt}
+            </Typography>
+            <IconButton size="small" onClick={handleMoreClick} sx={{ ml: 1 }}>
+              <MoreVertIcon fontSize="small" />
+            </IconButton>
           </Box>
-          <Typography
-            variant="subtitle2"
-            sx={{ color: theme.palette.text.secondary }}
-          >
-            {sources} sources
-          </Typography>
         </Box>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Box
-            component="span"
-            sx={{
-              mr: 0.5,
-              display: "inline-flex",
-            }}
-          >
-            <WidgetsIcon />
+        <Box sx={{ display: "flex", mt: 0 }}>
+          <Box sx={{ display: "flex", alignItems: "center", mr: 3 }}>
+            <Box
+              component="span"
+              sx={{
+                mr: 0.5,
+                display: "inline-flex",
+              }}
+            >
+              <SourcesIcon />
+            </Box>
+            <Typography
+              variant="subtitle2"
+              sx={{ color: theme.palette.text.secondary }}
+            >
+              {sources} sources
+            </Typography>
           </Box>
-          <Typography
-            variant="subtitle2"
-            sx={{ color: theme.palette.text.secondary }}
-          >
-            {widgets} widgets
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              component="span"
+              sx={{
+                mr: 0.5,
+                display: "inline-flex",
+              }}
+            >
+              <WidgetsIcon />
+            </Box>
+            <Typography
+              variant="subtitle2"
+              sx={{ color: theme.palette.text.secondary }}
+            >
+              {widgets} widgets
+            </Typography>
+          </Box>
         </Box>
-      </Box>
-    </Card>
+      </Card>
+
+      <ProjectMoreMenu
+        projectId={id}
+        anchorEl={moreMenuAnchor}
+        open={moreMenuOpen}
+        onClose={handleMoreClose}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
+    </>
   );
 };
 

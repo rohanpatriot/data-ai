@@ -9,6 +9,8 @@ import {
   Skeleton,
   useTheme,
   Card,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import Logo from "../../../shared/components/Logo";
 import UserMenu from "../../../shared/components/UserMenu";
@@ -19,13 +21,32 @@ import ProjectCard from "../components/ProjectCard";
 import {
   fetchProjects,
   createProject,
+  updateProject,
+  deleteProject,
   Project,
 } from "../services/projectService";
+import EditProjectModal from "../components/EditProjectModal";
 
 const ProjectsPage = () => {
   const [openAddModal, setOpenAddModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(false);
+  const [currentProject, setCurrentProject] = useState<{
+    id: string;
+    title: string;
+    description: string;
+  } | null>(null);
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean;
+    message: string;
+    severity: "success" | "error";
+  }>({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -49,11 +70,84 @@ const ProjectsPage = () => {
     const newProject = await createProject(name, description);
     if (newProject) {
       setProjects((prev) => [newProject, ...prev]);
+      setSnackbar({
+        open: true,
+        message: "Project created successfully",
+        severity: "success",
+      });
+    } else {
+      setSnackbar({
+        open: true,
+        message: "Failed to create project",
+        severity: "error",
+      });
+    }
+  };
+
+  const handleEditProject = (projectId: string) => {
+    const project = projects.find((p) => p.id === projectId);
+    if (project) {
+      setCurrentProject({
+        id: project.id,
+        title: project.title,
+        description: "", // You might need to fetch the description from the database
+      });
+      setOpenEditModal(true);
+    }
+  };
+
+  const handleUpdateProject = async (name: string, description: string) => {
+    if (!currentProject) return;
+
+    const success = await updateProject(currentProject.id, name, description);
+    if (success) {
+      // Update the local state
+      setProjects((prev) =>
+        prev.map((p) =>
+          p.id === currentProject.id ? { ...p, title: name } : p
+        )
+      );
+      setSnackbar({
+        open: true,
+        message: "Project updated successfully",
+        severity: "success",
+      });
+    } else {
+      setSnackbar({
+        open: true,
+        message: "Failed to update project",
+        severity: "error",
+      });
+    }
+    setOpenEditModal(false);
+    setCurrentProject(null);
+  };
+
+  const handleDeleteProject = async (projectId: string) => {
+    const success = await deleteProject(projectId);
+    if (success) {
+      // Remove the project from the local state
+      setProjects((prev) => prev.filter((p) => p.id !== projectId));
+      setSnackbar({
+        open: true,
+        message: "Project deleted successfully",
+        severity: "success",
+      });
+    } else {
+      setSnackbar({
+        open: true,
+        message: "Failed to delete project",
+        severity: "error",
+      });
     }
   };
 
   const handleProjectClick = (projectId: string) => {
     navigate(`/dashboard?projectId=${projectId}`);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
   };
 
   const renderProjectList = () => {
@@ -88,6 +182,8 @@ const ProjectsPage = () => {
         widgets={project.widgets}
         updatedAt={project.updatedAt}
         onClick={handleProjectClick}
+        onEdit={handleEditProject}
+        onDelete={handleDeleteProject}
       />
     ));
   };
@@ -152,6 +248,34 @@ const ProjectsPage = () => {
         onClose={() => setOpenAddModal(false)}
         onAdd={handleAddProject}
       />
+
+      {currentProject && (
+        <EditProjectModal
+          isOpen={openEditModal}
+          onClose={() => {
+            setOpenEditModal(false);
+            setCurrentProject(null);
+          }}
+          projectName={currentProject.title}
+          projectDescription={currentProject.description}
+          onSave={handleUpdateProject}
+        />
+      )}
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </motion.div>
   );
 };
