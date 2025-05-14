@@ -1,20 +1,20 @@
-import Login from "./pages/Login";
+import Login from "./app/auth/pages/LoginPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider, CssBaseline } from "@mui/material";
-import theme from "./theme"; // Import the new theme
-import NotFound from "./pages/NotFound";
-import ForgotPassword from "./pages/ForgotPassword";
+import theme from "./theme/theme"; // Import the new theme
+import NotFound from "./shared/pages/NotFoundPage";
+import ForgotPassword from "./app/auth/pages/ForgotPasswordPage";
 import { AnimatePresence } from "motion/react";
-import Projects from "./pages/Projects";
+import Projects from "./app/projects/pages/ProjectsPage";
 import { useEffect, useState } from "react";
 import { supabase } from "./supabase-client";
 import { Session } from "@supabase/supabase-js";
-import Dashboard from "./pages/Dashboard";
-import Signup from "./pages/Signup";
-import UpdateUser from "./pages/UpdateUser";
-import AuthConfirm from "./pages/AuthConfirm"; // Add this import
-import Loading from "./pages/Loading";
-import ProtectedRoute from "./components/ProtectedRoute";
+import Dashboard from "./app/dashboard/pages/DashboardPage";
+import Signup from "./app/auth/pages/SignupPage";
+import UpdateUser from "./app/auth/pages/UpdateUserPage";
+import AuthConfirm from "./app/auth/pages/AuthConfirmPage";
+import Loading from "./shared/pages/LoadingPage";
+import ProtectedRoute from "./app/auth/components/ProtectedRoute";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);

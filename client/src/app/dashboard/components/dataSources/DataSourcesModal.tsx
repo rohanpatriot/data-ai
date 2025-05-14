@@ -8,7 +8,7 @@ import {
   List,
 } from "@mui/material";
 import DataSourceCard from "./DataSourceCard";
-import theme from "../theme";
+import theme from "../../../../theme/theme";
 
 interface DataSourcesModalProps {
   showDataSourcesModal: boolean;

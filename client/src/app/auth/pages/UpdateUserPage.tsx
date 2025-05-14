@@ -9,12 +9,12 @@ import {
   Alert,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "../components/Logo";
+import Logo from "../../../shared/components/Logo";
 import SharedImage from "../components/SharedImage";
-import { supabase } from "../supabase-client";
+import { supabase } from "../../../supabase-client";
 import { motion } from "motion/react";
 
-const UpdateUser = () => {
+const UpdateUserPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -274,4 +274,4 @@ const UpdateUser = () => {
   );
 };
 
-export default UpdateUser;
+export default UpdateUserPage;

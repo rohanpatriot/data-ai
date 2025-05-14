@@ -8,20 +8,20 @@ import {
   Divider,
   Link as MuiLink,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-import Logo from "../components/Logo";
+import { Link, useNavigate } from "react-router-dom";
+import Logo from "../../../shared/components/Logo";
+import SharedImage from "../components/SharedImage";
 import { motion } from "motion/react";
-import { supabase } from "../supabase-client";
+import { supabase } from "../../../supabase-client";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 import AppleLoginButton from "../components/AppleLoginButton";
-import SignupDialog from "../components/SignupDialog";
 
-const Signup = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,19 +35,19 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) {
-        console.error("Signup error:", error.message);
+        console.error("Login error:", error.message);
         setError(error.message);
       } else if (data.user) {
-        setShowConfirmation(true);
-    }
+        navigate("/projects");
+      }
     } catch (err) {
-      console.error("Exception during signup:", err);
+      console.error("Exception during login:", err);
       setError("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
@@ -66,12 +66,11 @@ const Signup = () => {
         disableGutters
         sx={{ minHeight: "100vh", display: "flex" }}
       >
+        {/* Left Section */}
         <Box
           sx={{
             width: "50%",
             p: 4,
-            marginLeft: "auto",
-            marginRight: "auto",
             display: "flex",
             flexDirection: "column",
             "@media (max-width: 900px)": {
@@ -100,8 +99,8 @@ const Signup = () => {
             </Typography>
 
             <Box sx={{ mb: 3, display: "flex", gap: 2 }}>
-              <GoogleLoginButton supabase={supabase} signup={true} />
-              <AppleLoginButton supabase={supabase} signup={true} />
+              <GoogleLoginButton supabase={supabase} />
+              <AppleLoginButton supabase={supabase} />
             </Box>
 
             <Box sx={{ display: "flex", alignItems: "center", my: 3 }}>
@@ -158,6 +157,14 @@ const Signup = () => {
                   >
                     Password
                   </Typography>
+                  <MuiLink
+                    component={Link}
+                    to="/forgot-password"
+                    color="primary"
+                    sx={{ fontSize: "0.875rem" }}
+                  >
+                    Forgot password?
+                  </MuiLink>
                 </Box>
                 <TextField
                   fullWidth
@@ -186,32 +193,39 @@ const Signup = () => {
                 disabled={loading}
                 sx={{ mt: 4 }}
               >
-                {loading ? "Signing up..." : "Sign up"}
+                {loading ? "Logging in..." : "Log in"}
               </Button>
               <Box sx={{ textAlign: "start", mt: 2 }}>
                 <Typography variant="body2" sx={{ display: "inline" }}>
-                  Already have an account?
+                  Don't have an account?
                 </Typography>
                 <MuiLink
                   component={Link}
-                  to="/login"
+                  to="/signup"
                   color="primary"
                   sx={{ ml: 0.5 }}
                 >
-                  Log in
+                  Sign up
                 </MuiLink>
               </Box>
             </Box>
           </Box>
         </Box>
+
+        {/* Right Section - Background Image */}
+        <Box
+          sx={{
+            width: "50%",
+            position: "relative",
+            display: { xs: "none", md: "block" },
+            padding: "2.5%",
+          }}
+        >
+          <SharedImage />
+        </Box>
       </Container>
-      <SignupDialog
-            showConfirmation={showConfirmation}
-            setShowConfirmation={setShowConfirmation}
-            email={email}
-        />
     </motion.div>
   );
-}
+};
 
-export default Signup;
+export default LoginPage;

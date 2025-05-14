@@ -1,10 +1,7 @@
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import { Box, Typography, Button, Container, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, Typography, Container } from "@mui/material";
 import { motion } from "motion/react";
 
-const Loading = () => {
+const LoadingPage = () => {
   return (
     <Container maxWidth="sm">
       <Box sx={{ mt: 8, mb: 4, display: "flex", justifyContent: "center" }}>
@@ -26,4 +23,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default LoadingPage;

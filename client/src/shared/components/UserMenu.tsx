@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../supabase-client";
+import { supabase } from "../../supabase-client";
 import ProfileModal from "./ProfileModal";
 
 const UserMenu: React.FC = () => {
@@ -145,13 +145,14 @@ const UserMenu: React.FC = () => {
           </Box>
         </MenuItem>
       </Menu>
-      <ProfileModal 
+      <ProfileModal
         open={profileOpen}
         onClose={() => setProfileOpen(false)}
         user={{
           email: userEmail || "",
           avatar_url: userImage,
-        }} />
+        }}
+      />
     </>
   );
 };

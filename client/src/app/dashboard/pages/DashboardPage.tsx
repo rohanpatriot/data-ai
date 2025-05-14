@@ -9,17 +9,16 @@ import {
   Toolbar,
   Grid,
 } from "@mui/material";
-// import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from "motion/react";
-import UserMenu from "../components/UserMenu";
-import ChatSidePanel from "../components/ChatSidePanel";
-import DataSourcesModal from "../components/DataSourcesModal";
-import AddDataSource from "../components/AddDataSource";
-import DataSourcesSidePanel from "../components/DataSourcesSidePanel";
-import { supabase } from "../supabase-client";
-import ShareModal from "../components/ShareModal";
-import ExportMenu from "../components/ExportMenu";
-import TripleDotIcon from "../assets/icons/TripleDotIcon";
+import UserMenu from "../../../shared/components/UserMenu";
+import ChatSidePanel from "../components/chat/ChatSidePanel";
+import DataSourcesModal from "../components/dataSources/DataSourcesModal";
+import AddDataSource from "../components/dataSources/AddDataSource";
+import DataSourcesSidePanel from "../components/dataSources/DataSourcesSidePanel";
+import { supabase } from "../../../supabase-client";
+import ShareModal from "../components/share/ShareModal";
+import ExportMenu from "../components/export/ExportMenu";
+import TripleDotIcon from "../../../assets/icons/TripleDotIcon";
 import EditProjectModal from "../components/EditProjectModal";
 import MoreMenu from "../components/MoreMenu";
 
@@ -42,7 +41,7 @@ interface DataSource {
 // 1. Hey Ale, this is a huge fucking component, let's break it down before shipping.
 // 2. Chat needs some sort of a web socket connection to send and receive messages, let's think about it.
 // 3. When you add a data source, what's the scope here? Is it a global data source or a project specific one?
-const Dashboard: React.FC = () => {
+const DashboardPage: React.FC = () => {
   //   const navigate = useNavigate();
   const [chatOpen, setChatOpen] = useState(true);
   const [DSPanelOpen, setDSPanelOpen] = useState(false);
@@ -51,9 +50,13 @@ const Dashboard: React.FC = () => {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
-  const [shareMenuAnchor, setShareMenuAnchor] = useState<HTMLElement | null>(null);
+  const [shareMenuAnchor, setShareMenuAnchor] = useState<HTMLElement | null>(
+    null
+  );
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
-  const [moreMenuAnchor, setMoreMenuAnchor] = useState<HTMLElement | null>(null);
+  const [moreMenuAnchor, setMoreMenuAnchor] = useState<HTMLElement | null>(
+    null
+  );
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -103,17 +106,17 @@ const Dashboard: React.FC = () => {
   });
 
   // Perhaps we move these to some api/ directory or fetch them at entry point then cache? It doesnt change. @ale
-    const fetchUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      if (data.user) {
-        setUserImage(data.user?.user_metadata.avatar_url);
-        setUserEmail(data.user?.user_metadata?.email);
-      }
-    };
+  const fetchUser = async () => {
+    const { data } = await supabase.auth.getUser();
+    if (data.user) {
+      setUserImage(data.user?.user_metadata.avatar_url);
+      setUserEmail(data.user?.user_metadata?.email);
+    }
+  };
 
-    useEffect(() => {
-      fetchUser();
-    }, []);
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
@@ -177,7 +180,7 @@ const Dashboard: React.FC = () => {
                 handleSendMessage={handleSendMessage}
                 setChatOpen={setChatOpen}
                 setShowDataSourcesModal={setShowDataSourcesModal}
-                user={{email: userEmail || "", avatar_url: userImage}}
+                user={{ email: userEmail || "", avatar_url: userImage }}
               />
             </motion.div>
           )}
@@ -238,7 +241,15 @@ const Dashboard: React.FC = () => {
                   Data sources
                 </Button>
 
-                <Button variant="outlined" size="medium" color="secondary" onClick={(e) => {setShareMenuAnchor(e.currentTarget); setExportMenuOpen(true);}}>
+                <Button
+                  variant="outlined"
+                  size="medium"
+                  color="secondary"
+                  onClick={(e) => {
+                    setShareMenuAnchor(e.currentTarget);
+                    setExportMenuOpen(true);
+                  }}
+                >
                   Export
                 </Button>
                 <ExportMenu
@@ -248,7 +259,12 @@ const Dashboard: React.FC = () => {
                   setIsShareModalOpen={setIsShareModalOpen}
                 />
 
-                <IconButton onClick={(e) => {setMoreMenuAnchor(e.currentTarget); setMoreMenuOpen(true);}}>
+                <IconButton
+                  onClick={(e) => {
+                    setMoreMenuAnchor(e.currentTarget);
+                    setMoreMenuOpen(true);
+                  }}
+                >
                   <Box
                     component="span"
                     sx={{
@@ -260,7 +276,7 @@ const Dashboard: React.FC = () => {
                     <TripleDotIcon />
                   </Box>
                 </IconButton>
-                <MoreMenu 
+                <MoreMenu
                   setIsShareModalOpen={setIsShareModalOpen}
                   setEditProjectModalOpen={() => {
                     setIsEditProjectModalOpen(true);
@@ -320,11 +336,11 @@ const Dashboard: React.FC = () => {
         />
 
         <ShareModal
-        isOpen={isShareModalOpen}
-        onClose={() => setIsShareModalOpen(false)}
-          />
+          isOpen={isShareModalOpen}
+          onClose={() => setIsShareModalOpen(false)}
+        />
 
-        <EditProjectModal 
+        <EditProjectModal
           isOpen={isEditProjectModalOpen}
           onClose={() => setIsEditProjectModalOpen(false)}
           projectName="Untitled Project"
@@ -332,13 +348,12 @@ const Dashboard: React.FC = () => {
           onSave={(name, description) => {
             console.log("Project name:", name);
             console.log("Project description:", description);
-            // @Ale - logic here to save the project name and description
             setIsEditProjectModalOpen(false);
           }}
-          />
+        />
       </Box>
     </motion.div>
   );
 };
 
-export default Dashboard;
+export default DashboardPage;

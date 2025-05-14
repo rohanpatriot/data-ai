@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { supabase } from "../supabase-client";
+import { supabase } from "../../../supabase-client";
 import { Box, CircularProgress, Typography, Container } from "@mui/material";
 
-const AuthConfirm = () => {
+const AuthConfirmPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
@@ -73,4 +73,4 @@ const AuthConfirm = () => {
   );
 };
 
-export default AuthConfirm;
+export default AuthConfirmPage;

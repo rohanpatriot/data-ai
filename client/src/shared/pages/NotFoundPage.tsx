@@ -4,7 +4,7 @@ import { Box, Typography, Button, Container, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 
-const NotFound = () => {
+const NotFoundPage = () => {
   const location = useLocation();
   const theme = useTheme();
 
@@ -63,4 +63,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default NotFoundPage;

@@ -90,7 +90,7 @@ const EditProjectModal: React.FC<EditProjectModalProps> = ({
 
                 <Box sx={{ mb: 2 }}>
                     <Typography variant="subtitle2" sx={{ mb: 1 }}>
-                    Name
+                    Description
                     </Typography>
                     <TextField
                     fullWidth

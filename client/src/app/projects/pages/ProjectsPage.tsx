@@ -10,12 +10,12 @@ import {
   useTheme,
   Card,
 } from "@mui/material";
-import Logo from "../components/Logo";
-import UserMenu from "../components/UserMenu";
+import Logo from "../../../shared/components/Logo";
+import UserMenu from "../../../shared/components/UserMenu";
 import AddProjectModal from "../components/AddProjectModal";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
-import { supabase } from "../supabase-client";
+import { supabase } from "../../../supabase-client";
 
 interface Project {
   id: string;
@@ -25,7 +25,7 @@ interface Project {
   updatedAt: string;
 }
 
-const Projects = () => {
+const ProjectsPage = () => {
   const [openAddModal, setOpenAddModal] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const navigate = useNavigate();
@@ -309,4 +309,4 @@ const Projects = () => {
   );
 };
 
-export default Projects;
+export default ProjectsPage;

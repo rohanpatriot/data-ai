@@ -8,12 +8,12 @@ import {
   Link as MuiLink,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import Logo from "../components/Logo";
+import Logo from "../../../shared/components/Logo";
 import SharedImage from "../components/SharedImage";
 import { motion } from "motion/react";
-import { supabase } from "../supabase-client";
+import { supabase } from "../../../supabase-client";
 
-const ForgotPassword = () => {
+const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -210,4 +210,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ForgotPasswordPage;
