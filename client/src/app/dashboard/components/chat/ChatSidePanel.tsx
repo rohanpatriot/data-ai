@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Box, IconButton, Typography, Avatar } from "@mui/material";
 import Logo from "../../../../shared/components/Logo";
-import ChatBox from "./ChatBox";
+import ChatBox from "../ChatBox";
 
 interface ChatSidePanelProps {
   setChatOpen: (open: boolean) => void;
@@ -9,7 +9,6 @@ interface ChatSidePanelProps {
   newMessage: string;
   setNewMessage: (message: string) => void;
   handleSendMessage: () => void;
-  setShowDataSourcesModal: (show: boolean) => void;
   user: {
     email: string;
     avatar_url: string;
@@ -22,7 +21,6 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
   newMessage,
   setNewMessage,
   handleSendMessage,
-  setShowDataSourcesModal,
   user,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -125,7 +123,6 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
           newMessage={newMessage}
           setNewMessage={setNewMessage}
           handleSendMessage={handleSendMessage}
-          setShowDataSourcesModal={setShowDataSourcesModal}
         />
       </Box>
     </Box>

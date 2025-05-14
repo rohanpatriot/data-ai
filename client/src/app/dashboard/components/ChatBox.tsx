@@ -5,16 +5,13 @@ interface ChatBoxProps {
   newMessage: string;
   setNewMessage: (message: string) => void;
   handleSendMessage: () => void;
-  setShowDataSourcesModal: (show: boolean) => void;
 }
 
 const ChatBox: React.FC<ChatBoxProps> = ({
   newMessage,
   setNewMessage,
   handleSendMessage,
-  setShowDataSourcesModal,
 }) => {
-
   const handleSend = () => {
     if (newMessage.trim()) {
       console.log("Sending message:", newMessage);
@@ -60,6 +57,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
           }}
         >
           <Button
+            disabled
             startIcon={
               <svg
                 width="10"
@@ -87,7 +85,6 @@ const ChatBox: React.FC<ChatBoxProps> = ({
                 backgroundColor: "#f1f1f1",
               },
             }}
-            onClick={() => setShowDataSourcesModal(true)}
           >
             Sources
           </Button>
