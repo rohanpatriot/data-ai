@@ -145,6 +145,7 @@ const DataSourcesSidePanel: React.FC<DataSourcesSidePanel> = ({
         "& .MuiDrawer-paper": {
           width: "45%",
           boxSizing: "border-box",
+          borderRadius: "20px 0 0 20px",
         },
         "& .MuiBackdrop-root": {
           backgroundColor: "rgba(0, 0, 0, 0.3)",

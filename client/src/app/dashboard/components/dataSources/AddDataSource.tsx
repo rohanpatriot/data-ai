@@ -13,10 +13,9 @@ import {
   useTheme,
   CircularProgress,
 } from "@mui/material";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { supabase } from "../../../../supabase-client";
 import { Card, CardActionArea } from "@mui/material";
-
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 interface AddDataSourceProps {
   showAddDataSourceModal: boolean;
   setShowAddDataSourceModal: (show: boolean) => void;
