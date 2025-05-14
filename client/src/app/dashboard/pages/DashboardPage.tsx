@@ -8,17 +8,17 @@ import {
   AppBar,
   Toolbar,
   Grid,
+  Skeleton,
 } from "@mui/material";
 import { AnimatePresence, motion } from "motion/react";
 import UserMenu from "../../../shared/components/UserMenu";
 import ChatSidePanel from "../components/chat/ChatSidePanel";
-import DataSourcesModal from "../components/dataSources/DataSourcesModal";
 import AddDataSource from "../components/dataSources/AddDataSource";
 import DataSourcesSidePanel from "../components/dataSources/DataSourcesSidePanel";
 import { supabase } from "../../../supabase-client";
 import ShareModal from "../components/share/ShareModal";
 import ExportMenu from "../components/export/ExportMenu";
-import EditProjectModal from "../../projects/components/EditProjectModal";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface Message {
   sender: "user" | "system";
@@ -35,22 +35,32 @@ interface DataSource {
   addedAt: string;
 }
 
+interface Project {
+  id: string;
+  name: string;
+  description: string;
+  created_at: string;
+}
+
 // @ TODO
 // 1. Hey Ale, this is a huge fucking component, let's break it down before shipping.
 // 2. Chat needs some sort of a web socket connection to send and receive messages, let's think about it.
 // 3. When you add a data source, what's the scope here? Is it a global data source or a project specific one?
 const DashboardPage: React.FC = () => {
-  //   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const projectId = searchParams.get("projectId");
+  const navigate = useNavigate();
   const [chatOpen, setChatOpen] = useState(true);
   const [DSPanelOpen, setDSPanelOpen] = useState(false);
   const [userImage, setUserImage] = useState("/src/assets/dev/user.webp");
   const [userEmail, setUserEmail] = useState();
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
   const [shareMenuAnchor, setShareMenuAnchor] = useState<HTMLElement | null>(
     null
   );
+  const [currentProject, setCurrentProject] = useState<Project | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -65,7 +75,6 @@ const DashboardPage: React.FC = () => {
     },
   ]);
   const [newMessage, setNewMessage] = useState("");
-  const [showDataSourcesModal, setShowDataSourcesModal] = useState(false);
   const [showAddDataSourceModal, setShowAddDataSourceModal] = useState(false);
   const [dataSources, setDataSources] = useState<DataSource[]>([
     {
@@ -108,9 +117,39 @@ const DashboardPage: React.FC = () => {
     }
   };
 
+  // Fetch project data from Supabase
+  const fetchProject = async () => {
+    if (!projectId) return;
+
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("projects")
+        .select("*")
+        .eq("id", projectId)
+        .single();
+
+      if (error) {
+        console.error("Error fetching project:", error);
+        navigate("*");
+
+        return;
+      }
+
+      if (data) {
+        setCurrentProject(data);
+      }
+    } catch (error) {
+      console.error("Exception fetching project:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchUser();
-  }, []);
+    fetchProject();
+  }, [projectId]);
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
@@ -137,7 +176,7 @@ const DashboardPage: React.FC = () => {
   const handleAddDataSource = () => {
     const newSource = {
       id: Date.now().toString(),
-      name: newDataSource.name || "Untitled Source",
+      name: newDataSource.name || "Unnamed Source",
       type: newDataSource.type || "CSV",
       fileType: "CSV file",
       size: "2.2 Kb",
@@ -173,7 +212,6 @@ const DashboardPage: React.FC = () => {
                 setNewMessage={setNewMessage}
                 handleSendMessage={handleSendMessage}
                 setChatOpen={setChatOpen}
-                setShowDataSourcesModal={setShowDataSourcesModal}
                 user={{ email: userEmail || "", avatar_url: userImage }}
               />
             </motion.div>
@@ -222,7 +260,19 @@ const DashboardPage: React.FC = () => {
                     </Box>
                   </IconButton>
                 )}
-                <Typography variant="h5">Untitled Project</Typography>
+
+                <Typography variant="h5">
+                  {loading ? (
+                    <Skeleton
+                      animation="wave"
+                      width={200}
+                      height={32}
+                      sx={{ bgcolor: "grey.100" }}
+                    />
+                  ) : (
+                    currentProject?.name
+                  )}
+                </Typography>
               </Box>
 
               <Box sx={{ display: "flex", gap: 1 }}>
@@ -265,8 +315,14 @@ const DashboardPage: React.FC = () => {
                   Dashboard
                 </Typography>
                 <Typography variant="body1" color="text.secondary">
-                  This is your dashboard area. You can add widgets here to
-                  visualize your data.
+                  {currentProject?.description || (
+                    <Skeleton
+                      animation="wave"
+                      width={"100%"}
+                      height={32}
+                      sx={{ bgcolor: "grey.100" }}
+                    />
+                  )}
                 </Typography>
               </Box>
 
@@ -284,15 +340,6 @@ const DashboardPage: React.FC = () => {
           setShowAddDataSourceModal={setShowAddDataSourceModal}
         />
 
-        {/* Data Sources Modal */}
-        <DataSourcesModal
-          showDataSourcesModal={showDataSourcesModal}
-          setShowDataSourcesModal={setShowDataSourcesModal}
-          setShowAddDataSourceModal={setShowAddDataSourceModal}
-          dataSources={dataSources}
-        />
-
-        {/* Add Data Source Modal */}
         <AddDataSource
           showAddDataSourceModal={showAddDataSourceModal}
           setShowAddDataSourceModal={setShowAddDataSourceModal}
@@ -304,18 +351,6 @@ const DashboardPage: React.FC = () => {
         <ShareModal
           isOpen={isShareModalOpen}
           onClose={() => setIsShareModalOpen(false)}
-        />
-
-        <EditProjectModal
-          isOpen={isEditProjectModalOpen}
-          onClose={() => setIsEditProjectModalOpen(false)}
-          projectName="Untitled Project"
-          projectDescription="This is a sample project description."
-          onSave={(name, description) => {
-            console.log("Project name:", name);
-            console.log("Project description:", description);
-            setIsEditProjectModalOpen(false);
-          }}
         />
       </Box>
     </motion.div>
