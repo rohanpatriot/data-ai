@@ -1,6 +1,4 @@
-export default function TripleDotIcon() {
-  return (
-    <svg
+<svg
       width="20"
       height="20"
       viewBox="0 0 18 4"
@@ -15,5 +13,3 @@ export default function TripleDotIcon() {
         strokeLinejoin="round"
       />
     </svg>
-  );
-}

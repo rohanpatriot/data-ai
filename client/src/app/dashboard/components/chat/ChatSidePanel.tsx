@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Box, IconButton, Typography, Avatar } from "@mui/material";
 import Logo from "../../../../shared/components/Logo";
 import ChatBox from "./ChatBox";
+import brandmark from '@/assets/brandmark.svg'
 
 interface ChatSidePanelProps {
   setChatOpen: (open: boolean) => void;
@@ -90,7 +91,7 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
               />
             ) : (
               <Avatar
-                src="/src/assets/brandmark.svg"
+                src={brandmark}
                 sx={{
                   mr: 2,
                   width: 36,

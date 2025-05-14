@@ -1,7 +1,4 @@
-export default function FileIcon() {
-  // This is a simple file icon component that uses SVG to render a file icon.
-  return (
-    <svg
+<svg
       width="12"
       height="12"
       viewBox="0 0 10 13"
@@ -130,5 +127,3 @@ export default function FileIcon() {
         strokeLinejoin="round"
       />
     </svg>
-  );
-}
