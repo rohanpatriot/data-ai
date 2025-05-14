@@ -23,9 +23,9 @@ import {
   createProject,
   updateProject,
   deleteProject,
-  Project,
 } from "../services/projectService";
 import EditProjectModal from "../components/EditProjectModal";
+import { Project } from "../../../types/project";
 
 const ProjectsPage = () => {
   const [openAddModal, setOpenAddModal] = useState(false);

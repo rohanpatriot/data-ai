@@ -129,6 +129,7 @@ const DashboardPage: React.FC = () => {
           newDataSource={newDataSource}
           setNewDataSource={setNewDataSource}
           handleAddDataSource={handleAddDataSource}
+          projectId={projectId || ""}
         />
 
         <ShareModal

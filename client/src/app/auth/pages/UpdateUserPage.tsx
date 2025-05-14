@@ -23,7 +23,6 @@ const UpdateUserPage = () => {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
-  // Get the user's email from the session when the component mounts
   useEffect(() => {
     const getUser = async () => {
       const { data } = await supabase.auth.getSession();

@@ -130,8 +130,8 @@ const theme = createTheme({
         PaperProps: {
           sx: {
             borderRadius: 4,
-            py: 2,
-            px: 2,
+            py: 0.5,
+            px: 0.5,
           },
         },
       },

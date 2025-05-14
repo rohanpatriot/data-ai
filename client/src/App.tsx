@@ -42,8 +42,6 @@ function App() {
     };
   }, []);
 
-  console.log("Current state:", { session, loading });
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

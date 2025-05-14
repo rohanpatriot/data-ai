@@ -55,8 +55,8 @@ const DataSourceCard: React.FC<DataSourceCardProps> = ({
                   onKeyDown={(e) => e.key === "Enter" && handleSave()}
                   autoFocus
                   size="small"
-                  variant="standard"
-                  sx={{ width: "90%", height: "70%" }}
+                  fullWidth
+                  sx={{ width: "90%", height: "50%" }}
                 />
               ) : (
                 <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>

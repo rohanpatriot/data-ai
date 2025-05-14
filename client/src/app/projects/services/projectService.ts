@@ -1,29 +1,6 @@
 import { supabase } from "../../../supabase-client";
-
-export interface Project {
-  id: string;
-  title: string;
-  sources: number;
-  widgets: number;
-  updatedAt: string;
-}
-
-interface ProjectData {
-  id: string;
-  name: string;
-  description?: string;
-  sources: number;
-  widgets: number;
-  updated_At: string;
-}
-
-export const formatRelativeTime = (isoDate: string): string => {
-  const diff = Date.now() - new Date(isoDate).getTime();
-  const hours = diff / (1000 * 60 * 60);
-  if (hours < 24) return `${Math.floor(hours)}h ago`;
-  if (hours < 48) return `1 day ago`;
-  return `${Math.floor(hours / 24)} days ago`;
-};
+import { Project, ProjectData } from "../../../types/project";
+import { formatRelativeTime } from "../../../shared/utils/dateUtils";
 
 export const fetchProjects = async (): Promise<Project[]> => {
   try {
@@ -64,7 +41,6 @@ export const createProject = async (
       sources: 0,
       widgets: 0,
       user_id: user_id,
-      updated_At: new Date().toISOString(),
     };
 
     const { data, error } = await supabase
@@ -120,10 +96,7 @@ export const updateProject = async (
 
 export const deleteProject = async (id: string): Promise<boolean> => {
   try {
-    const { error } = await supabase
-      .from("projects")
-      .delete()
-      .eq("id", id);
+    const { error } = await supabase.from("projects").delete().eq("id", id);
 
     if (error) {
       console.error("Error deleting project:", error);

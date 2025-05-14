@@ -14,6 +14,7 @@ import { motion } from "motion/react";
 import { supabase } from "../../../supabase-client";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 import SignupDialog from "../components/SignupDialog";
+import SharedImage from "../components/SharedImage";
 
 const SignupPage = () => {
   const [email, setEmail] = useState("");
@@ -82,7 +83,7 @@ const SignupPage = () => {
             <Logo />
           </Box>
 
-          <Box sx={{ maxWidth: 480, width: "100%", mx: "auto" }}>
+          <Box sx={{ width: "100%", maxWidth: "420px", mx: "auto" }}>
             <Typography variant="h4" component="h1" sx={{ mb: 1 }}>
               Sign up
             </Typography>
@@ -197,6 +198,11 @@ const SignupPage = () => {
               </Box>
             </Box>
           </Box>
+        </Box>
+        <Box
+          sx={{ width: "50%", display: { xs: "none", md: "block" }, p: "2.5%" }}
+        >
+          <SharedImage />
         </Box>
       </Container>
       <SignupDialog
