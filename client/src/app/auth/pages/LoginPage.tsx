@@ -101,7 +101,7 @@ const LoginPage = () => {
         </Box>
       </Container>
       <div style={{display: 'none'}}>
-        {logopng}
+        <img src ={logopng} />
       </div>
     </motion.div>
   );
