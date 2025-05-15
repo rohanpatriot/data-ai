@@ -13,7 +13,6 @@ import GoogleLoginButton from "../components/GoogleLoginButton";
 import EmailPasswordForm from "../components/EmailPasswordForm";
 import { useLogin } from "../hooks/useLogin";
 import { supabase } from "../../../supabase-client";
-import logopng from "@/assets/logo.png"
 
 const LoginPage = () => {
   const {
@@ -100,9 +99,6 @@ const LoginPage = () => {
           <SharedImage />
         </Box>
       </Container>
-      <div style={{display: 'none'}}>
-        <img src ={logopng} />
-      </div>
     </motion.div>
   );
 };
