@@ -1,53 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import RGL, { Layout, WidthProvider } from 'react-grid-layout';
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material';
+import React, { useState } from 'react';
+import { Responsive, WidthProvider, Layouts, Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import { Box } from '@mui/material';
 
-const ReactGridLayout = WidthProvider(RGL);
+const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 interface DashboardGridProps {
   items?: number;
-  cols?: number;
   rowHeight?: number;
-  onLayoutChange?: (layout: Layout[]) => void;
+  onLayoutChange?: (layout: Layout[], allLayouts: Layouts) => void;
 }
 
 const DashboardGrid: React.FC<DashboardGridProps> = ({
   items = 20,
-  cols = 12,
   rowHeight = 30,
   onLayoutChange = () => {},
 }) => {
-  const [layout, setLayout] = useState<Layout[]>([]);
-  const range = (count: number) => Array.from({ length: count }, (_, i) => i);
-  const theme = useTheme();
+    const theme = useTheme();
+    const breakpoints = { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 };
+    const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 };
 
-  // Just a dummy config and logic for generating widgets
-  useEffect(() => {
-    const newLayout: Layout[] = range(items).map((i) => {
-      const y = Math.ceil(Math.random() * 4) + 1;
-      return {
-        x: (i * 2) % cols,
-        y: Math.floor(i / 6) * y,
-        w: 2,
-        h: y,
+    const generateLayouts = (): Layouts => {
+    const widths = { lg: 2, md: 2, sm: 2, xs: 2, xxs: 1 };
+    const layouts: Layouts = {};
+
+    Object.keys(cols).forEach((breakpoint) => {
+      const colCount = cols[breakpoint as keyof typeof cols];
+      const width = widths[breakpoint as keyof typeof widths];
+      layouts[breakpoint] = Array.from({ length: items }).map((_, i) => ({
+        x: (i * width) % colCount,
+        y: Math.floor(i / (colCount / width)) * 2,
+        w: width,
+        h: 2,
         i: i.toString(),
         minW: 2,
-        maxW: 4,
+        maxW: 2,
         minH: 2,
-        maxH: 6,
-      };
+        maxH: 4,
+      }));
     });
 
-    setLayout(newLayout);
-  }, [items, cols]);
+    return layouts;
+  };
 
-  const generateWidgets = (): React.ReactElement[] => {
-    const range = (count: number) => Array.from({ length: count }, (_, i) => i);
-    return range(items).map((i) => (
-      <Box
+  const [layouts, setLayouts] = useState<Layouts>(generateLayouts());
+
+  const generateWidgets = () =>
+    Array.from({ length: items }).map((_, i) => (
+      <div
         key={i.toString()}
         style={{
           background: `${theme.palette.secondary.light}`,
@@ -60,27 +61,29 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
         }}
       >
         <span style={{ fontWeight: 'bold' }}>Widget {i}</span>
-      </Box>
+      </div>
     ));
-  };
 
-  const handleLayoutChange = (newLayout: Layout[]) => {
-    setLayout(newLayout);
-    onLayoutChange(newLayout);
+  const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
+    setLayouts(allLayouts);
+    onLayoutChange(currentLayout, allLayouts);
   };
 
   return (
-    <ReactGridLayout
-      layout={layout}
+    <ResponsiveReactGridLayout
+      className="layout"
+      layouts={layouts}
+      breakpoints={breakpoints}
       cols={cols}
       rowHeight={rowHeight}
-      width={1200}
       onLayoutChange={handleLayoutChange}
-      isResizable={true}
-      isDraggable={true}
+      isDraggable
+      isResizable
+    //   compactType="vertical" // or "horizontal", or null to disable
+      preventCollision={false}
     >
       {generateWidgets()}
-    </ReactGridLayout>
+    </ResponsiveReactGridLayout>
   );
 };
 
