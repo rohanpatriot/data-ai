@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Container, Grid, Typography, Skeleton } from "@mui/material";
+import { Box, Container, Typography, Skeleton } from "@mui/material";
 import { AnimatePresence, motion } from "motion/react";
 import { useSearchParams } from "react-router-dom";
 
@@ -14,6 +14,7 @@ import DashboardHeader from "../components/layout/DashboardHeader";
 import { useProjectData } from "../hooks/useProjectData";
 import { useChatMessages } from "../hooks/useChatMessages";
 import { useDataSources } from "../hooks/useDataSources";
+import DashboardGrid from "../components/layout/DashboardGrid";
 
 const DashboardPage: React.FC = () => {
   // URL params
@@ -90,10 +91,10 @@ const DashboardPage: React.FC = () => {
           />
 
           {/* Dashboard content */}
-          <Box sx={{ flexGrow: 1, p: 4, overflowY: "auto" }}>
+          <Box sx={{ flexGrow: 1, p: 2, overflowY: "auto" }}>
             <Container maxWidth="xl">
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="h4" sx={{ mb: 2 }}>
+              <Box sx={{ mb: 3,  ml: 1 }}>
+                <Typography variant="h4" sx={{ mb: 1 }}>
                   Dashboard
                 </Typography>
                 <Typography variant="body1" color="text.secondary">
@@ -107,10 +108,8 @@ const DashboardPage: React.FC = () => {
                   )}
                 </Typography>
               </Box>
-
-              <Grid container spacing={3}>
-                {/* Empty placeholder for future widgets */}
-              </Grid>
+              {/* Grid layout */}
+              <DashboardGrid items={10} onLayoutChange={(layout) => console.log(layout)}  />
             </Container>
           </Box>
         </Box>
