@@ -144,6 +144,16 @@ const theme = createTheme({
           MozUserSelect: 'none',
           msUserSelect: 'none',
         },
+        '.react-resizable-handle': {
+          backgrounColor: 'transparent',
+        },
+        '.react-resizable-handle::after': {
+          borderColor: `${palette.primary.main}`,
+        },
+        '.react-grid-item.react-grid-placeholder': {
+          background: `${palette.primary.main}`,
+          borderRadius: 4,
+        }
       },
     },
   },

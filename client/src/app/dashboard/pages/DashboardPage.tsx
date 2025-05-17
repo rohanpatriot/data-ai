@@ -109,7 +109,7 @@ const DashboardPage: React.FC = () => {
                 </Typography>
               </Box>
               {/* Grid layout */}
-              <DashboardGrid items={10} onLayoutChange={(layout) => console.log(layout)}  />
+              <DashboardGrid />
             </Container>
           </Box>
         </Box>

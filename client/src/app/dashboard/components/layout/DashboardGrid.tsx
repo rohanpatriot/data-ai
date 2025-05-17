@@ -1,73 +1,82 @@
-import { useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import React, { useState } from 'react';
 import { Responsive, WidthProvider, Layouts, Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import { WidgetConfig, WidgetFactory } from '../widgets/WidgetFactory';
+import { removeHorizontalGaps } from '../../util/DashboardUtil';
+import { sampleWidgets } from '../../dev/mockData'; // Delete this line when implementing backend fetch of data
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 interface DashboardGridProps {
-  items?: number;
   rowHeight?: number;
   onLayoutChange?: (layout: Layout[], allLayouts: Layouts) => void;
 }
 
 const DashboardGrid: React.FC<DashboardGridProps> = ({
-  items = 20,
-  rowHeight = 30,
-  onLayoutChange = () => {},
+    rowHeight = 30,
+    onLayoutChange = () => {},
 }) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const theme = useTheme();
+    // When resizing the widget then resizing the window, widget only resizes in the breakpoint it is in, this is calling for bugs
     const breakpoints = { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 };
     const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [widgets, setWidgets] = useState<WidgetConfig[]>(sampleWidgets);
+
     const generateLayouts = (): Layouts => {
-    const widths = { lg: 2, md: 2, sm: 2, xs: 2, xxs: 1 };
-    const layouts: Layouts = {};
-
-    Object.keys(cols).forEach((breakpoint) => {
-      const colCount = cols[breakpoint as keyof typeof cols];
-      const width = widths[breakpoint as keyof typeof widths];
-      layouts[breakpoint] = Array.from({ length: items }).map((_, i) => ({
-        x: (i * width) % colCount,
-        y: Math.floor(i / (colCount / width)) * 2,
-        w: width,
-        h: 2,
-        i: i.toString(),
-        minW: 2,
-        maxW: 2,
-        minH: 2,
-        maxH: 4,
-      }));
-    });
-
-    return layouts;
-  };
+        const breakpointsList = Object.keys(cols) as Array<keyof typeof cols>;
+        const layouts: Layouts = {};
+      
+        for (const breakpoint of breakpointsList) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const colCount = cols[breakpoint];
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          layouts[breakpoint] = widgets.map((widget, i) => {
+            const defaultLayout: Layout = {
+                i: widget.id,
+                x: widget.layout?.x || 0,
+                y: widget.layout?.y || 0,
+                w: widget.layout?.w || 2,
+                h: widget.layout?.h || 6,
+                minW: 2,
+                maxW: 6,
+                minH: 4,
+                maxH: 8,
+            };
+            return defaultLayout;
+          });
+        }
+      
+        return layouts;
+      };
 
   const [layouts, setLayouts] = useState<Layouts>(generateLayouts());
 
   const generateWidgets = () =>
-    Array.from({ length: items }).map((_, i) => (
-      <div
-        key={i.toString()}
-        style={{
-          background: `${theme.palette.secondary.light}`,
-          color: `${theme.palette.secondary.dark}`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          border: `1px solid ${theme.palette.divider}`,
-          borderRadius: 4,
-        }}
-      >
-        <span style={{ fontWeight: 'bold' }}>Widget {i}</span>
-      </div>
+    widgets.map((widget) => (
+      <Box key={widget.id} sx={{
+        background: 'transparent',
+        borderRadius: 2,
+        p: 1,
+      }}>
+        {WidgetFactory(widget.type, widget.data)}
+      </Box>
     ));
 
-  const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
-    setLayouts(allLayouts);
-    onLayoutChange(currentLayout, allLayouts);
-  };
+      const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
+        const compactedLayouts: Layouts = {};
+      
+        Object.keys(allLayouts).forEach((breakpoint) => {
+          compactedLayouts[breakpoint] = removeHorizontalGaps(allLayouts[breakpoint]);
+        });
+      
+        setLayouts(compactedLayouts);
+        onLayoutChange(currentLayout, compactedLayouts);
+      };
 
   return (
     <ResponsiveReactGridLayout
@@ -79,8 +88,7 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
       onLayoutChange={handleLayoutChange}
       isDraggable
       isResizable
-    //   compactType="vertical" // or "horizontal", or null to disable
-      preventCollision={false}
+      compactType="vertical"
     >
       {generateWidgets()}
     </ResponsiveReactGridLayout>
