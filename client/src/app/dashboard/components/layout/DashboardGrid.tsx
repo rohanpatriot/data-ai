@@ -1,4 +1,4 @@
-import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import React, { useState } from 'react';
 import { Responsive, WidthProvider, Layouts, Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
@@ -18,24 +18,21 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
     rowHeight = 30,
     onLayoutChange = () => {},
 }) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const theme = useTheme();
     // When resizing the widget then resizing the window, widget only resizes in the breakpoint it is in, this is calling for bugs
     const breakpoints = { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 };
     const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 };
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [widgets, setWidgets] = useState<WidgetConfig[]>(sampleWidgets);
+    const [widgets] = useState<WidgetConfig[]>(sampleWidgets);
 
     const generateLayouts = (): Layouts => {
         const breakpointsList = Object.keys(cols) as Array<keyof typeof cols>;
         const layouts: Layouts = {};
       
         for (const breakpoint of breakpointsList) {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const colCount = cols[breakpoint];
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          console.debug(`Generating layouts for ${breakpoint} with ${colCount} columns`);
           layouts[breakpoint] = widgets.map((widget, i) => {
+            console.debug(`Generating layout for widget ${widget.id}, i = ${i}`);
             const defaultLayout: Layout = {
                 i: widget.id,
                 x: widget.layout?.x || 0,
