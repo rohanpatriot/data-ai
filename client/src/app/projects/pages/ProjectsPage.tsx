@@ -36,7 +36,7 @@ const ProjectsPage = () => {
   const [loading, setLoading] = useState(false);
   const [currentProject, setCurrentProject] = useState<{
     id: string;
-    title: string;
+    name: string;
     description: string;
   } | null>(null);
   const [snackbar, setSnackbar] = useState<{
@@ -92,8 +92,9 @@ const ProjectsPage = () => {
     if (project) {
       setCurrentProject({
         id: project.id,
-        title: project.name,
-        description: project.description ?? "",
+        name: project.name,
+
+        description: project.description || "",
       });
       setOpenEditModal(true);
     }
@@ -106,9 +107,7 @@ const ProjectsPage = () => {
     if (success) {
       // Update the local state
       setProjects((prev) =>
-        prev.map((p) =>
-          p.id === currentProject.id ? { ...p, title: name } : p
-        )
+        prev.map((p) => (p.id === currentProject.id ? { ...p, name: name } : p))
       );
       setSnackbar({
         open: true,
@@ -261,7 +260,7 @@ const ProjectsPage = () => {
             setOpenEditModal(false);
             setCurrentProject(null);
           }}
-          projectName={currentProject.title}
+          projectName={currentProject.name}
           projectDescription={currentProject.description}
           onSave={handleUpdateProject}
         />
