@@ -25,7 +25,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         px: 2,
         border: "2px dashed",
         borderColor: "divider",
-        borderRadius: 1,
+        borderRadius: 2,
         backgroundColor: "background.paper",
         ...sx,
       }}

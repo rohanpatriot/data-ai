@@ -35,7 +35,7 @@ export const BaseFormDialog = ({
       actions={
         <>
           <Button onClick={onClose} color="secondary">
-            Annulla
+            Cancel
           </Button>
           <Button
             variant="contained"

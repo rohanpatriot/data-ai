@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { API } from "../../api/api";
+import { API } from "../../../api/api";
 
 export interface DataSource {
   id: string;
@@ -16,19 +16,21 @@ export const useDataSources = (projectId: string) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       const sources = await API.dataSources.getAll(projectId);
       setDataSources(sources);
-    } catch (error) {
-      console.error("Failed to fetch data sources", error);
+    } catch (err) {
+      console.error("Failed to fetch data sources:", err);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (projectId) fetchData();
+    if (projectId) {
+      fetchData();
+    }
   }, [projectId]);
 
   return {
