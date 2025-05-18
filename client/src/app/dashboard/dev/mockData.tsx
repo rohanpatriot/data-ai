@@ -1,4 +1,4 @@
-import { WidgetConfig } from "../components/widgets/WidgetFactory";
+import { WidgetConfig } from "../components/widgets/util/WidgetUtil";
 import logo from '@/assets/logo.svg'
 
 // ToDo
@@ -12,13 +12,13 @@ export const sampleWidgets: WidgetConfig[] = [
       id: 'kpi1',
       type: 'KPI',
       data: { metric: 'Conversion Rate', value: 5.6, trend: 0.2 },
-      layout: { x: 0, y: 0, w: 2, h: 2 },
+      layout: { x: 0, y: 0, w: 2, h: 3 },
     },
     {
       id: 'kpi2',
       type: 'KPI',
       data: { metric: 'Customer Score', value: 8.9, trend: -0.1 },
-      layout: { x: 2, y: 0, w: 2, h: 2 },
+      layout: { x: 2, y: 0, w: 2, h: 3 },
     },
     {
       id: 'stats1',
@@ -43,7 +43,7 @@ export const sampleWidgets: WidgetConfig[] = [
           { name: 'Signups', data: [30, 70, 45, 50, 40, 60, 80] },
         ],
       },
-      layout: { x: 0, y: 2, w: 4, h: 6 },
+      layout: { x: 0, y: 2, w: 2, h: 6 },
     },
     {
       id: 'pie1',
@@ -52,7 +52,7 @@ export const sampleWidgets: WidgetConfig[] = [
         labels: ['Chrome', 'Firefox', 'Safari', 'Edge', 'Others'],
         values: [63.5, 15.2, 12.3, 4.8, 4.2],
       },
-      layout: { x: 0, y: 8, w: 2, h: 4 },
+      layout: { x: 0, y: 8, w: 2, h: 6 },
     },
     {
       id: 'bar1',

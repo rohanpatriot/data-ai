@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { Responsive, WidthProvider, Layouts, Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import { WidgetConfig, WidgetFactory } from '../widgets/WidgetFactory';
+import { getWidgetSizeConstraints, WidgetConfig } from '../widgets/util/WidgetUtil';
+import { WidgetFactory } from '../widgets/WidgetFactory';
 import { removeHorizontalGaps } from '../../util/DashboardUtil';
 import { sampleWidgets } from '../../dev/mockData'; // Delete this line when implementing backend fetch of data
 
@@ -33,16 +34,20 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
           console.debug(`Generating layouts for ${breakpoint} with ${colCount} columns`);
           layouts[breakpoint] = widgets.map((widget, i) => {
             console.debug(`Generating layout for widget ${widget.id}, i = ${i}`);
+
+            const sizeConstraints = getWidgetSizeConstraints(widget.type);
+            console.log('Size constraints: ', sizeConstraints);
+
             const defaultLayout: Layout = {
                 i: widget.id,
                 x: widget.layout?.x || 0,
                 y: widget.layout?.y || 0,
                 w: widget.layout?.w || 2,
                 h: widget.layout?.h || 6,
-                minW: 2,
-                maxW: 6,
-                minH: 4,
-                maxH: 8,
+                minW: sizeConstraints?.minW || 2,
+                maxW: sizeConstraints?.maxW || 6,
+                minH: sizeConstraints?.minH || 4,
+                maxH: sizeConstraints?.maxH || 8,
             };
             return defaultLayout;
           });
