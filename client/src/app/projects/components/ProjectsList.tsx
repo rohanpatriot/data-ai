@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, Skeleton, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ProjectCard from "./ProjectCard";
 import { Project } from "../../../types/project";

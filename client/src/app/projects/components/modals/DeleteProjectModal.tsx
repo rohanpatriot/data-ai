@@ -1,78 +1,70 @@
-import React, { useState } from "react";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Button,
-  CircularProgress,
-} from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { Button, CircularProgress } from "@mui/material";
+import { ResponsiveDialog } from "../../../../shared/components/ResponsiveDialog";
 
 interface DeleteProjectModalProps {
   open: boolean;
   onClose: () => void;
-  onConfirm: () => Promise<void> | void;
-  projectName?: string;
+  onConfirm: () => Promise<void>;
 }
 
-const DeleteProjectModal: React.FC<DeleteProjectModalProps> = ({
+const DeleteProjectModal = ({
   open,
   onClose,
   onConfirm,
-  projectName,
-}) => {
+}: DeleteProjectModalProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
+  const confirmRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (open) {
+      setIsDeleting(false);
+      const timer = setTimeout(() => {
+        confirmRef.current?.focus();
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [open]);
 
   const handleConfirm = async () => {
+    setIsDeleting(true);
     try {
-      setIsDeleting(true);
       await onConfirm();
-    } catch (error) {
-      console.error("Error deleting project:", error);
+    } catch (err) {
+      console.error("Delete failed:", err);
     } finally {
       setIsDeleting(false);
     }
   };
 
   return (
-    <Dialog
+    <ResponsiveDialog
       open={open}
       onClose={onClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
+      title="Delete Project?"
+      actions={
+        <>
+          <Button onClick={onClose} color="secondary" disabled={isDeleting}>
+            Cancel
+          </Button>
+          <Button
+            ref={confirmRef}
+            variant="contained"
+            color="error"
+            onClick={handleConfirm}
+            disabled={isDeleting}
+            startIcon={
+              isDeleting ? <CircularProgress size={20} color="inherit" /> : null
+            }
+          >
+            {isDeleting ? "Deleting..." : "Delete"}
+          </Button>
+        </>
+      }
     >
-      <DialogTitle id="alert-dialog-title">Delete Project?</DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          Are you sure you want to delete{" "}
-          {projectName ? `"${projectName}"` : "this project"}? This action
-          cannot be undone.
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions sx={{ p: 2 }}>
-        <Button
-          onClick={onClose}
-          variant="outlined"
-          color="secondary"
-          disabled={isDeleting}
-        >
-          Cancel
-        </Button>
-        <Button
-          onClick={handleConfirm}
-          variant="contained"
-          color="error"
-          autoFocus
-          disabled={isDeleting}
-          startIcon={
-            isDeleting ? <CircularProgress size={20} color="inherit" /> : null
-          }
-        >
-          {isDeleting ? "Deleting..." : "Delete"}
-        </Button>
-      </DialogActions>
-    </Dialog>
+      Are you sure you want to delete this project? This action cannot be
+      undone.
+    </ResponsiveDialog>
   );
 };
 

@@ -1,18 +1,21 @@
 import { useNavigate } from "react-router-dom";
-import { Snackbar, Alert, Button, useMediaQuery } from "@mui/material";
-import { PageLayout } from "../components/layout/PageLayout";
-import { useProjects } from "../hooks/useProjects";
-import EditProjectModal from "../components/modals/EditProjectModal";
-import AddProjectModal from "../components/modals/AddProjectModal";
-import { useProjectDialogs } from "../hooks/useProjectDialogs";
-import { ProjectsList } from "../components/ProjectsList";
+import { Button, Snackbar, Alert, useMediaQuery } from "@mui/material";
 import { Add } from "@mui/icons-material";
+
+import { PageLayout } from "../components/layout/PageLayout";
+import { ProjectsList } from "../components/ProjectsList";
+import AddProjectModal from "../components/modals/AddProjectModal";
+import EditProjectModal from "../components/modals/EditProjectModal";
 import DeleteProjectModal from "../components/modals/DeleteProjectModal";
 
+import { useProjects } from "../hooks/useProjects";
+import { useProjectDialogs } from "../hooks/useProjectDialogs";
+
 const ProjectsPage = () => {
-  const { projects, setProjects, isLoading } = useProjects();
   const navigate = useNavigate();
   const isMobile = useMediaQuery("md");
+
+  const { projects, setProjects, isLoading } = useProjects();
   const {
     add,
     edit,
@@ -47,34 +50,39 @@ const ProjectsPage = () => {
       }
     >
       <ProjectsList
-        projects={projects}
+        projects={projects ?? []}
         isLoading={isLoading}
-        onEdit={(projectId) => edit.set(projectId, projects)}
+        onEdit={(projectId) => edit.set(projectId, projects || [])}
         onDelete={del.set}
         onClick={handleProjectClick}
       />
 
       <AddProjectModal
         open={add.isOpen}
+        name={add.name}
+        description={add.description}
+        onChangeName={add.setName}
+        onChangeDescription={add.setDescription}
         onClose={closeAddDialog}
-        onAdd={confirmAdd}
+        onConfirm={confirmAdd}
       />
 
       {edit.project && (
         <EditProjectModal
-          isOpen={edit.project !== null}
+          open={!!edit.project}
+          name={edit.name}
+          description={edit.description}
+          onChangeName={edit.updateName}
+          onChangeDescription={edit.updateDescription}
           onClose={edit.reset}
-          projectName={edit.project.name}
-          projectDescription={edit.project.description}
-          onSave={confirmEdit}
+          onConfirm={confirmEdit}
         />
       )}
 
       <DeleteProjectModal
-        open={!!del.id}
+        open={Boolean(del.id)}
         onClose={del.reset}
         onConfirm={confirmDelete}
-        projectName={projects.find((p) => p.id === del.id)?.name}
       />
 
       <Snackbar

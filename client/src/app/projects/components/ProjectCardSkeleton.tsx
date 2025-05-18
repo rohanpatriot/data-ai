@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Card, Skeleton, useTheme } from "@mui/material";
+import { Box, Card, Skeleton } from "@mui/material";
 import {
   TimeIcon,
   SourcesIcon,
@@ -13,8 +13,6 @@ interface ProjectCardSkeletonProps {
 const ProjectCardSkeleton: React.FC<ProjectCardSkeletonProps> = ({
   count = 1,
 }) => {
-  const theme = useTheme();
-
   const renderSkeleton = () => (
     <Card
       elevation={0}
@@ -44,7 +42,7 @@ const ProjectCardSkeleton: React.FC<ProjectCardSkeletonProps> = ({
           >
             <TimeIcon />
           </Box>
-          <Skeleton variant="text" width={80} height={20} />
+          <Skeleton variant="text" width={40} height={20} />
           <Skeleton variant="circular" width={24} height={24} sx={{ ml: 1 }} />
         </Box>
       </Box>

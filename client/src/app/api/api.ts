@@ -1,7 +1,7 @@
-import { ProjectsApi } from "./projects";
 import { DataSourcesAPI } from "./dataSources.ts";
+import { ProjectsAPI } from "./projects.ts";
 
 export const API = {
-  projects: ProjectsApi,
+  projects: ProjectsAPI,
   dataSources: DataSourcesAPI,
 };

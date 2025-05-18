@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react";
 import { Project } from "../../../types/project";
-import { fetchProjects } from "../services/projectService";
+import { API } from "../../api/api";
 
 export const useProjects = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [projects, setProjects] = useState<Project[] | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadProjects = async () => {
-      setIsLoading(true);
+    const fetchProjects = async () => {
       try {
-        const projectsData = await fetchProjects();
-        setProjects(projectsData);
+        const data = await API.projects.getAll();
+        setProjects(data);
       } catch (error) {
-        console.error("Failed to load projects:", error);
+        console.error("Failed to fetch projects:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    loadProjects();
+    fetchProjects();
   }, []);
 
   return {

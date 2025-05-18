@@ -1,178 +1,149 @@
 import { useRef, useState } from "react";
+import { API } from "../../api/api";
 import { Project } from "../../../types/project";
-import {
-  createProject,
-  updateProject,
-  deleteProject,
-} from "../services/projectService";
 
-interface UseProjectDialogsProps {
-  setProjects: React.Dispatch<React.SetStateAction<Project[]>>;
+interface Props {
+  setProjects: React.Dispatch<React.SetStateAction<Project[] | null>>;
 }
 
-export const useProjectDialogs = ({ setProjects }: UseProjectDialogsProps) => {
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
+export const useProjectDialogs = ({ setProjects }: Props) => {
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
-  // Add project state
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [newProjectName, setNewProjectName] = useState("");
-  const [newProjectDescription, setNewProjectDescription] = useState("");
+  // Add
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [addName, setAddName] = useState("");
+  const [addDescription, setAddDescription] = useState("");
 
-  // Edit project state
-  const [editingProject, setEditingProject] = useState<{
-    id: string;
-    name: string;
-    description: string;
-  } | null>(null);
+  // Edit
+  const [editProject, setEditProject] = useState<Project | null>(null);
+  const [editName, setEditName] = useState("");
+  const [editDescription, setEditDescription] = useState("");
 
-  // Delete project state
-  const [deleteProjectId, setDeleteProjectId] = useState<string | null>(null);
+  // Delete (just id)
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
-  // Snackbar state
-  const [snackbar, setSnackbar] = useState<{
-    open: boolean;
-    message: string;
-    severity: "success" | "error";
-  }>({
+  const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
-    severity: "success",
+    severity: "success" as "success" | "error",
   });
 
-  const handleAdd = async () => {
-    const newProject = await createProject(
-      newProjectName,
-      newProjectDescription
-    );
-    if (newProject) {
-      setProjects((prev) => [newProject, ...prev]);
+  const openAddDialog = () => setAddDialogOpen(true);
+  const closeAddDialog = () => {
+    setAddDialogOpen(false);
+    setAddName("");
+    setAddDescription("");
+  };
+
+  const closeSnackbar = () => setSnackbar((prev) => ({ ...prev, open: false }));
+
+  const confirmAdd = async () => {
+    try {
+      const newProject = await API.projects.create(addName, addDescription);
+      setProjects((prev) => [newProject, ...(prev ?? [])]);
       setSnackbar({
         open: true,
-        message: "Project created successfully",
+        message: "Project added successfully!",
         severity: "success",
       });
-      setIsAddDialogOpen(false);
-      setNewProjectName("");
-      setNewProjectDescription("");
-    } else {
+    } catch (error) {
+      console.error(error);
       setSnackbar({
         open: true,
-        message: "Failed to create project",
+        message: "Failed to add project",
         severity: "error",
       });
+    } finally {
+      closeAddDialog();
     }
   };
 
-  const handleEdit = async () => {
-    if (!editingProject) return;
+  const confirmEdit = async () => {
+    if (!editProject) return;
 
-    const success = await updateProject(
-      editingProject.id,
-      editingProject.name,
-      editingProject.description
-    );
-
-    if (success) {
+    try {
+      const updated = await API.projects.update(
+        editProject.id,
+        editName,
+        editDescription
+      );
       setProjects((prev) =>
-        prev.map((p) =>
-          p.id === editingProject.id
-            ? {
-                ...p,
-                name: editingProject.name,
-                description: editingProject.description,
-              }
-            : p
-        )
+        (prev ?? []).map((p) => (p.id === updated.id ? updated : p))
       );
       setSnackbar({
         open: true,
-        message: "Project updated successfully",
+        message: "Project updated successfully!",
         severity: "success",
       });
-    } else {
+    } catch (error) {
+      console.error(error);
       setSnackbar({
         open: true,
         message: "Failed to update project",
         severity: "error",
       });
+    } finally {
+      setEditProject(null);
     }
-    setEditingProject(null);
   };
 
-  const handleDelete = async () => {
-    if (!deleteProjectId) return;
+  const confirmDelete = async () => {
+    if (!deleteId) return;
 
     try {
-      const success = await deleteProject(deleteProjectId);
-
-      if (success) {
-        setProjects((prev) => prev.filter((p) => p.id !== deleteProjectId));
-        setSnackbar({
-          open: true,
-          message: "Project deleted successfully",
-          severity: "success",
-        });
-      } else {
-        setSnackbar({
-          open: true,
-          message: "Failed to delete project",
-          severity: "error",
-        });
-      }
-    } catch (error) {
-      console.error("Error deleting project:", error);
+      await API.projects.delete(deleteId);
+      setProjects((prev) => (prev ?? []).filter((p) => p.id !== deleteId));
       setSnackbar({
         open: true,
-        message: "An error occurred while deleting the project",
+        message: "Project deleted",
+        severity: "success",
+      });
+    } catch (error) {
+      console.error(error);
+      setSnackbar({
+        open: true,
+        message: "Failed to delete project",
         severity: "error",
       });
     } finally {
-      setDeleteProjectId(null);
+      setDeleteId(null);
     }
   };
 
   return {
-    triggerRef,
     add: {
-      isOpen: isAddDialogOpen,
-      name: newProjectName,
-      description: newProjectDescription,
-      setName: setNewProjectName,
-      setDescription: setNewProjectDescription,
+      isOpen: addDialogOpen,
+      name: addName,
+      description: addDescription,
+      setName: setAddName,
+      setDescription: setAddDescription,
     },
     edit: {
-      project: editingProject,
-      set: (projectId: string, projects: Project[]) => {
-        const project = projects.find((p) => p.id === projectId);
-        if (project) {
-          setEditingProject({
-            id: project.id,
-            name: project.name,
-            description: project.description || "",
-          });
-        }
+      project: editProject,
+      name: editName,
+      description: editDescription,
+      updateName: setEditName,
+      updateDescription: setEditDescription,
+      set: (id: string, list: Project[]) => {
+        const project = list.find((p) => p.id === id) || null;
+        setEditProject(project);
+        setEditName(project?.name ?? "");
+        setEditDescription(project?.description ?? "");
       },
-      updateName: (name: string) =>
-        setEditingProject((prev) => (prev ? { ...prev, name } : null)),
-      updateDescription: (description: string) =>
-        setEditingProject((prev) => (prev ? { ...prev, description } : null)),
-      reset: () => setEditingProject(null),
+      reset: () => setEditProject(null),
     },
     del: {
-      id: deleteProjectId,
-      set: setDeleteProjectId,
-      reset: () => setDeleteProjectId(null),
+      id: deleteId,
+      set: setDeleteId,
+      reset: () => setDeleteId(null),
     },
+    triggerRef,
+    openAddDialog,
+    closeAddDialog,
+    confirmAdd,
+    confirmEdit,
+    confirmDelete,
     snackbar,
-    openAddDialog: () => setIsAddDialogOpen(true),
-    closeAddDialog: () => {
-      setIsAddDialogOpen(false);
-      setNewProjectName("");
-      setNewProjectDescription("");
-    },
-    confirmAdd: handleAdd,
-    confirmEdit: handleEdit,
-    confirmDelete: handleDelete,
-    closeSnackbar: () => setSnackbar((prev) => ({ ...prev, open: false })),
+    closeSnackbar,
   };
 };

@@ -1,120 +1,83 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-} from "@mui/material";
-import React, { useState } from "react";
+import { TextField, Box } from "@mui/material";
+import { useRef, useState, useEffect } from "react";
+import { BaseFormDialog } from "../../../../shared/components/BaseFormDialog";
+import { useAutoFocusAndSelect } from "../../../../shared/components/useAutoFocusAndSelect";
 
-interface AddProjectModalProps {
+interface Props {
   open: boolean;
+  name: string;
+  description: string;
+  onChangeName: (value: string) => void;
+  onChangeDescription: (value: string) => void;
   onClose: () => void;
-  onAdd: (name: string, description: string) => void;
+  onConfirm: () => Promise<void>;
 }
 
-const AddProjectModal: React.FC<AddProjectModalProps> = ({
+const AddProjectModal = ({
   open,
+  name,
+  description,
+  onChangeName,
+  onChangeDescription,
   onClose,
-  onAdd,
-}) => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  onConfirm,
+}: Props) => {
+  const [error, setError] = useState<string | null>(null);
+  const nameInputRef = useRef<HTMLInputElement>(null);
 
-  const handleAdd = () => {
-    if (name.trim()) {
-      onAdd(name, description);
-      setName("");
-      setDescription("");
-      onClose();
+  useAutoFocusAndSelect(nameInputRef, open);
+
+  useEffect(() => {
+    if (open) setError(null);
+  }, [open]);
+
+  const handleConfirm = async () => {
+    if (!name.trim()) return;
+    try {
+      await onConfirm();
+    } catch (e: any) {
+      const message = e?.message || "";
+      setError(
+        message === "duplicate"
+          ? "A project with this name already exists."
+          : "Unexpected error. Please try again."
+      );
     }
   };
 
-  const handleCancel = () => {
-    setName("");
-    setDescription("");
-    onClose();
-  };
-
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle
-        variant="h4"
-        sx={{ fontWeight: "bold", mb: 0.5, color: "#293133" }}
-      >
-        Add Project
-      </DialogTitle>
-      <DialogContent>
-        <Box sx={{ mb: 2 }}>
-          <Box sx={{ mb: 1 }}>
-            <Box
-              component="label"
-              sx={{
-                fontWeight: "medium",
-                fontSize: "1.1rem",
-                mb: 1,
-                display: "block",
-                color: "#293133",
-              }}
-            >
-              Name
-            </Box>
-            <TextField
-              fullWidth
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              variant="outlined"
-              InputProps={{
-                sx: {
-                  borderRadius: 2,
-                  backgroundColor: "white",
-                },
-              }}
-            />
-          </Box>
-          <Box>
-            <Box
-              component="label"
-              sx={{
-                fontWeight: "medium",
-                fontSize: "1.1rem",
-                mb: 1,
-                display: "block",
-                color: "#293133",
-              }}
-            >
-              Description
-            </Box>
-            <TextField
-              fullWidth
-              multiline
-              rows={3}
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              variant="outlined"
-              InputProps={{
-                sx: {
-                  borderRadius: "12px",
-                  backgroundColor: "white",
-                },
-              }}
-            />
-          </Box>
-        </Box>
-      </DialogContent>
-      <DialogActions sx={{ justifyContent: "flex-end", pt: 0.5 }}>
-        <Button onClick={handleCancel} variant="outlined" color="secondary">
-          Cancel
-        </Button>
-        <Button onClick={handleAdd} variant="contained" disabled={!name.trim()}>
-          Add project
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <BaseFormDialog
+      open={open}
+      title="Add Project"
+      onClose={onClose}
+      onConfirm={handleConfirm}
+      confirmLabel="Add"
+      confirmDisabled={!name.trim()}
+    >
+      <Box sx={{ mt: 2 }}>
+        <TextField
+          inputRef={nameInputRef}
+          fullWidth
+          label="Project Name"
+          value={name}
+          onChange={(e) => {
+            onChangeName(e.target.value);
+            if (error) setError(null);
+          }}
+          error={!!error}
+          helperText={error || " "}
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          fullWidth
+          label="Description"
+          value={description}
+          onChange={(e) => onChangeDescription(e.target.value)}
+          multiline
+          rows={3}
+        />
+      </Box>
+    </BaseFormDialog>
   );
 };
 
