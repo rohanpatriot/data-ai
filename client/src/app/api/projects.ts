@@ -17,11 +17,11 @@ export const ProjectsApi = {
     return data as Project[];
   },
 
-  async create(name: String, description: String) {
+  async create(name: string, description: string): Promise<Project> {
     const user_id = (await supabase.auth.getUser()).data.user?.id;
     const newProject = {
       name: name || "Untitled Project",
-      description: description || "No description provided",
+      description: description || "",
       sources: 0,
       widgets: 0,
       user_id: user_id,

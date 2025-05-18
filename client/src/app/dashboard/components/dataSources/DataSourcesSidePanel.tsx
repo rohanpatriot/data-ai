@@ -43,13 +43,13 @@ const DataSourcesSidePanel: React.FC<DataSourcesSidePanel> = ({
   dataSources: _initialDataSources,
   setShowAddDataSourceModal,
 }) => {
-  console.log('Initial data sources:', _initialDataSources);
+  console.log("Initial data sources:", _initialDataSources);
   const [dataSources, setDataSources] = useState<DataSource[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Remove the duplicate formatRelativeTime function here
 
@@ -88,6 +88,7 @@ const DataSourcesSidePanel: React.FC<DataSourcesSidePanel> = ({
             : `${source.path.split(".").pop()?.toUpperCase() || "FILE"} file`,
           size: source.is_link ? "0" : "2.2 Kb", // You might want to store file size in the database
           addedAt: formatRelativeTime(source.created_at),
+          link: source.path,
         }));
 
         setDataSources(formattedSources);

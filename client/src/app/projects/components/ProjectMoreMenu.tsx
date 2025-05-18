@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteProjectModal from "./DeleteProjectModal";
+import DeleteProjectModal from "./modals/DeleteProjectModal";
 
 interface ProjectMoreMenuProps {
   projectId: string;

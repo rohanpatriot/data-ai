@@ -23,7 +23,6 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
   children,
   onDelete,
   title,
-  showMoreMenu = false,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | {
     x: number;
@@ -92,31 +91,28 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
         flexDirection: "column",
         width: "inherit",
         minWidth: "200px",
-        //border: isMenuOpen ? '2px solid #1976d2' : '2px solid transparent', // Highlight when menu is open
       }}
     >
       <Typography variant="body2" color="text.secondary">
-        {title}
+        {title} asd
       </Typography>
-      {showMoreMenu && (
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={1}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={1}
+      >
+        <Box fontWeight="bold">{title}</Box>
+        <IconButton
+          size="small"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent event bubbling
+            setAnchorEl({ x: e.clientX, y: e.clientY });
+          }}
         >
-          <Box fontWeight="bold">{title}</Box>
-          <IconButton
-            size="small"
-            onClick={(e) => {
-              e.stopPropagation(); // Prevent event bubbling
-              setAnchorEl({ x: e.clientX, y: e.clientY });
-            }}
-          >
-            <MoreVertIcon fontSize="small" />
-          </IconButton>
-        </Box>
-      )}
+          <MoreVertIcon fontSize="small" />
+        </IconButton>
+      </Box>
 
       <Box flexGrow={1} minHeight={0}>
         {showContent && children}

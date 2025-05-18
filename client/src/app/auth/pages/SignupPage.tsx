@@ -128,7 +128,7 @@ const SignupFormSection: React.FC<SignupFormSectionProps> = ({
         Sign up
       </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-        Enter your credentials to access your account.
+        Enter your credentials to create your account.
       </Typography>
 
       <GoogleLoginButton supabase={supabase} signup />

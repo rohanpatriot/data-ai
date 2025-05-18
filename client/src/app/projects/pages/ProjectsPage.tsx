@@ -1,286 +1,97 @@
-import { useEffect, useState } from "react";
-import {
-  Container,
-  Box,
-  Typography,
-  Button,
-  AppBar,
-  Toolbar,
-  Skeleton,
-  useTheme,
-  Card,
-  Snackbar,
-  Alert,
-  useMediaQuery,
-} from "@mui/material";
-import Logo from "../../../shared/components/Logo";
-import UserMenu from "../../../shared/components/UserMenu";
-import AddProjectModal from "../components/AddProjectModal";
 import { useNavigate } from "react-router-dom";
-import { motion } from "motion/react";
-import ProjectCard from "../components/ProjectCard";
-import {
-  fetchProjects,
-  createProject,
-  updateProject,
-  deleteProject,
-} from "../services/projectService";
-import EditProjectModal from "../components/EditProjectModal";
-import { Project } from "../../../types/project";
+import { Snackbar, Alert, Button, useMediaQuery } from "@mui/material";
+import { PageLayout } from "../components/layout/PageLayout";
+import { useProjects } from "../hooks/useProjects";
+import EditProjectModal from "../components/modals/EditProjectModal";
+import AddProjectModal from "../components/modals/AddProjectModal";
+import { useProjectDialogs } from "../hooks/useProjectDialogs";
+import { ProjectsList } from "../components/ProjectsList";
 import { Add } from "@mui/icons-material";
+import DeleteProjectModal from "../components/modals/DeleteProjectModal";
 
 const ProjectsPage = () => {
-  const [openAddModal, setOpenAddModal] = useState(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [currentProject, setCurrentProject] = useState<{
-    id: string;
-    name: string;
-    description: string;
-  } | null>(null);
-  const [snackbar, setSnackbar] = useState<{
-    open: boolean;
-    message: string;
-    severity: "success" | "error";
-  }>({
-    open: false,
-    message: "",
-    severity: "success",
-  });
-
+  const { projects, setProjects, isLoading } = useProjects();
   const navigate = useNavigate();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-  useEffect(() => {
-    const loadProjects = async () => {
-      setLoading(true);
-      try {
-        const projectsData = await fetchProjects();
-        setProjects(projectsData);
-      } catch (error) {
-        console.error("Failed to load projects:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProjects();
-  }, []);
-
-  const handleAddProject = async (name: string, description: string) => {
-    const newProject = await createProject(name, description);
-    if (newProject) {
-      setProjects((prev) => [newProject, ...prev]);
-      setSnackbar({
-        open: true,
-        message: "Project created successfully",
-        severity: "success",
-      });
-    } else {
-      setSnackbar({
-        open: true,
-        message: "Failed to create project",
-        severity: "error",
-      });
-    }
-  };
-
-  const handleEditProject = (projectId: string) => {
-    const project = projects.find((p) => p.id === projectId);
-    if (project) {
-      setCurrentProject({
-        id: project.id,
-        name: project.name,
-
-        description: project.description || "",
-      });
-      setOpenEditModal(true);
-    }
-  };
-
-  const handleUpdateProject = async (name: string, description: string) => {
-    if (!currentProject) return;
-
-    const success = await updateProject(currentProject.id, name, description);
-    if (success) {
-      // Update the local state
-      setProjects((prev) =>
-        prev.map((p) => (p.id === currentProject.id ? { ...p, name: name } : p))
-      );
-      setSnackbar({
-        open: true,
-        message: "Project updated successfully",
-        severity: "success",
-      });
-    } else {
-      setSnackbar({
-        open: true,
-        message: "Failed to update project",
-        severity: "error",
-      });
-    }
-    setOpenEditModal(false);
-    setCurrentProject(null);
-  };
-
-  const handleDeleteProject = async (projectId: string) => {
-    const success = await deleteProject(projectId);
-    if (success) {
-      // Remove the project from the local state
-      setProjects((prev) => prev.filter((p) => p.id !== projectId));
-      setSnackbar({
-        open: true,
-        message: "Project deleted successfully",
-        severity: "success",
-      });
-    } else {
-      setSnackbar({
-        open: true,
-        message: "Failed to delete project",
-        severity: "error",
-      });
-    }
-  };
+  const isMobile = useMediaQuery("md");
+  const {
+    add,
+    edit,
+    del,
+    snackbar,
+    triggerRef,
+    openAddDialog,
+    closeAddDialog,
+    confirmAdd,
+    confirmEdit,
+    confirmDelete,
+    closeSnackbar,
+  } = useProjectDialogs({ setProjects });
 
   const handleProjectClick = (projectId: string) => {
     navigate(`/dashboard?projectId=${projectId}`);
   };
 
-  const handleCloseSnackbar = () => {
-    setSnackbar({ ...snackbar, open: false });
-  };
-
-  const renderProjectList = () => {
-    if (loading) {
-      return Array.from({ length: 3 }).map((_, index) => (
-        <Skeleton
-          key={index}
-          height={72}
-          animation="wave"
-          variant="rounded"
-          sx={{ mb: 1.25 }}
-        />
-      ));
-    }
-
-    if (projects.length === 0) {
-      return (
-        <Box sx={{ textAlign: "center", py: 4 }}>
-          <Typography variant="body1" color="text.secondary">
-            No projects yet. Create your first project to get started.
-          </Typography>
-        </Box>
-      );
-    }
-
-    return projects.map((project) => (
-      <ProjectCard
-        key={project.id}
-        id={project.id}
-        title={project.name}
-        sources={project.sources}
-        widgets={project.widgets}
-        updatedAt={project.updated_At}
-        onClick={handleProjectClick}
-        onEdit={handleEditProject}
-        onDelete={handleDeleteProject}
-      />
-    ));
-  };
-
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+    <PageLayout
+      title="Projects"
+      subtitle="Select one of your projects here"
+      actions={
+        <Button
+          ref={triggerRef}
+          variant="contained"
+          onClick={openAddDialog}
+          startIcon={<Add />}
+        >
+          {isMobile ? "Add" : "Add a new project"}
+        </Button>
+      }
     >
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar
-          position="static"
-          color="transparent"
-          elevation={0}
-          sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}
-        >
-          <Container maxWidth="xl">
-            <Toolbar sx={{ justifyContent: "space-between", py: 1 }}>
-              <Logo />
-              <UserMenu />
-            </Toolbar>
-          </Container>
-        </AppBar>
-      </Box>
-
-      <Container maxWidth="md" sx={{ mt: 6, pb: 8 }}>
-        <Card
-          sx={{
-            p: 4,
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              mb: 2,
-            }}
-          >
-            <Typography variant="h4" component="h1">
-              Projects
-            </Typography>
-            <Button
-              variant="contained"
-              onClick={() => setOpenAddModal(true)}
-              startIcon={<Add />}
-            >
-              {isMobile ? "Add" : "Add a new project"}
-            </Button>
-          </Box>
-
-          <Typography variant="body1">
-            Select one of your projects here
-          </Typography>
-
-          <Box sx={{ mt: 4 }}>{renderProjectList()}</Box>
-        </Card>
-      </Container>
+      <ProjectsList
+        projects={projects}
+        isLoading={isLoading}
+        onEdit={(projectId) => edit.set(projectId, projects)}
+        onDelete={del.set}
+        onClick={handleProjectClick}
+      />
 
       <AddProjectModal
-        open={openAddModal}
-        onClose={() => setOpenAddModal(false)}
-        onAdd={handleAddProject}
+        open={add.isOpen}
+        onClose={closeAddDialog}
+        onAdd={confirmAdd}
       />
 
-      {currentProject && (
+      {edit.project && (
         <EditProjectModal
-          isOpen={openEditModal}
-          onClose={() => {
-            setOpenEditModal(false);
-            setCurrentProject(null);
-          }}
-          projectName={currentProject.name}
-          projectDescription={currentProject.description}
-          onSave={handleUpdateProject}
+          isOpen={edit.project !== null}
+          onClose={edit.reset}
+          projectName={edit.project.name}
+          projectDescription={edit.project.description}
+          onSave={confirmEdit}
         />
       )}
+
+      <DeleteProjectModal
+        open={!!del.id}
+        onClose={del.reset}
+        onConfirm={confirmDelete}
+        projectName={projects.find((p) => p.id === del.id)?.name}
+      />
 
       <Snackbar
         open={snackbar.open}
         autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
+        onClose={closeSnackbar}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert
-          onClose={handleCloseSnackbar}
+          onClose={closeSnackbar}
           severity={snackbar.severity}
           sx={{ width: "100%" }}
         >
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </motion.div>
+    </PageLayout>
   );
 };
 
