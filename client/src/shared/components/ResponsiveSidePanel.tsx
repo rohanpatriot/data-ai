@@ -6,7 +6,6 @@ import {
   useTheme,
   useMediaQuery,
   Typography,
-  Stack,
 } from "@mui/material";
 
 interface ResponsiveSidePanelProps {
@@ -37,7 +36,8 @@ export const ResponsiveSidePanel: React.FC<ResponsiveSidePanelProps> = ({
 
   const containerStyles = {
     height: "100%",
-    padding: 3,
+    padding: isMobile ? 1.5 : 3,
+    pt: isMobile ? 0 : 3,
     display: "flex",
     flexDirection: "column" as const,
   };
@@ -53,6 +53,7 @@ export const ResponsiveSidePanel: React.FC<ResponsiveSidePanelProps> = ({
   const contentAreaStyles = {
     overflowY: "auto" as const,
     flex: 1,
+    mt: 1,
   };
 
   // Component to render based on screen size
@@ -63,7 +64,7 @@ export const ResponsiveSidePanel: React.FC<ResponsiveSidePanelProps> = ({
       anchor={isMobile ? "bottom" : "right"}
       open={open}
       onClose={onClose}
-      onOpen={() => {}} // Required for SwipeableDrawer
+      onOpen={() => {}}
       disableSwipeToOpen={false}
       swipeAreaWidth={isMobile ? 56 : 0}
       ModalProps={{
@@ -76,18 +77,17 @@ export const ResponsiveSidePanel: React.FC<ResponsiveSidePanelProps> = ({
       <Box sx={containerStyles}>
         {isMobile && <Box sx={dragHandleStyles} />}
 
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={2}
+        <Box
+          sx={{
+            p: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
         >
           <Typography variant="h5">{title}</Typography>
-
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            {rightSideContent}
-          </Box>
-        </Stack>
+          {rightSideContent}
+        </Box>
 
         <Box sx={contentAreaStyles}>{children}</Box>
       </Box>

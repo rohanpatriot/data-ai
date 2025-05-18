@@ -16,7 +16,6 @@ import UserMenu from "../../../../shared/components/UserMenu";
 import ExportMenu from "../../components/export/ExportMenu";
 import ChatIcon from "../chat/ChatIcon";
 import databaseIcon from "@/assets/icons/db_icon.svg";
-import tripleDotIcon from "@/assets/icons/triple_dot_icon.svg";
 import exportIcon from "@/assets/icons/export_icon.svg";
 import chatIconRound from "@/assets/icons/chat_icon_round.svg";
 
@@ -47,27 +46,25 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 }) => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <AppBar
-      position="static"
-      color="transparent"
-      elevation={0}
-    >
-      <Toolbar 
-        sx={{ 
+    <AppBar position="static" color="transparent" elevation={0}>
+      <Toolbar
+        sx={{
           justifyContent: "space-between",
-          flexDirection: isMobile ? 'column' : 'row',
+          flexDirection: isMobile ? "column" : "row",
           gap: isMobile ? 2 : 0,
           py: isMobile ? 2 : 1,
         }}
       >
-        <Box sx={{ 
-          display: "flex", 
-          alignItems: "center",
-          width: isMobile ? '100%' : 'auto',
-        }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            width: isMobile ? "100%" : "auto",
+          }}
+        >
           {!isMobile && !chatOpen && (
             <IconButton onClick={() => setChatOpen(true)} sx={{ mr: 0.5 }}>
               <ChatIcon />
@@ -81,9 +78,12 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             <ArrowBackIcon />
           </IconButton>
 
-          <Typography variant="h5" sx={{ 
-            flexGrow: 1,
-          }}>
+          <Typography
+            variant="h5"
+            sx={{
+              flexGrow: 1,
+            }}
+          >
             {loading ? (
               <Skeleton
                 animation="wave"
@@ -96,51 +96,64 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             )}
           </Typography>
 
-          {isMobile ? 
-          <Box sx={{ 
-              display: 'flex',
-              justifyContent: 'center',
-            }}>
+          {isMobile ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               <UserMenu />
-            </Box> : []
-          }
+            </Box>
+          ) : (
+            []
+          )}
         </Box>
 
-        <Box sx={{ 
-          display: "flex", 
-          gap: 1,
-          width: isMobile ? '100%' : 'auto',
-        }}>
-
-          {isMobile?
+        <Box
+          sx={{
+            display: "flex",
+            gap: 1,
+            width: isMobile ? "100%" : "auto",
+          }}
+        >
+          {isMobile ? (
             <IconButton
               size="medium"
               onClick={() => setChatOpen(true)}
               sx={{
-                border: `1px solid ${theme.palette.divider}`, 
+                border: `1px solid ${theme.palette.divider}`,
                 borderRadius: 3,
                 color: `${theme.palette.text.primary}`,
                 flexGrow: 1,
               }}
             >
-              <img src={chatIconRound} alt="Chat Icon" width={24} height={24} /> 
+              <img src={chatIconRound} alt="Chat Icon" width={20} height={20} />
               <Box ml={1} fontSize={16}>
                 Chat
               </Box>
             </IconButton>
-            :
+          ) : (
             []
-          }
+          )}
 
-          {isMobile ? 
+          {isMobile ? (
             <IconButton
               size="medium"
               onClick={() => setDSPanelOpen(true)}
-              sx={{border: `1px solid ${theme.palette.divider}`, borderRadius: 3}}
+              sx={{
+                border: `1px solid ${theme.palette.divider}`,
+                borderRadius: 3,
+              }}
             >
-              <img src={databaseIcon} alt="Database Icon" width={24} height={24} />
+              <img
+                src={databaseIcon}
+                alt="Database Icon"
+                width={20}
+                height={20}
+              />
             </IconButton>
-            : 
+          ) : (
             <Button
               variant="outlined"
               color="secondary"
@@ -150,20 +163,23 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             >
               Data sources
             </Button>
-          }
+          )}
 
-          {isMobile ? 
+          {isMobile ? (
             <IconButton
               size="medium"
               onClick={(e) => {
                 setShareMenuAnchor(e.currentTarget);
                 setExportMenuOpen(true);
               }}
-              sx={{border: `1px solid ${theme.palette.divider}`, borderRadius: 3}}
+              sx={{
+                border: `1px solid ${theme.palette.divider}`,
+                borderRadius: 3,
+              }}
             >
-              <img src={exportIcon} alt="Export Icon" width={24} height={24} />
+              <img src={exportIcon} alt="Export Icon" width={20} height={20} />
             </IconButton>
-            : 
+          ) : (
             <Button
               variant="outlined"
               size="medium"
@@ -176,31 +192,27 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             >
               Export
             </Button>
-          }
-          {isMobile?
-            <IconButton
-              size="medium"
-              onClick={() => {}}
-              sx={{border: `1px solid ${theme.palette.divider}`, borderRadius: 3}}
-            >
-              <img src={tripleDotIcon} alt="Triple Dot Icon" width={24} height={24} />
-            </IconButton> : []
-          }
+          )}
+
           <ExportMenu
             setExportMenuOpen={setExportMenuOpen}
             exportMenuOpen={exportMenuOpen}
             shareMenuAnchor={shareMenuAnchor}
             setIsShareModalOpen={setIsShareModalOpen}
           />
-          {
-            !isMobile ? <Box sx={{ 
-              width: isMobile ? '100%' : 'auto',
-              display: 'flex',
-              justifyContent: 'center'
-            }}>
+          {!isMobile ? (
+            <Box
+              sx={{
+                width: isMobile ? "100%" : "auto",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               <UserMenu />
-            </Box> : []
-          }
+            </Box>
+          ) : (
+            []
+          )}
         </Box>
       </Toolbar>
     </AppBar>

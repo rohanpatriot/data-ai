@@ -10,10 +10,11 @@ import DeleteProjectModal from "../components/modals/DeleteProjectModal";
 
 import { useProjects } from "../hooks/useProjects";
 import { useProjectDialogs } from "../hooks/useProjectDialogs";
+import theme from "../../../theme/theme";
 
 const ProjectsPage = () => {
   const navigate = useNavigate();
-  const isMobile = useMediaQuery("md");
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const { projects, setProjects, isLoading } = useProjects();
   const {

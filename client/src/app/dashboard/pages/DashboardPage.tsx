@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, Container, Typography, Skeleton } from "@mui/material";
+import {
+  Box,
+  Container,
+  Typography,
+  Skeleton,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { AnimatePresence, motion } from "motion/react";
 import { useSearchParams } from "react-router-dom";
 
@@ -37,6 +44,9 @@ const DashboardPage: React.FC = () => {
   const { refresh } = useDataSources(projectId!);
   const dialogs = useDataSourceDialogs({ projectId: projectId!, refresh });
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -46,7 +56,7 @@ const DashboardPage: React.FC = () => {
     >
       <Box sx={{ display: "flex", height: "100vh", overflow: "hidden" }}>
         <AnimatePresence>
-          {chatOpen && (
+          {chatOpen && !isMobile && (
             <motion.div
               key="chat-sidebar"
               initial={{ x: -330, opacity: 0 }}
@@ -61,10 +71,23 @@ const DashboardPage: React.FC = () => {
                 handleSendMessage={handleSendMessage}
                 setChatOpen={setChatOpen}
                 user={user}
+                chatOpen={chatOpen}
               />
             </motion.div>
           )}
         </AnimatePresence>
+
+        {isMobile && (
+          <ChatSidePanel
+            messages={messages}
+            newMessage={newMessage}
+            setNewMessage={setNewMessage}
+            handleSendMessage={handleSendMessage}
+            setChatOpen={setChatOpen}
+            user={user}
+            chatOpen={chatOpen}
+          />
+        )}
 
         {/* Main Content */}
         <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
