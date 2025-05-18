@@ -24,6 +24,7 @@ const AddProjectModal = ({
 }: Props) => {
   const [error, setError] = useState<string | null>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const descInputRef = useRef<HTMLInputElement>(null);
 
   useAutoFocusAndSelect(nameInputRef, open);
 
@@ -42,6 +43,13 @@ const AddProjectModal = ({
           ? "A project with this name already exists."
           : "Unexpected error. Please try again."
       );
+    }
+  };
+
+  const handleNameKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      descInputRef.current?.focus();
     }
   };
 
@@ -66,9 +74,11 @@ const AddProjectModal = ({
           }}
           error={!!error}
           helperText={error || " "}
+          onKeyDown={handleNameKeyDown}
           sx={{ mb: 2 }}
         />
         <TextField
+          inputRef={descInputRef}
           fullWidth
           label="Description"
           value={description}

@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ProjectCard from "./ProjectCard";
 import { Project } from "../../../types/project";
@@ -21,7 +20,6 @@ export const ProjectsList: React.FC<ProjectsListProps> = ({
   onEdit,
   onDelete,
   onClick,
-  onAdd,
 }) => {
   if (isLoading) {
     return <ProjectCardSkeleton count={3} />;
@@ -32,13 +30,6 @@ export const ProjectsList: React.FC<ProjectsListProps> = ({
       <EmptyState
         message="No projects yet. Create your first project to get started."
         icon={<AddIcon color="disabled" sx={{ fontSize: 40 }} />}
-        action={
-          onAdd && (
-            <Button variant="contained" startIcon={<AddIcon />} onClick={onAdd}>
-              Create Project
-            </Button>
-          )
-        }
       />
     );
   }
