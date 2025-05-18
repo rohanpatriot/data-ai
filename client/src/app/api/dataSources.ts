@@ -16,7 +16,8 @@ export const DataSourcesAPI = {
     const { data, error } = await supabase
       .from("datasources")
       .select("*")
-      .eq("project_id", projectId);
+      .eq("project_id", projectId)
+      .order("created_at", { ascending: false });
 
     if (error) throw error;
 

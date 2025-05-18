@@ -4,8 +4,6 @@ import {
   Button,
   Drawer,
   List,
-  Skeleton,
-  Stack,
   Typography,
   useTheme,
   useMediaQuery,
@@ -18,6 +16,7 @@ import AddDataSourceDialog from "./AddDataSourceDialog";
 import DeleteDataSourceDailog from "./DeleteDataSourceDialog";
 import { EmptyState } from "../../../../shared/components/EmptyState";
 import { Add } from "@mui/icons-material";
+import DataSourceCardSkeleton from "./DataSourceCardSkeleton";
 
 // === Props ===
 interface Props {
@@ -72,13 +71,7 @@ const DataSourcesSidePanel: React.FC<Props> = ({
 
   const renderDataSources = () => {
     if (isLoading) {
-      return (
-        <Stack spacing={2}>
-          {Array.from({ length: 3 }).map((_, idx) => (
-            <Skeleton key={idx} animation="wave" height={78} />
-          ))}
-        </Stack>
-      );
+      return <DataSourceCardSkeleton count={3} />;
     }
 
     if (!dataSources?.length) {
