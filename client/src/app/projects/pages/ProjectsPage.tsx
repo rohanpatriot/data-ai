@@ -90,7 +90,7 @@ const ProjectsPage = () => {
       setCurrentProject({
         id: project.id,
         title: project.title,
-        description: "", // You might need to fetch the description from the database
+        description: project.description || '',
       });
       setOpenEditModal(true);
     }

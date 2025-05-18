@@ -7,7 +7,7 @@ export const fetchProjects = async (): Promise<Project[]> => {
     const user_id = (await supabase.auth.getUser()).data.user?.id;
     const { data, error } = await supabase
       .from("projects")
-      .select("id, name, sources, widgets, updated_At")
+      .select("id, name, sources, widgets, updated_At, description")
       .eq("user_id", user_id)
       .order("updated_At", { ascending: false });
 
@@ -19,6 +19,7 @@ export const fetchProjects = async (): Promise<Project[]> => {
     return (data || []).map((p: ProjectData) => ({
       id: p.id,
       title: p.name,
+      description: p.description || "",
       sources: p.sources || 0,
       widgets: p.widgets || 0,
       updatedAt: formatRelativeTime(p.updated_At),
