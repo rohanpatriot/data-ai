@@ -63,7 +63,6 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
       <Box key={widget.id} sx={{
         background: 'transparent',
         borderRadius: 2,
-        p: 1,
       }}>
         {WidgetFactory(widget.type, widget.data)}
       </Box>
@@ -89,7 +88,7 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
       rowHeight={rowHeight}
       onLayoutChange={handleLayoutChange}
       isDraggable
-      isResizable
+      isResizable={false}
       compactType="vertical"
     >
       {generateWidgets()}

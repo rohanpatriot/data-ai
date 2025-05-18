@@ -26,11 +26,26 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
   const widgetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowContent(true);
-    }, 100);
+    if (!widgetRef.current) return;
 
-    return () => clearTimeout(timer);
+    const observer = new window.ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.contentRect.width > 0) {
+          setShowContent(true);
+        }
+      }
+    });
+
+    observer.observe(widgetRef.current);
+
+    // In case the widget is already visible on mount
+    if (widgetRef.current.offsetWidth > 0) {
+      setShowContent(true);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   useEffect(() => {
