@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Box, IconButton, Typography, Avatar } from "@mui/material";
+import { Box, IconButton, Typography, Avatar, useTheme, useMediaQuery } from "@mui/material";
 import Logo from "../../../../shared/components/Logo";
 import ChatBox from "./ChatBox";
 import brandmark from '@/assets/brandmark.svg'
@@ -30,21 +30,24 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Box
       sx={{
-        width: "330px",
-        borderRight: "1px solid #eaeaea",
+        width: isMobile ? "100vw" : "330px",
         display: "flex",
         flexDirection: "column",
-        height: "100%",
+        height: isMobile ? '100%' : '98%',
+        border: isMobile ? "none" : "1px solid #eaeaea",
+        borderRadius: "12px",
+        margin: isMobile ? "0" : "2%",
       }}
     >
       <Box
         sx={{
           p: 1.5,
-          borderBottom: "1px solid #eaeaea",
           display: "flex",
           alignItems: "center",
         }}

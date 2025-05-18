@@ -7,6 +7,8 @@ import {
   Button,
   Skeleton,
   Stack,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import DataSourceCard from "./DataSourceCard";
 import { supabase } from "../../../../supabase-client";
@@ -33,7 +35,6 @@ interface DataSourcesSidePanel {
   setShowAddDataSourceModal: (open: boolean) => void;
 }
 
-// Add this import at the top of the file
 import { formatRelativeTime } from "../../../../shared/utils/dateUtils";
 
 const DataSourcesSidePanel: React.FC<DataSourcesSidePanel> = ({
@@ -42,9 +43,13 @@ const DataSourcesSidePanel: React.FC<DataSourcesSidePanel> = ({
   dataSources: _initialDataSources,
   setShowAddDataSourceModal,
 }) => {
+  console.log('Initial data sources:', _initialDataSources);
   const [dataSources, setDataSources] = useState<DataSource[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Remove the duplicate formatRelativeTime function here
 
@@ -143,7 +148,7 @@ const DataSourcesSidePanel: React.FC<DataSourcesSidePanel> = ({
       onClose={() => setDSPanelOpen(false)}
       sx={{
         "& .MuiDrawer-paper": {
-          width: "45%",
+          width: isMobile ? "90vw" : "45%",
           boxSizing: "border-box",
           borderRadius: "20px 0 0 20px",
         },
