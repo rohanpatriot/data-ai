@@ -1,8 +1,15 @@
 import React, { useEffect, useRef } from "react";
-import { Box, IconButton, Typography, Avatar, useTheme, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Typography,
+  Avatar,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import Logo from "../../../../shared/components/Logo";
 import ChatBox from "./ChatBox";
-import brandmark from '@/assets/brandmark.svg'
+import brandmark from "@/assets/brandmark.svg";
 
 interface ChatSidePanelProps {
   setChatOpen: (open: boolean) => void;
@@ -31,7 +38,7 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
     }
   }, [messages]);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Box
@@ -39,7 +46,7 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
         width: isMobile ? "100vw" : "330px",
         display: "flex",
         flexDirection: "column",
-        height: isMobile ? '100%' : '98%',
+        height: isMobile ? "100%" : "98%",
         border: isMobile ? "none" : "1px solid #eaeaea",
         borderRadius: "12px",
         margin: isMobile ? "0" : "2%",

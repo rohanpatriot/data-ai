@@ -11,6 +11,7 @@ import {
   Card,
   Snackbar,
   Alert,
+  useMediaQuery,
 } from "@mui/material";
 import Logo from "../../../shared/components/Logo";
 import UserMenu from "../../../shared/components/UserMenu";
@@ -26,6 +27,7 @@ import {
 } from "../services/projectService";
 import EditProjectModal from "../components/EditProjectModal";
 import { Project } from "../../../types/project";
+import { Add } from "@mui/icons-material";
 
 const ProjectsPage = () => {
   const [openAddModal, setOpenAddModal] = useState(false);
@@ -49,6 +51,7 @@ const ProjectsPage = () => {
 
   const navigate = useNavigate();
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     const loadProjects = async () => {
@@ -89,8 +92,8 @@ const ProjectsPage = () => {
     if (project) {
       setCurrentProject({
         id: project.id,
-        title: project.title,
-        description: "", // You might need to fetch the description from the database
+        title: project.name,
+        description: project.description ?? "",
       });
       setOpenEditModal(true);
     }
@@ -177,10 +180,10 @@ const ProjectsPage = () => {
       <ProjectCard
         key={project.id}
         id={project.id}
-        title={project.title}
+        title={project.name}
         sources={project.sources}
         widgets={project.widgets}
-        updatedAt={project.updatedAt}
+        updatedAt={project.updated_At}
         onClick={handleProjectClick}
         onEdit={handleEditProject}
         onDelete={handleDeleteProject}
@@ -211,12 +214,10 @@ const ProjectsPage = () => {
         </AppBar>
       </Box>
 
-      <Container maxWidth="lg" sx={{ mt: 6, pb: 8 }}>
+      <Container maxWidth="md" sx={{ mt: 6, pb: 8 }}>
         <Card
           sx={{
             p: 4,
-            maxWidth: "800px",
-            mx: "auto",
           }}
         >
           <Box
@@ -230,8 +231,12 @@ const ProjectsPage = () => {
             <Typography variant="h4" component="h1">
               Projects
             </Typography>
-            <Button variant="contained" onClick={() => setOpenAddModal(true)}>
-              Add a new project
+            <Button
+              variant="contained"
+              onClick={() => setOpenAddModal(true)}
+              startIcon={<Add />}
+            >
+              {isMobile ? "Add" : "Add a new project"}
             </Button>
           </Box>
 
