@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Box, Card, IconButton, Menu, MenuItem } from "@mui/material";
+import {
+  Box,
+  Card,
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RateReviewIcon from "@mui/icons-material/RateReview";
@@ -88,6 +95,9 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
         //border: isMenuOpen ? '2px solid #1976d2' : '2px solid transparent', // Highlight when menu is open
       }}
     >
+      <Typography variant="body2" color="text.secondary">
+        {title}
+      </Typography>
       {showMoreMenu && (
         <Box
           display="flex"
