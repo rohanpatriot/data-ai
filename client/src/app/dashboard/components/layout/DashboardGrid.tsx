@@ -41,7 +41,7 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
         console.debug(`Generating layout for widget ${widget.id}, i = ${i}`);
 
         const sizeConstraints = getWidgetSizeConstraints(widget.type);
-        console.log("Size constraints: ", sizeConstraints);
+        console.debug("Size constraints: ", sizeConstraints);
 
         const defaultLayout: Layout = {
           i: widget.id,

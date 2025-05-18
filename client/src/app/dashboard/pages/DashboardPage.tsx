@@ -91,7 +91,7 @@ const DashboardPage: React.FC = () => {
           />
 
           {/* Dashboard content */}
-          <Box sx={{ flexGrow: 1, p: 2, overflowY: "auto" }}>
+          <Box sx={{ flexGrow: 1, p: 2, overflowY: "auto" }} id={'grid-container'}>
             <Container maxWidth="xl">
               <Box sx={{ mb: 3,  ml: 1 }}>
                 <Typography variant="h4" sx={{ mb: 1 }}>

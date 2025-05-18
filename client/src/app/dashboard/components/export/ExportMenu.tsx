@@ -5,6 +5,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import ImageIcon from "@mui/icons-material/Image";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import { ExportFormat, exportGrid } from "./util/exportGridUtil";
 
 interface ExportMenuProps {
   setExportMenuOpen: (open: boolean) => void;
@@ -33,6 +34,8 @@ const ExportMenu: React.FC<ExportMenuProps> = ({
   };
 
   const handleExport = (_format: string) => {
+    exportGrid(_format as ExportFormat);
+    console.log("format: ", _format, "exporting...")
     handleExportMenuClose();
   };
 
