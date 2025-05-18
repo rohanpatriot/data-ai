@@ -7,6 +7,7 @@ import {
   WidgetsIcon,
 } from "../../../shared/components/Icons";
 import ProjectMoreMenu from "./ProjectMoreMenu";
+import { formatRelativeTime } from "../../../shared/utils/dateUtils";
 
 interface ProjectCardProps {
   id: string;
@@ -90,7 +91,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               variant="body2"
               sx={{ color: theme.palette.text.secondary }}
             >
-              {updatedAt}
+              {formatRelativeTime(updatedAt)}
             </Typography>
             <IconButton size="small" onClick={handleMoreClick} sx={{ ml: 1 }}>
               <MoreVertIcon fontSize="small" />

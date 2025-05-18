@@ -26,16 +26,13 @@ const ForgotPasswordPage = () => {
       try {
         setLoading(true);
         const { error } = await supabase.auth.resetPasswordForEmail(email);
-
         if (error) {
           console.error("Error sending reset password email:", error);
-          // You might want to add error handling UI here
         } else {
           setSubmitted(true);
         }
       } catch (err) {
         console.error("Exception when sending reset password email:", err);
-        // You might want to add error handling UI here
       }
       setLoading(false);
     }

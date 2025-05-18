@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../../../supabase-client";
 import { useNavigate } from "react-router-dom";
-import { ProjectData } from "../../../types/project";
 import user from "@/assets/dev/user.webp";
+import { Project } from "../../../types/project";
 
 export const useProjectData = (projectId: string | null) => {
   const navigate = useNavigate();
-  const [currentProject, setCurrentProject] = useState<ProjectData | null>(
-    null
-  );
+  const [currentProject, setCurrentProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [userImage, setUserImage] = useState(user);
   const [userEmail, setUserEmail] = useState<string>();
