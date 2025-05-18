@@ -43,7 +43,7 @@ const DataSourcesSidePanel: React.FC<DataSourcesSidePanel> = ({
   dataSources: _initialDataSources,
   setShowAddDataSourceModal,
 }) => {
-  console.log("Initial data sources:", _initialDataSources);
+  console.debug("Initial data sources:", _initialDataSources);
   const [dataSources, setDataSources] = useState<DataSource[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
