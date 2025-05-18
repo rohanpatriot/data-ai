@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Drawer,
-  List,
-  Typography,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { Button, List } from "@mui/material";
 
 import { useDataSources } from "../../hooks/useDataSources";
 import { useDataSourceDialogs } from "../hooks/useDataSourceDialogs";
@@ -17,6 +9,7 @@ import DeleteDataSourceDailog from "./DeleteDataSourceDialog";
 import { EmptyState } from "../../../../shared/components/EmptyState";
 import { Add } from "@mui/icons-material";
 import DataSourceCardSkeleton from "./DataSourceCardSkeleton";
+import ResponsiveSidePanel from "../../../../shared/components/ResponsiveSidePanel";
 
 // === Props ===
 interface Props {
@@ -26,25 +19,6 @@ interface Props {
 
 // === Styles ===
 const styles = {
-  drawerPaper: (isMobile: boolean) => ({
-    width: isMobile ? "90vw" : "45%",
-    boxSizing: "border-box",
-    borderRadius: "20px 0 0 20px",
-  }),
-  drawerBackdrop: {
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
-  },
-  container: {
-    height: "100%",
-    padding: 3,
-    bgcolor: "#ffffff",
-  },
-  headerRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    pb: 2,
-  },
   addButton: {
     bgcolor: "#A224F0",
     color: "white",
@@ -60,9 +34,6 @@ const DataSourcesSidePanel: React.FC<Props> = ({
   DSPanelOpen,
   setDSPanelOpen,
 }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
   const projectId = new URLSearchParams(window.location.search).get(
     "projectId"
   )!;
@@ -101,29 +72,18 @@ const DataSourcesSidePanel: React.FC<Props> = ({
 
   return (
     <>
-      <Drawer
-        anchor="right"
+      <ResponsiveSidePanel
         open={DSPanelOpen}
         onClose={() => setDSPanelOpen(false)}
-        sx={{
-          "& .MuiDrawer-paper": styles.drawerPaper(isMobile),
-          "& .MuiBackdrop-root": styles.drawerBackdrop,
-        }}
+        title="Data Sources"
+        rightSideContent={
+          <Button variant="contained" onClick={add.open} sx={styles.addButton}>
+            Add a data source
+          </Button>
+        }
       >
-        <Box sx={styles.container}>
-          <Box sx={styles.headerRow}>
-            <Typography variant="h5">Data Sources</Typography>
-            <Button
-              variant="contained"
-              onClick={add.open}
-              sx={styles.addButton}
-            >
-              Add a data source
-            </Button>
-          </Box>
-          {renderDataSources()}
-        </Box>
-      </Drawer>
+        {renderDataSources()}
+      </ResponsiveSidePanel>
 
       {/* Dialogs */}
       <AddDataSourceDialog
