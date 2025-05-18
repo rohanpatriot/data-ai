@@ -16,32 +16,7 @@ export interface NewDataSource {
 }
 
 export const useDataSources = () => {
-  const [dataSources, setDataSources] = useState<DataSource[]>([
-    {
-      id: "1",
-      name: "Financial Report 2025",
-      type: "CSV",
-      fileType: "CSV file",
-      size: "2.2 Kb",
-      addedAt: "2m ago",
-    },
-    {
-      id: "2",
-      name: "Financial Report 2025",
-      type: "CSV",
-      fileType: "CSV file",
-      size: "2.2 Kb",
-      addedAt: "2m ago",
-    },
-    {
-      id: "3",
-      name: "Financial Report 2025",
-      type: "CSV",
-      fileType: "CSV file",
-      size: "2.2 Kb",
-      addedAt: "2m ago",
-    },
-  ]);
+  const [dataSources, setDataSources] = useState<DataSource[]>([]);
 
   const [newDataSource, setNewDataSource] = useState<NewDataSource>({
     name: "",

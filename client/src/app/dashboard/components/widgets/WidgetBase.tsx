@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Box, IconButton, Menu, MenuItem, Paper } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import React, { useEffect, useState, useRef } from "react";
+import { Box, Card, IconButton, Menu, MenuItem } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteIcon from "@mui/icons-material/Delete";
-import RateReviewIcon from '@mui/icons-material/RateReview';
-import FormatPaintIcon from '@mui/icons-material/FormatPaint';
+import RateReviewIcon from "@mui/icons-material/RateReview";
+import FormatPaintIcon from "@mui/icons-material/FormatPaint";
 
 interface WidgetBaseProps {
   children: React.ReactNode;
@@ -12,15 +12,23 @@ interface WidgetBaseProps {
   showMoreMenu?: boolean;
 }
 
-const WidgetBase: React.FC<WidgetBaseProps> = ({ children, onDelete, title, showMoreMenu = false }) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | { x: number; y: number }>(null);
+const WidgetBase: React.FC<WidgetBaseProps> = ({
+  children,
+  onDelete,
+  title,
+  showMoreMenu = false,
+}) => {
+  const [anchorEl, setAnchorEl] = React.useState<null | {
+    x: number;
+    y: number;
+  }>(null);
   const [showContent, setShowContent] = useState(false);
   const widgetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowContent(true);
-    }, 100); 
+    }, 100);
 
     return () => clearTimeout(timer);
   }, []);
@@ -28,14 +36,17 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({ children, onDelete, title, show
   useEffect(() => {
     // Add click event listener to close menu when clicking outside
     const handleClickOutside = (event: MouseEvent) => {
-      if (widgetRef.current && !widgetRef.current.contains(event.target as Node)) {
+      if (
+        widgetRef.current &&
+        !widgetRef.current.contains(event.target as Node)
+      ) {
         setAnchorEl(null);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -49,26 +60,29 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({ children, onDelete, title, show
   const isMenuOpen = Boolean(anchorEl);
 
   return (
-    <Paper
-      elevation={0}
+    <Card
       ref={widgetRef}
       onContextMenu={handleContextMenu}
-      sx={{ 
-        p: 1, 
-        height: '100%', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        width: 'inherit',
-        minWidth: '200px',
-        border: isMenuOpen ? '2px solid #1976d2' : '2px solid transparent', // Highlight when menu is open
-        transition: 'border-color 0.2s ease',
+      sx={{
+        p: 1,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        width: "inherit",
+        minWidth: "200px",
+        //border: isMenuOpen ? '2px solid #1976d2' : '2px solid transparent', // Highlight when menu is open
       }}
     >
       {showMoreMenu && (
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={1}
+        >
           <Box fontWeight="bold">{title}</Box>
-          <IconButton 
-            size="small" 
+          <IconButton
+            size="small"
             onClick={(e) => {
               e.stopPropagation(); // Prevent event bubbling
               setAnchorEl({ x: e.clientX, y: e.clientY });
@@ -80,21 +94,16 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({ children, onDelete, title, show
       )}
 
       <Box flexGrow={1} minHeight={0}>
-      {showContent && children}
+        {showContent && children}
       </Box>
 
-      <Menu 
+      <Menu
         open={isMenuOpen}
         onClose={handleClose}
         anchorReference="anchorPosition"
         anchorPosition={
-          anchorEl !== null
-            ? { top: anchorEl.y, left: anchorEl.x }
-            : undefined
+          anchorEl !== null ? { top: anchorEl.y, left: anchorEl.x } : undefined
         }
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
       >
         <MenuItem
           onClick={() => {
@@ -130,7 +139,7 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({ children, onDelete, title, show
           </Box>
         </MenuItem>
       </Menu>
-    </Paper>
+    </Card>
   );
 };
 
