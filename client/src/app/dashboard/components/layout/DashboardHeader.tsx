@@ -54,7 +54,6 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
       position="static"
       color="transparent"
       elevation={0}
-      sx={{ borderBottom: "1px solid #eaeaea" }}
     >
       <Toolbar 
         sx={{ 
