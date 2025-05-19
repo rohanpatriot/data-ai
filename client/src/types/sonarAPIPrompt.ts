@@ -45,3 +45,21 @@ Widget Format:
 `;
 
 export default sonarAPIPrompt;
+
+export const sonarExampleResponse = `
+{
+  response: "We've added a new widget displaying the top 5 countries by GDP growth in 2021. The data has been cleaned and validated.",
+  widgets_changed: [
+    {
+      name: "Top 5 Countries by GDP Growth",
+      data: [
+        { "Country": "United States", "GDP Growth": 4.5 },
+        { "Country": "China", "GDP Growth": 4.2 },
+        { "Country": "Japan", "GDP Growth": 3.8 },
+        { "Country": "Germany", "GDP Growth": 3.7 },
+        { "Country": "United Kingdom", "GDP Growth": 3.6 }  
+      ]
+    }
+  ]
+}
+`;
