@@ -12,35 +12,36 @@ import Logo from "../../../../shared/components/Logo";
 import ChatBox from "./ChatBox";
 import brandmark from "@/assets/brandmark.svg";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { useMessages } from "../../hooks/useMessages";
 
 interface ChatSidePanelProps {
   setChatOpen: (open: boolean) => void;
-  messages: { sender: string; text: string }[];
-  newMessage: string;
-  setNewMessage: (message: string) => void;
-  handleSendMessage: () => void;
   user: {
     email: string;
     avatar_url: string;
   };
   chatOpen: boolean;
+  projectId?: string;
 }
 
 const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
   setChatOpen,
-  messages,
-  newMessage,
-  setNewMessage,
-  handleSendMessage,
   user,
   chatOpen,
+  projectId,
 }) => {
+  // Use the hook directly in the component
+  const { messages, newMessage, setNewMessage, handleSendMessage } =
+    useMessages(projectId);
+
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -139,9 +140,9 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
 
       <Box sx={{ p: 2 }}>
         <ChatBox
-          newMessage={newMessage}
-          setNewMessage={setNewMessage}
-          handleSendMessage={handleSendMessage}
+          value={newMessage}
+          onChange={setNewMessage}
+          onSend={handleSendMessage}
         />
       </Box>
     </Box>

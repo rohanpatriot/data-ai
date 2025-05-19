@@ -12,7 +12,6 @@ import DashboardGrid from "../components/layout/DashboardGrid";
 
 // Hooks
 import { useProjectData } from "../hooks/useProjectData";
-import { useChatMessages } from "../hooks/useChatMessages";
 import { useDataSources } from "../hooks/useDataSources";
 import { useDataSourceDialogs } from "../components/hooks/useDataSourceDialogs";
 import AddDataSourceDialog from "../components/dataSources/AddDataSourceDialog";
@@ -31,8 +30,6 @@ const DashboardPage: React.FC = () => {
   const [DSPanelOpen, setDSPanelOpen] = useState(false);
 
   const { currentProject, loading, user } = useProjectData(projectId);
-  const { messages, newMessage, setNewMessage, handleSendMessage } =
-    useChatMessages();
 
   const { refresh } = useDataSources(projectId!);
   const dialogs = useDataSourceDialogs({ projectId: projectId!, refresh });
@@ -58,13 +55,10 @@ const DashboardPage: React.FC = () => {
               transition={{ duration: 0.25, ease: "easeInOut" }}
             >
               <ChatSidePanel
-                messages={messages}
-                newMessage={newMessage}
-                setNewMessage={setNewMessage}
-                handleSendMessage={handleSendMessage}
                 setChatOpen={setChatOpen}
                 user={user}
                 chatOpen={chatOpen}
+                projectId={projectId || undefined}
               />
             </motion.div>
           )}
@@ -72,13 +66,10 @@ const DashboardPage: React.FC = () => {
 
         {isMobile && (
           <ChatSidePanel
-            messages={messages}
-            newMessage={newMessage}
-            setNewMessage={setNewMessage}
-            handleSendMessage={handleSendMessage}
             setChatOpen={setChatOpen}
             user={user}
             chatOpen={chatOpen}
+            projectId={projectId || undefined}
           />
         )}
 
