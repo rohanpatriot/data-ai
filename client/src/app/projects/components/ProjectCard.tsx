@@ -74,10 +74,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             alignItems: "center",
           }}
         >
-          <Typography variant="h6" sx={{ color: theme.palette.text.primary }}>
+          <Typography
+            variant="h6"
+            sx={{
+              color: theme.palette.text.primary,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              maxWidth: "80%",
+            }}
+          >
             {title}
           </Typography>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            sx={{ display: "flex", alignItems: "center", flexWrap: "nowrap" }}
+          >
             <Box
               component="span"
               sx={{

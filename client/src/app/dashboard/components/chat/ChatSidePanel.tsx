@@ -42,7 +42,7 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
     }
   }, [messages]);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const renderChatContent = () => (
     <Box
@@ -164,7 +164,15 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
           },
         }}
       >
-        <Box sx={{ width: "40px", height: "5px", backgroundColor: "rgba(0, 0, 0, 0.2)", borderRadius: "2.5px", margin: "8px auto" }} />
+        <Box
+          sx={{
+            width: "40px",
+            height: "5px",
+            backgroundColor: "rgba(0, 0, 0, 0.2)",
+            borderRadius: "2.5px",
+            margin: "8px auto",
+          }}
+        />
         {renderChatContent()}
       </SwipeableDrawer>
     );

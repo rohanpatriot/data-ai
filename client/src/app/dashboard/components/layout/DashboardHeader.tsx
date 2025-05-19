@@ -46,7 +46,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 }) => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <AppBar position="static" color="transparent" elevation={0}>
@@ -77,24 +77,29 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           >
             <ArrowBackIcon />
           </IconButton>
-
-          <Typography
-            variant="h5"
-            sx={{
-              flexGrow: 1,
-            }}
-          >
-            {loading ? (
-              <Skeleton
-                animation="wave"
-                width={200}
-                height={32}
-                sx={{ bgcolor: "grey.100" }}
-              />
-            ) : (
-              projectName
-            )}
-          </Typography>
+          <Box sx={{ width: "100%" }}>
+            <Typography
+              variant="h5"
+              sx={{
+                flexGrow: 1,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                maxWidth: { xs: "250px", md: "340px" },
+              }}
+            >
+              {loading ? (
+                <Skeleton
+                  animation="wave"
+                  width={200}
+                  height={32}
+                  sx={{ bgcolor: "grey.100" }}
+                />
+              ) : (
+                projectName
+              )}
+            </Typography>
+          </Box>
 
           {isMobile ? (
             <Box

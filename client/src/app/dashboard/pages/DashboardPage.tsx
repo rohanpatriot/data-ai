@@ -38,7 +38,7 @@ const DashboardPage: React.FC = () => {
   const dialogs = useDataSourceDialogs({ projectId: projectId!, refresh });
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <motion.div
