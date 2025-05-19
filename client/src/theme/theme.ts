@@ -30,8 +30,8 @@ const theme = createTheme({
   typography: {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     h4: {
-      fontWeight: 700,
-      fontSize: "1.75rem", // Reduced from 2rem
+      fontWeight: 600,
+      fontSize: "1.4rem", // Reduced from 2rem
     },
     body1: {
       fontSize: "0.9rem", // Reduced from 1rem
@@ -98,17 +98,18 @@ const theme = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
-          "& .MuiOutlinedInput-root": {
-            borderRadius: 10, // Reduced from 8
-            fontSize: "0.9rem", // Smaller text in fields
-          },
-          "& .MuiInputBase-input": {
-            padding: "10px 14px", // Reduced padding inside text fields
-          },
-          "& .MuiInputLabel-root": {
-            fontSize: "0.9rem", // Smaller label text
+          borderRadius: 10,
+          backgroundColor: "#fff",
+          "& .MuiInputBase-root": {
+            borderRadius: 10,
+            padding: "2px 8px",
           },
         },
+      },
+      defaultProps: {
+        variant: "outlined",
+        size: "small",
+        fullWidth: true,
       },
     },
     MuiDivider: {
@@ -138,22 +139,22 @@ const theme = createTheme({
     },
     MuiCssBaseline: {
       styleOverrides: {
-        '.react-grid-item': {
-          userSelect: 'none',
-          WebkitUserSelect: 'none',
-          MozUserSelect: 'none',
-          msUserSelect: 'none',
+        ".react-grid-item": {
+          userSelect: "none",
+          WebkitUserSelect: "none",
+          MozUserSelect: "none",
+          msUserSelect: "none",
         },
-        '.react-resizable-handle': {
-          backgrounColor: 'transparent',
+        ".react-resizable-handle": {
+          backgrounColor: "transparent",
         },
-        '.react-resizable-handle::after': {
+        ".react-resizable-handle::after": {
           borderColor: `${palette.primary.main}`,
         },
-        '.react-grid-item.react-grid-placeholder': {
+        ".react-grid-item.react-grid-placeholder": {
           background: `${palette.primary.main}`,
           borderRadius: 4,
-        }
+        },
       },
     },
   },

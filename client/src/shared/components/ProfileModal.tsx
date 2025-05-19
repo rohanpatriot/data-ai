@@ -1,7 +1,5 @@
 import React from "react";
 import {
-  Dialog,
-  DialogTitle,
   DialogContent,
   DialogContentText,
   DialogActions,
@@ -10,6 +8,7 @@ import {
   Avatar,
   Typography,
 } from "@mui/material";
+import { ResponsiveDialog } from "./ResponsiveDialog";
 
 interface ProfileProps {
   open: boolean;
@@ -24,8 +23,7 @@ const ProfileModal: React.FC<ProfileProps> = ({ open, onClose, user }) => {
   if (!open) return null;
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle variant="h5">My profile</DialogTitle>
+    <ResponsiveDialog open={open} onClose={onClose} title="My profile">
       <DialogContent>
         <DialogContentText>
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -50,7 +48,7 @@ const ProfileModal: React.FC<ProfileProps> = ({ open, onClose, user }) => {
           Close
         </Button>
       </DialogActions>
-    </Dialog>
+    </ResponsiveDialog>
   );
 };
 

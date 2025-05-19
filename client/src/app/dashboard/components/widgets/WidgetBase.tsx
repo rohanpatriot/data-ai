@@ -16,14 +16,14 @@ interface WidgetBaseProps {
   children: React.ReactNode;
   onDelete?: () => void;
   title?: string;
-  showWidgetBar?: boolean;
+  showMoreMenu?: boolean;
 }
 
 const WidgetBase: React.FC<WidgetBaseProps> = ({
   children,
   onDelete,
   title,
-  showWidgetBar = true,
+  showMoreMenu = true,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [showContent, setShowContent] = useState(false);
@@ -79,29 +79,30 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
         flexDirection: "column",
         width: "inherit",
         minWidth: "200px",
-        //border: isMenuOpen ? '2px solid #1976d2' : '2px solid transparent', // Highlight when menu is open
       }}
     >
-      {showWidgetBar && (
+
+      {title && (
         <Box
           display="flex"
           justifyContent="space-between"
           alignItems="center"
           mb={1}
         >
-        <Typography variant="body2" color="text.secondary">
-          {title}
-        </Typography>
-          <IconButton
-            size="small"
-            className="no-drag"
-            onClick={(e) => {
-              e.stopPropagation();
-              setAnchorEl(e.currentTarget);
-            }}
-          >
-            <MoreVertIcon fontSize="small" />
-          </IconButton>
+          <Typography variant="body1" fontWeight="bold">
+            {title}
+          </Typography>
+          {showMoreMenu && (
+            <IconButton
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation(); 
+                setAnchorEl(e.currentTarget);
+              }}
+            >
+              <MoreVertIcon fontSize="small" />
+            </IconButton>
+          )}
         </Box>
       )}
 

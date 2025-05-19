@@ -1,8 +1,6 @@
-import React from 'react';
-import { Box, Typography, Chip } from '@mui/material';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import TrendingDownIcon from '@mui/icons-material/TrendingDown';
-import WidgetBase from '../WidgetBase';
+import React from "react";
+import { Box, Typography } from "@mui/material";
+import WidgetBase from "../WidgetBase";
 
 interface KPIWidgetProps {
   data: {
@@ -14,18 +12,28 @@ interface KPIWidgetProps {
 
 const KPIWidget: React.FC<KPIWidgetProps> = ({ data }) => {
   return (
-    <WidgetBase title={data.title}>
-      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height="100%">
+    <WidgetBase>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        height="100%"
+      >
+        <Typography variant="h6" gutterBottom>
+          {data.title}
+        </Typography>
         <Typography variant="h4" gutterBottom>
           {data.value}
         </Typography>
-        {data.trend !== undefined && (
+        {/* I'll comment it cause to start I'm not sure we'll have this data */}
+        {/* {data.trend !== undefined && (
           <Chip
             icon={data.trend >= 0 ? <TrendingUpIcon /> : <TrendingDownIcon />}
             label={`${Math.abs(data.trend)}%`}
             color={data.trend >= 0 ? 'success' : 'error'}
           />
-        )}
+        )} */}
       </Box>
     </WidgetBase>
   );

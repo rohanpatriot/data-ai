@@ -1,9 +1,12 @@
+import { DataSource } from "./dataSource";
+import { Widget } from "./widget";
+
 // Frontend project representation
 export interface Project {
   id: string;
   name: string;
   description?: string;
-  sources: number;
-  widgets: number;
+  sources: DataSource[];
+  widgets: Widget[];
   updated_At: string;
 }

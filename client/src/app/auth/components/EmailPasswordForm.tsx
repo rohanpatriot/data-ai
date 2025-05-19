@@ -1,11 +1,6 @@
-import {
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Link as MuiLink,
-} from "@mui/material";
+import { Box, Typography, Button, Link as MuiLink } from "@mui/material";
 import { Link } from "react-router-dom";
+import CustomTextField from "../../../shared/components/CustomTextField";
 
 const EmailPasswordForm = ({
   email,
@@ -25,35 +20,22 @@ const EmailPasswordForm = ({
   error: string;
 }) => (
   <Box component="form" onSubmit={handleSubmit}>
-    <Box sx={{ mb: 2.5 }}>
-      <Typography
-        variant="body1"
-        component="label"
-        htmlFor="email"
-        sx={{ display: "block", mb: 1, fontWeight: 500 }}
-      >
-        Email
-      </Typography>
-      <TextField
-        fullWidth
-        id="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        variant="outlined"
-      />
-    </Box>
+    <CustomTextField
+      id="email"
+      label="Email"
+      placeholder="Email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+    />
 
-    <Box sx={{ mb: 1 }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
-        <Typography
-          variant="body1"
-          component="label"
-          htmlFor="password"
-          sx={{ fontWeight: 500 }}
-        >
-          Password
-        </Typography>
+    <CustomTextField
+      id="password"
+      type="password"
+      label="Password"
+      placeholder="Password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      helperLink={
         <MuiLink
           component={Link}
           to="/forgot-password"
@@ -62,22 +44,15 @@ const EmailPasswordForm = ({
         >
           Forgot password?
         </MuiLink>
-      </Box>
-      <TextField
-        fullWidth
-        id="password"
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        variant="outlined"
-      />
-      {error && (
-        <Typography variant="caption" color="error" sx={{ mt: 1 }}>
-          {error}
-        </Typography>
-      )}
-    </Box>
+      }
+      sx={{ mb: 1 }}
+    />
+
+    {error && (
+      <Typography variant="caption" color="error" sx={{ mt: 1 }}>
+        {error}
+      </Typography>
+    )}
 
     <Button
       type="submit"

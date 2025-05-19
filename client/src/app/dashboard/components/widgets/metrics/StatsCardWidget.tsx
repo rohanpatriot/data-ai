@@ -1,6 +1,6 @@
-import React from 'react';
-import { Box, Typography } from '@mui/material';
-import WidgetBase from '../WidgetBase';
+import React from "react";
+import { Box, Typography } from "@mui/material";
+import WidgetBase from "../WidgetBase";
 
 interface StatsCardWidgetProps {
   data: {
@@ -13,10 +13,20 @@ interface StatsCardWidgetProps {
 const StatsCardWidget: React.FC<StatsCardWidgetProps> = ({ data }) => {
   return (
     <WidgetBase title={data.title}>
-      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height="100%">
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        height="100%"
+      >
         {data.icon && (
-          <Box mb={0}>
-            <img src={data.icon} alt={data.title} style={{ width: 96, height: 48 }} />
+          <Box mb={2}>
+            <img
+              src={data.icon}
+              alt={data.title}
+              style={{ width: 96, height: 48 }}
+            />
           </Box>
         )}
         <Typography variant="h4" component="div" gutterBottom>
