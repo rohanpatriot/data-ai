@@ -71,6 +71,7 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
   return (
     <Card
       ref={widgetRef}
+      className='no-drag'
       onContextMenu={(e) => {e.preventDefault();}}
       sx={{
         p: 1,
