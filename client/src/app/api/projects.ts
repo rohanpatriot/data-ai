@@ -7,10 +7,10 @@ export const ProjectsAPI = {
     const { data, error } = await supabase
       .from("projects")
       .select(
-        "id, name, description, sources_number, widgets_number, updated_At"
+        "id, name, description, sources_number, widgets_number, created_at"
       )
       .eq("user_id", user_id)
-      .order("updated_At", { ascending: false });
+      .order("created_at", { ascending: false });
 
     if (error) throw error;
     return data as Project[];
@@ -83,12 +83,12 @@ export const ProjectsAPI = {
       .select("sources_number")
       .eq("id", id)
       .single();
-    
+
     if (fetchError) throw fetchError;
-    
+
     // Increment the count
     const newCount = (project.sources_number || 0) + 1;
-    
+
     // Update the project
     const { data, error } = await supabase
       .from("projects")
@@ -108,12 +108,12 @@ export const ProjectsAPI = {
       .select("widgets_number")
       .eq("id", id)
       .single();
-    
+
     if (fetchError) throw fetchError;
-    
+
     // Increment the count
     const newCount = (project.widgets_number || 0) + 1;
-    
+
     // Update the project
     const { data, error } = await supabase
       .from("projects")
@@ -133,12 +133,12 @@ export const ProjectsAPI = {
       .select("sources_number")
       .eq("id", id)
       .single();
-    
+
     if (fetchError) throw fetchError;
-    
+
     // Decrement the count, but don't go below 0
     const newCount = Math.max(0, (project.sources_number || 0) - 1);
-    
+
     // Update the project
     const { data, error } = await supabase
       .from("projects")
@@ -158,12 +158,12 @@ export const ProjectsAPI = {
       .select("widgets_number")
       .eq("id", id)
       .single();
-    
+
     if (fetchError) throw fetchError;
-    
+
     // Decrement the count, but don't go below 0
     const newCount = Math.max(0, (project.widgets_number || 0) - 1);
-    
+
     // Update the project
     const { data, error } = await supabase
       .from("projects")
