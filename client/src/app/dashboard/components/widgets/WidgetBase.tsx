@@ -71,7 +71,9 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
   return (
     <Card
       ref={widgetRef}
-      onContextMenu={(e) => {e.preventDefault();}}
+      onContextMenu={(e) => {
+        e.preventDefault();
+      }}
       sx={{
         p: 1,
         height: "100%",
@@ -81,7 +83,6 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
         minWidth: "200px",
       }}
     >
-
       {title && (
         <Box
           display="flex"
@@ -95,9 +96,9 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
           {showMoreMenu && (
             <IconButton
               size="small"
-              className='no-drag'
+              className="no-drag"
               onClick={(e) => {
-                e.stopPropagation(); 
+                e.stopPropagation();
                 setAnchorEl(e.currentTarget);
               }}
             >
@@ -116,12 +117,12 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
         onClose={handleClose}
         anchorEl={anchorEl}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: "bottom",
+          horizontal: "right",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
+          vertical: "top",
+          horizontal: "right",
         }}
       >
         <MenuItem

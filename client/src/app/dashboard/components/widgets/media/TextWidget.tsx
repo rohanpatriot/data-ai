@@ -1,6 +1,6 @@
-import React from 'react';
-import { Typography } from '@mui/material';
-import WidgetBase from '../WidgetBase';
+import React from "react";
+import { Typography } from "@mui/material";
+import WidgetBase from "../WidgetBase";
 
 interface TextWidgetProps {
   data: {

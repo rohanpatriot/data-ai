@@ -1,12 +1,19 @@
-import { Layout } from "react-grid-layout";
 import * as Widgets from "../index";
 
 export interface WidgetTypeMap {
   LineChart: { xAxis: string[]; series: { name: string; data: number[] }[] };
   PieChart: { title: string; labels: string[]; values: number[] };
   StatsCard: { title: string; value: number; icon?: string };
-  BarChart: { title: string; categories: string[]; series: { name: string; data: number[] }[];};
-  Table: { title: string; columns: string[]; rows: Record<string, string | number | boolean | null>[];};
+  BarChart: {
+    title: string;
+    categories: string[];
+    series: { name: string; data: number[] }[];
+  };
+  Table: {
+    title: string;
+    columns: string[];
+    rows: Record<string, string | number | boolean | null>[];
+  };
   Map: { title: string; geoData: object };
   Text: { title: string; content: string };
   Image: { title: string; src: string; alt?: string };
@@ -14,10 +21,20 @@ export interface WidgetTypeMap {
   Histogram: { title: string; bins: number[]; counts: number[] };
   ScatterPlot: { title: string; points: { x: number; y: number }[] };
   BoxPlot: { title: string; categories: string[]; values: number[][] };
-  HeatMap: { title: string; xLabels: string[]; yLabels: string[]; data: number[][] };
+  HeatMap: {
+    title: string;
+    xLabels: string[];
+    yLabels: string[];
+    data: number[][];
+  };
   WordCloud: { title: string; words: { text: string; value: number }[] };
-  BubbleChart: { title: string; bubbles: { x: number; y: number; r: number }[] };
-  Treemap: { title: string; value: number;
+  BubbleChart: {
+    title: string;
+    bubbles: { x: number; y: number; r: number }[];
+  };
+  Treemap: {
+    title: string;
+    value: number;
     children?: Array<{
       name: string;
       value: number;
@@ -26,7 +43,11 @@ export interface WidgetTypeMap {
   };
   Timeline: { title: string; events: { date: string; label: string }[] };
   GaugeChart: { title: string; value: number; min: number; max: number };
-  AreaChart: { title: string; xAxis: string[]; series: { name: string; data: number[] }[] };
+  AreaChart: {
+    title: string;
+    xAxis: string[];
+    series: { name: string; data: number[] }[];
+  };
   KPI: { title: string; value: number; trend?: number };
   Progress: { title: string; value: number; label?: string };
 }
@@ -95,7 +116,11 @@ export interface WidgetConfig<K extends WidgetKey = WidgetKey> {
   name: string;
   type: K;
   data: WidgetTypeMap[K];
-  layout: Partial<Layout>;
+  // Replace layout with direct position properties
+  x?: number;
+  y?: number;
+  w?: number;
+  h?: number;
 }
 
 export function getWidgetSizeConstraints<K extends WidgetKey>(

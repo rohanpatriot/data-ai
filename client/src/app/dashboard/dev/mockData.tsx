@@ -13,28 +13,24 @@ export const sampleWidgets: WidgetConfig[] = [
     name: "Conversion rate",
     type: "KPI",
     data: { title: "Conversion Rate", value: 5.6, trend: 0.2 },
-    layout: { x: 0, y: 0, w: 2, h: 4 },
   },
   {
     id: "kpi2",
     name: "Conversion rate",
     type: "KPI",
     data: { title: "Customer Score", value: 8.9, trend: -0.1 },
-    layout: { x: 2, y: 0, w: 2, h: 4 },
   },
   {
     id: "stats1",
     name: "Conversion rate",
     type: "StatsCard",
     data: { title: "Total Users", value: 1024, icon: `${logo}` },
-    layout: { x: 4, y: 0, w: 2, h: 4 },
   },
   {
     id: "stats2",
     name: "Conversion rate",
     type: "StatsCard",
     data: { title: "Active Sessions", value: 256, icon: `${logo}` },
-    layout: { x: 4, y: 2, w: 2, h: 4 },
   },
   {
     id: "line1",
@@ -48,7 +44,6 @@ export const sampleWidgets: WidgetConfig[] = [
         { name: "Signups", data: [30, 70, 45, 50, 40, 60, 80] },
       ],
     },
-    layout: { x: 0, y: 2, w: 6, h: 6 },
   },
   {
     id: "pie1",
@@ -59,7 +54,6 @@ export const sampleWidgets: WidgetConfig[] = [
       labels: ["Chrome", "Firefox", "Safari", "Edge", "Others"],
       values: [63.5, 15.2, 12.3, 4.8, 4.2],
     },
-    layout: { x: 0, y: 8, w: 2, h: 6 },
   },
   {
     id: "bar1",
@@ -73,24 +67,22 @@ export const sampleWidgets: WidgetConfig[] = [
         { name: "Profit", data: [2000, 3000, 2500, 4000] },
       ],
     },
-    layout: { x: 2, y: 8, w: 4, h: 6 },
   },
 
   {
     id: "text1",
     name: "Conversion rate",
     type: "Text",
-    data: { title: '', content: "Welcome to the Dashboard!" },
-    layout: { x: 0, y: 14, w: 3, h: 4 },
+    data: { title: "", content: "Welcome to the Dashboard!" },
   },
   {
     id: "text2",
     name: "Conversion rate",
     type: "Text",
     data: {
-      title: 'test title', content: "This is a text insight here. Take a look at the table!😂",
+      title: "test title",
+      content: "This is a text insight here. Take a look at the table!😂",
     },
-    layout: { x: 3, y: 14, w: 3, h: 4 },
   },
   {
     id: "table1",
@@ -105,7 +97,6 @@ export const sampleWidgets: WidgetConfig[] = [
         { Name: "Charlie", Age: 35, Country: "Canada" },
       ],
     },
-    layout: { x: 0, y: 16, w: 6, h: 6 },
   },
 
   {
@@ -117,7 +108,6 @@ export const sampleWidgets: WidgetConfig[] = [
       src: "https://phrazor.ai/assets/img/blogs-original/Impact%20of%20Good%20Insights%20in%20Business.jpg",
       alt: "Company Logo",
     },
-    layout: { x: 0, y: 22, w: 3, h: 4 },
   },
   {
     id: "image2",
@@ -128,7 +118,6 @@ export const sampleWidgets: WidgetConfig[] = [
       src: "https://www.slideteam.net/media/catalog/product/cache/1280x720/b/u/business_insight_ppt_powerpoint_presentation_layouts_graphics_template_cpb_Slide01.jpg",
       alt: "Promotional Banner",
     },
-    layout: { x: 3, y: 22, w: 3, h: 4 },
   },
   {
     id: "plot1",
@@ -139,7 +128,6 @@ export const sampleWidgets: WidgetConfig[] = [
       x: [1, 2, 3, 4, 5],
       y: [10, 20, 15, 25, 30],
     },
-    layout: { x: 0, y: 26, w: 6, h: 6 },
   },
   {
     id: "histogram1",
@@ -150,7 +138,6 @@ export const sampleWidgets: WidgetConfig[] = [
       bins: [0, 1, 2, 3, 4, 5],
       counts: [5, 10, 15, 20, 25, 30],
     },
-    layout: { x: 0, y: 32, w: 3, h: 6 },
   },
   {
     id: "scatter1",
@@ -164,7 +151,6 @@ export const sampleWidgets: WidgetConfig[] = [
         { x: 3, y: 4 },
       ],
     },
-    layout: { x: 3, y: 32, w: 3, h: 6 },
   },
   {
     id: "boxplot1",
@@ -179,7 +165,6 @@ export const sampleWidgets: WidgetConfig[] = [
         [3, 4, 5, 6, 7],
       ],
     },
-    layout: { x: 0, y: 38, w: 3, h: 6 },
   },
   {
     id: "heatmap1",
@@ -195,7 +180,6 @@ export const sampleWidgets: WidgetConfig[] = [
         [7, 8, 9],
       ],
     },
-    layout: { x: 3, y: 38, w: 3, h: 6 },
   },
   {
     id: "wordcloud1",
@@ -222,7 +206,6 @@ export const sampleWidgets: WidgetConfig[] = [
         { text: "Rust", value: 0.05 },
       ],
     },
-    layout: { x: 0, y: 44, w: 6, h: 6 },
   },
 
   {
@@ -237,7 +220,6 @@ export const sampleWidgets: WidgetConfig[] = [
         { x: 3, y: 4, r: 5 },
       ],
     },
-    layout: { x: 0, y: 50, w: 3, h: 6 },
   },
   {
     id: "bubble2",
@@ -251,7 +233,6 @@ export const sampleWidgets: WidgetConfig[] = [
         { x: 6, y: 7, r: 8 },
       ],
     },
-    layout: { x: 3, y: 50, w: 3, h: 6 },
   },
   {
     id: "treemap1",
@@ -266,7 +247,6 @@ export const sampleWidgets: WidgetConfig[] = [
         { name: "Child 3", value: 20 },
       ],
     },
-    layout: { x: 0, y: 56, w: 6, h: 6 },
   },
   {
     id: "timeline1",
@@ -280,7 +260,6 @@ export const sampleWidgets: WidgetConfig[] = [
         { date: "2023-07-04", label: "Independence Day" },
       ],
     },
-    layout: { x: 0, y: 62, w: 2, h: 6 },
   },
 
   {
@@ -294,7 +273,6 @@ export const sampleWidgets: WidgetConfig[] = [
         { name: "Humidity", data: [70, 65, 68, 72, 75] },
       ],
     },
-    layout: { x: 2, y: 62, w: 4, h: 6 },
   },
   {
     id: "area2",
@@ -307,6 +285,5 @@ export const sampleWidgets: WidgetConfig[] = [
         { name: "Sunshine", data: [200, 220, 250, 230, 210] },
       ],
     },
-    layout: { x: 0, y: 68, w: 6, h: 6 },
   },
 ];

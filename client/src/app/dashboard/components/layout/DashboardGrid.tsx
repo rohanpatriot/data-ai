@@ -1,15 +1,13 @@
-import { Box } from "@mui/material";
-import React, { useState } from "react";
+import { Box, CircularProgress } from "@mui/material";
+import React, { useState, useEffect } from "react";
 import { Responsive, WidthProvider, Layouts, Layout } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import {
-  getWidgetSizeConstraints,
-  WidgetConfig,
-} from "../widgets/util/WidgetUtil";
+import { getWidgetSizeConstraints } from "../widgets/util/WidgetUtil";
 import { WidgetFactory } from "../widgets/WidgetFactory";
 import { removeHorizontalGaps } from "../../util/DashboardUtil";
-import { sampleWidgets } from "../../dev/mockData"; // Delete this line when implementing backend fetch of data
+import { useSearchParams } from "react-router-dom";
+import { useWidgets } from "../../hooks/useWidgets";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -19,14 +17,18 @@ interface DashboardGridProps {
 }
 
 const DashboardGrid: React.FC<DashboardGridProps> = ({
-  rowHeight = 30,
+  rowHeight = 40,
   onLayoutChange = () => {},
 }) => {
   // When resizing the widget then resizing the window, widget only resizes in the breakpoint it is in, this is calling for bugs
   const breakpoints = { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 };
   const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 };
 
-  const [widgets] = useState<WidgetConfig[]>(sampleWidgets);
+  const [searchParams] = useSearchParams();
+  const projectId = searchParams.get("projectId");
+
+  const { widgets, loading, error } = useWidgets(projectId || undefined);
+  const [layouts, setLayouts] = useState<Layouts>({});
 
   const generateLayouts = (): Layouts => {
     const breakpointsList = Object.keys(cols) as Array<keyof typeof cols>;
@@ -45,10 +47,10 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
 
         const defaultLayout: Layout = {
           i: widget.id,
-          x: widget.layout?.x || 0,
-          y: widget.layout?.y || 0,
-          w: sizeConstraints?.minW  || 2, 
-          h: sizeConstraints?.minH || 4,
+          x: widget.x || 0,
+          y: widget.y || 0,
+          w: widget.w || sizeConstraints?.minW || 2,
+          h: widget.h || sizeConstraints?.minH || 4,
           //currently widgets are not resizable, once support is added, remove the comments below
           // Also adjust w / h in the defaultLayout object above, Add isResizable: true to object
           //--------------------------------------------------------------------------------------
@@ -64,7 +66,11 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
     return layouts;
   };
 
-  const [layouts, setLayouts] = useState<Layouts>(generateLayouts());
+  useEffect(() => {
+    if (widgets.length > 0) {
+      setLayouts(generateLayouts());
+    }
+  }, [widgets]);
 
   const generateWidgets = () =>
     widgets.map((widget) => (
@@ -73,9 +79,15 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
         sx={{
           background: "transparent",
           borderRadius: 2,
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        {WidgetFactory(widget.type, widget.data)}
+        {/* Widget content without duplicating the title */}
+        <Box sx={{ flexGrow: 1, p: 1 }}>
+          {WidgetFactory(widget.type, widget.data)}
+        </Box>
       </Box>
     ));
 
@@ -92,6 +104,45 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
     onLayoutChange(currentLayout, compactedLayouts);
   };
 
+  if (loading) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100%"
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100%"
+      >
+        Error loading widgets: {error.message}
+      </Box>
+    );
+  }
+
+  if (widgets.length === 0) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100%"
+      >
+        No widgets found. Add some widgets to get started.
+      </Box>
+    );
+  }
+
   return (
     <ResponsiveReactGridLayout
       className="layout"
@@ -102,7 +153,8 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
       onLayoutChange={handleLayoutChange}
       isDraggable
       isResizable={false}
-      compactType="vertical"
+      compactType={null} // Change from "vertical" to null to prevent automatic compacting
+      preventCollision={true} // Prevent widgets from overlapping
       draggableCancel=".no-drag"
     >
       {generateWidgets()}

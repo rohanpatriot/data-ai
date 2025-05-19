@@ -93,21 +93,6 @@ const DashboardPage: React.FC = () => {
             id="grid-container"
           >
             <Container maxWidth="xl" sx={{ padding: 0 }}>
-              {/* <Box sx={{ mb: 3, ml: 1 }}>
-                <Typography variant="h4" sx={{ mb: 1 }}>
-                  Dashboard
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                  {currentProject?.description || (
-                    <Skeleton
-                      animation="wave"
-                      width="100%"
-                      height={32}
-                      sx={{ bgcolor: "grey.100" }}
-                    />
-                  )}
-                </Typography>
-              </Box> */}
               <Box sx={{ p: 0 }}>
                 <DashboardGrid />
               </Box>
