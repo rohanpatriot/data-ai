@@ -184,13 +184,13 @@ const DataSourceCard: React.FC<Props> = ({
                   color: "text.secondary",
                 }}
               >
-                <Box sx={{ display: "flex", alignItems: "center", mr: 1 }}>
+                <Box sx={{ display: "flex", alignItems: "center", mr: 1.5 }}>
                   {getSourceIcon()}
                   <Typography variant="body2" sx={{ ml: 0.5 }}>
                     {source.is_link ? "Web" : "File"}
                   </Typography>
                 </Box>
-                <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ display: "flex", alignItems: "center", mr: 1.5 }}>
                   <AccessTimeIcon sx={{ fontSize: "18px" }} />
                   <Typography variant="body2" sx={{ ml: 0.5 }}>
                     Added {formatRelativeTime(source.created_at)}
