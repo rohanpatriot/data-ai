@@ -12,15 +12,15 @@ export const sampleWidgets: WidgetConfig[] = [
     id: "kpi1",
     name: "Conversion rate",
     type: "KPI",
-    data: { metric: "Conversion Rate", value: 5.6, trend: 0.2 },
-    layout: { x: 0, y: 0, w: 2, h: 3 },
+    data: { title: "Conversion Rate", value: 5.6, trend: 0.2 },
+    layout: { x: 0, y: 0, w: 2, h: 4 },
   },
   {
     id: "kpi2",
     name: "Conversion rate",
     type: "KPI",
-    data: { metric: "Customer Score", value: 8.9, trend: -0.1 },
-    layout: { x: 2, y: 0, w: 2, h: 3 },
+    data: { title: "Customer Score", value: 8.9, trend: -0.1 },
+    layout: { x: 2, y: 0, w: 2, h: 4 },
   },
   {
     id: "stats1",
@@ -48,13 +48,14 @@ export const sampleWidgets: WidgetConfig[] = [
         { name: "Signups", data: [30, 70, 45, 50, 40, 60, 80] },
       ],
     },
-    layout: { x: 0, y: 2, w: 2, h: 6 },
+    layout: { x: 0, y: 2, w: 6, h: 6 },
   },
   {
     id: "pie1",
     name: "Conversion rate",
     type: "PieChart",
     data: {
+      title: "Browser Usage",
       labels: ["Chrome", "Firefox", "Safari", "Edge", "Others"],
       values: [63.5, 15.2, 12.3, 4.8, 4.2],
     },
@@ -65,6 +66,7 @@ export const sampleWidgets: WidgetConfig[] = [
     name: "Conversion rate",
     type: "BarChart",
     data: {
+      title: "Revenue by Category",
       categories: ["Q1", "Q2", "Q3", "Q4"],
       series: [
         { name: "Revenue", data: [5000, 7000, 6000, 8000] },
@@ -78,23 +80,24 @@ export const sampleWidgets: WidgetConfig[] = [
     id: "text1",
     name: "Conversion rate",
     type: "Text",
-    data: { content: "Welcome to the Dashboard!" },
-    layout: { x: 0, y: 14, w: 3, h: 2 },
+    data: { title: '', content: "Welcome to the Dashboard!" },
+    layout: { x: 0, y: 14, w: 3, h: 4 },
   },
   {
     id: "text2",
     name: "Conversion rate",
     type: "Text",
     data: {
-      content: "This is a text insight here. Take a look at the table!😂",
+      title: 'test title', content: "This is a text insight here. Take a look at the table!😂",
     },
-    layout: { x: 3, y: 14, w: 3, h: 2 },
+    layout: { x: 3, y: 14, w: 3, h: 4 },
   },
   {
     id: "table1",
     name: "Conversion rate",
     type: "Table",
     data: {
+      title: "Top Products",
       columns: ["Name", "Age", "Country"],
       rows: [
         { Name: "Alice", Age: 30, Country: "USA" },
@@ -110,6 +113,7 @@ export const sampleWidgets: WidgetConfig[] = [
     name: "Conversion rate",
     type: "Image",
     data: {
+      title: "Company Logo",
       src: "https://phrazor.ai/assets/img/blogs-original/Impact%20of%20Good%20Insights%20in%20Business.jpg",
       alt: "Company Logo",
     },
@@ -120,6 +124,7 @@ export const sampleWidgets: WidgetConfig[] = [
     name: "Conversion rate",
     type: "Image",
     data: {
+      title: "Promotional Banner",
       src: "https://www.slideteam.net/media/catalog/product/cache/1280x720/b/u/business_insight_ppt_powerpoint_presentation_layouts_graphics_template_cpb_Slide01.jpg",
       alt: "Promotional Banner",
     },
@@ -130,6 +135,7 @@ export const sampleWidgets: WidgetConfig[] = [
     name: "Conversion rate",
     type: "PlotChart",
     data: {
+      title: "Plot",
       x: [1, 2, 3, 4, 5],
       y: [10, 20, 15, 25, 30],
     },
@@ -140,6 +146,7 @@ export const sampleWidgets: WidgetConfig[] = [
     name: "Conversion rate",
     type: "Histogram",
     data: {
+      title: "Histogram",
       bins: [0, 1, 2, 3, 4, 5],
       counts: [5, 10, 15, 20, 25, 30],
     },
@@ -150,6 +157,7 @@ export const sampleWidgets: WidgetConfig[] = [
     name: "Conversion rate",
     type: "ScatterPlot",
     data: {
+      title: "Scatter Plot",
       points: [
         { x: 1, y: 2 },
         { x: 2, y: 3 },
@@ -163,6 +171,7 @@ export const sampleWidgets: WidgetConfig[] = [
     name: "Conversion rate",
     type: "BoxPlot",
     data: {
+      title: "Box Plot",
       categories: ["A", "B", "C"],
       values: [
         [1, 2, 3, 4, 5],
@@ -177,6 +186,7 @@ export const sampleWidgets: WidgetConfig[] = [
     name: "Conversion rate",
     type: "HeatMap",
     data: {
+      title: "Heat Map",
       xLabels: ["A", "B", "C"],
       yLabels: ["1", "2", "3"],
       data: [
@@ -192,6 +202,7 @@ export const sampleWidgets: WidgetConfig[] = [
     name: "Conversion rate",
     type: "WordCloud",
     data: {
+      title: "Word Cloud",
       words: [
         { text: "React", value: 100 },
         { text: "JavaScript", value: 80 },
@@ -219,6 +230,7 @@ export const sampleWidgets: WidgetConfig[] = [
     name: "Conversion rate",
     type: "BubbleChart",
     data: {
+      title: "Bubble Chart",
       bubbles: [
         { x: 1, y: 2, r: 3 },
         { x: 2, y: 3, r: 4 },
@@ -232,6 +244,7 @@ export const sampleWidgets: WidgetConfig[] = [
     name: "Conversion rate",
     type: "BubbleChart",
     data: {
+      title: "Bubble Chart",
       bubbles: [
         { x: 4, y: 5, r: 6 },
         { x: 5, y: 6, r: 7 },
@@ -245,7 +258,7 @@ export const sampleWidgets: WidgetConfig[] = [
     name: "Conversion rate",
     type: "Treemap",
     data: {
-      name: "Root",
+      title: "Treemap",
       value: 100,
       children: [
         { name: "Child 1", value: 50 },
@@ -260,6 +273,7 @@ export const sampleWidgets: WidgetConfig[] = [
     name: "Conversion rate",
     type: "Timeline",
     data: {
+      title: "Timeline",
       events: [
         { date: "2023-01-01", label: "New Year" },
         { date: "2023-02-14", label: "Valentine's Day" },

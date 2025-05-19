@@ -4,6 +4,7 @@ import WidgetBase from '../WidgetBase';
 
 interface HistogramWidgetProps {
   data: {
+    title: string;
     bins: number[];
     counts: number[];
   };
@@ -25,7 +26,7 @@ const HistogramWidget: React.FC<HistogramWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

@@ -4,6 +4,7 @@ import WidgetBase from '../WidgetBase';
 
 interface GaugeChartWidgetProps {
   data: {
+    title: string;
     value: number;
     min: number;
     max: number;
@@ -23,7 +24,7 @@ const GaugeChartWidget: React.FC<GaugeChartWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

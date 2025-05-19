@@ -4,6 +4,7 @@ import WidgetBase from '../WidgetBase';
 
 interface ImageWidgetProps {
   data: {
+    title: string;
     src: string;
     alt?: string;
   };
@@ -11,7 +12,7 @@ interface ImageWidgetProps {
 
 const ImageWidget: React.FC<ImageWidgetProps> = ({ data }) => {
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <Box display="flex" justifyContent="center" alignItems="center" height="100%">
         <img src={data.src} alt={data.alt || ''} style={{ maxWidth: '100%', maxHeight: '100%' }} />
       </Box>

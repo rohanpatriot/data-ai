@@ -5,6 +5,7 @@ import 'echarts-wordcloud';
 
 interface WordCloudWidgetProps {
   data: {
+    title: string;
     words: { text: string; value: number }[];
   };
 }
@@ -51,7 +52,7 @@ const WordCloudWidget: React.FC<WordCloudWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

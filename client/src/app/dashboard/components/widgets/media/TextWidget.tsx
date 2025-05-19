@@ -4,13 +4,14 @@ import WidgetBase from '../WidgetBase';
 
 interface TextWidgetProps {
   data: {
+    title: string;
     content: string;
   };
 }
 
 const TextWidget: React.FC<TextWidgetProps> = ({ data }) => {
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <Typography>{data.content}</Typography>
     </WidgetBase>
   );

@@ -12,7 +12,7 @@ interface StatsCardWidgetProps {
 
 const StatsCardWidget: React.FC<StatsCardWidgetProps> = ({ data }) => {
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <Box
         display="flex"
         flexDirection="column"
@@ -31,9 +31,6 @@ const StatsCardWidget: React.FC<StatsCardWidgetProps> = ({ data }) => {
         )}
         <Typography variant="h4" component="div" gutterBottom>
           {data.value}
-        </Typography>
-        <Typography variant="subtitle1" color="textSecondary">
-          {data.title}
         </Typography>
       </Box>
     </WidgetBase>

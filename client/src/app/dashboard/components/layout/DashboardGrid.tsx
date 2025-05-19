@@ -47,12 +47,15 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
           i: widget.id,
           x: widget.layout?.x || 0,
           y: widget.layout?.y || 0,
-          w: widget.layout?.w || 2,
-          h: widget.layout?.h || 6,
-          minW: sizeConstraints?.minW || 2,
-          maxW: sizeConstraints?.maxW || 6,
-          minH: sizeConstraints?.minH || 4,
-          maxH: sizeConstraints?.maxH || 8,
+          w: sizeConstraints?.minW  || 2, 
+          h: sizeConstraints?.minH || 4,
+          //currently widgets are not resizable, once support is added, remove the comments below
+          // Also adjust w / h in the defaultLayout object above, Add isResizable: true to object
+          //--------------------------------------------------------------------------------------
+          // minW: sizeConstraints?.minW || 2,
+          // maxW: sizeConstraints?.maxW || 6,
+          // minH: sizeConstraints?.minH || 4,
+          // maxH: sizeConstraints?.maxH || 8,
         };
         return defaultLayout;
       });
@@ -100,6 +103,7 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
       isDraggable
       isResizable={false}
       compactType="vertical"
+      draggableCancel=".no-drag"
     >
       {generateWidgets()}
     </ResponsiveReactGridLayout>

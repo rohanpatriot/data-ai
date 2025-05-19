@@ -4,6 +4,7 @@ import WidgetBase from '../WidgetBase';
 
 interface BoxPlotWidgetProps {
   data: {
+    title: string;
     categories: string[];
     values: number[][];
   };
@@ -25,7 +26,7 @@ const BoxPlotWidget: React.FC<BoxPlotWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

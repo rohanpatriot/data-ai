@@ -3,40 +3,32 @@ import * as Widgets from "../index";
 
 export interface WidgetTypeMap {
   LineChart: { xAxis: string[]; series: { name: string; data: number[] }[] };
-  PieChart: { labels: string[]; values: number[] };
+  PieChart: { title: string; labels: string[]; values: number[] };
   StatsCard: { title: string; value: number; icon?: string };
-  BarChart: {
-    categories: string[];
-    series: { name: string; data: number[] }[];
-  };
-  Table: {
-    columns: string[];
-    rows: Record<string, string | number | boolean | null>[];
-  };
-  Map: { geoData: object };
-  Text: { content: string };
-  Image: { src: string; alt?: string };
-  PlotChart: { x: number[]; y: number[] };
-  Histogram: { bins: number[]; counts: number[] };
-  ScatterPlot: { points: { x: number; y: number }[] };
-  BoxPlot: { categories: string[]; values: number[][] };
-  HeatMap: { xLabels: string[]; yLabels: string[]; data: number[][] };
-  WordCloud: { words: { text: string; value: number }[] };
-  BubbleChart: { bubbles: { x: number; y: number; r: number }[] };
-  Treemap: {
-    name: string;
-    value: number;
+  BarChart: { title: string; categories: string[]; series: { name: string; data: number[] }[];};
+  Table: { title: string; columns: string[]; rows: Record<string, string | number | boolean | null>[];};
+  Map: { title: string; geoData: object };
+  Text: { title: string; content: string };
+  Image: { title: string; src: string; alt?: string };
+  PlotChart: { title: string; x: number[]; y: number[] };
+  Histogram: { title: string; bins: number[]; counts: number[] };
+  ScatterPlot: { title: string; points: { x: number; y: number }[] };
+  BoxPlot: { title: string; categories: string[]; values: number[][] };
+  HeatMap: { title: string; xLabels: string[]; yLabels: string[]; data: number[][] };
+  WordCloud: { title: string; words: { text: string; value: number }[] };
+  BubbleChart: { title: string; bubbles: { x: number; y: number; r: number }[] };
+  Treemap: { title: string; value: number;
     children?: Array<{
       name: string;
       value: number;
       children?: Array<{ name: string; value: number }>;
     }>;
   };
-  Timeline: { events: { date: string; label: string }[] };
-  GaugeChart: { value: number; min: number; max: number };
-  AreaChart: { xAxis: string[]; series: { name: string; data: number[] }[] };
-  KPI: { metric: string; value: number; trend?: number };
-  Progress: { value: number; label?: string };
+  Timeline: { title: string; events: { date: string; label: string }[] };
+  GaugeChart: { title: string; value: number; min: number; max: number };
+  AreaChart: { title: string; xAxis: string[]; series: { name: string; data: number[] }[] };
+  KPI: { title: string; value: number; trend?: number };
+  Progress: { title: string; value: number; label?: string };
 }
 
 interface WidgetSizeConstraints {
@@ -47,27 +39,27 @@ interface WidgetSizeConstraints {
 }
 
 const widgetSizeConstraints: Record<WidgetKey, WidgetSizeConstraints> = {
-  LineChart: { minW: 2, minH: 6, maxW: 12, maxH: 12 },
-  PieChart: { minW: 2, minH: 6, maxW: 6, maxH: 8 },
-  StatsCard: { minW: 2, minH: 4, maxW: 4, maxH: 6 },
-  BarChart: { minW: 2, minH: 6, maxW: 12, maxH: 12 },
-  Table: { minW: 4, minH: 3 },
-  Map: { minW: 4, minH: 6, maxW: 12, maxH: 10 },
-  Text: { minW: 2, minH: 1 },
-  Image: { minW: 2, minH: 2 },
-  PlotChart: { minW: 2, minH: 6, maxW: 10, maxH: 10 },
-  Histogram: { minW: 2, minH: 6, maxW: 10, maxH: 10 },
-  ScatterPlot: { minW: 2, minH: 6, maxW: 10, maxH: 10 },
-  BoxPlot: { minW: 2, minH: 6, maxW: 10, maxH: 10 },
-  HeatMap: { minW: 2, minH: 6, maxW: 10, maxH: 10 },
-  WordCloud: { minW: 2, minH: 6, maxW: 10, maxH: 10 },
-  BubbleChart: { minW: 2, minH: 6, maxW: 10, maxH: 10 },
-  Treemap: { minW: 2, minH: 6, maxW: 10, maxH: 10 },
-  Timeline: { minW: 2, minH: 6, maxW: 6, maxH: 18 },
-  GaugeChart: { minW: 4, minH: 6, maxW: 6, maxH: 8 },
-  AreaChart: { minW: 2, minH: 6, maxW: 10, maxH: 10 },
-  KPI: { minW: 2, minH: 3, maxW: 4, maxH: 4 },
-  Progress: { minW: 2, minH: 1, maxW: 12, maxH: 4 },
+  LineChart: { minW: 4, minH: 6, maxW: 12, maxH: 12 },
+  PieChart: { minW: 4, minH: 6, maxW: 6, maxH: 12 },
+  StatsCard: { minW: 2, minH: 6, maxW: 4, maxH: 10 },
+  BarChart: { minW: 4, minH: 6, maxW: 12, maxH: 12 },
+  Table: { minW: 4, minH: 6 },
+  Map: { minW: 4, minH: 6, maxW: 12, maxH: 12 },
+  Text: { minW: 2, minH: 4 },
+  Image: { minW: 2, minH: 6 },
+  PlotChart: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
+  Histogram: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
+  ScatterPlot: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
+  BoxPlot: { minW: 4, minH: 6, maxW: 10, maxH: 10 },
+  HeatMap: { minW: 4, minH: 6, maxW: 10, maxH: 10 },
+  WordCloud: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
+  BubbleChart: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
+  Treemap: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
+  Timeline: { minW: 2, minH: 10, maxW: 6, maxH: 12 },
+  GaugeChart: { minW: 4, minH: 6, maxW: 6, maxH: 10 },
+  AreaChart: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
+  KPI: { minW: 2, minH: 4, maxW: 4, maxH: 4 },
+  Progress: { minW: 4, minH: 2, maxW: 12, maxH: 8 },
 };
 
 type WidgetKey = keyof WidgetTypeMap;

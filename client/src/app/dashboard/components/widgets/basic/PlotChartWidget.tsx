@@ -4,6 +4,7 @@ import WidgetBase from '../WidgetBase';
 
 interface PlotChartWidgetProps {
   data: {
+    title: string;
     x: number[];
     y: number[];
   };
@@ -20,7 +21,7 @@ const PlotChartWidget: React.FC<PlotChartWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );
