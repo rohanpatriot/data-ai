@@ -16,19 +16,16 @@ interface WidgetBaseProps {
   children: React.ReactNode;
   onDelete?: () => void;
   title?: string;
-  showMoreMenu?: boolean;
+  showWidgetBar?: boolean;
 }
 
 const WidgetBase: React.FC<WidgetBaseProps> = ({
   children,
   onDelete,
   title,
-  showMoreMenu = false,
+  showWidgetBar = true,
 }) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | {
-    x: number;
-    y: number;
-  }>(null);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [showContent, setShowContent] = useState(false);
   const widgetRef = useRef<HTMLDivElement>(null);
 
@@ -44,8 +41,6 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
     });
 
     observer.observe(widgetRef.current);
-
-    // In case the widget is already visible on mount
     if (widgetRef.current.offsetWidth > 0) {
       setShowContent(true);
     }
@@ -56,7 +51,6 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
   }, []);
 
   useEffect(() => {
-    // Add click event listener to close menu when clicking outside
     const handleClickOutside = (event: MouseEvent) => {
       if (
         widgetRef.current &&
@@ -72,19 +66,12 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
     };
   }, []);
 
-  const handleContextMenu = (event: React.MouseEvent) => {
-    event.preventDefault();
-    setAnchorEl({ x: event.clientX, y: event.clientY });
-  };
-
   const handleClose = () => setAnchorEl(null);
-
-  const isMenuOpen = Boolean(anchorEl);
 
   return (
     <Card
       ref={widgetRef}
-      onContextMenu={handleContextMenu}
+      onContextMenu={(e) => {e.preventDefault();}}
       sx={{
         p: 1,
         height: "100%",
@@ -95,22 +82,22 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
         //border: isMenuOpen ? '2px solid #1976d2' : '2px solid transparent', // Highlight when menu is open
       }}
     >
-      <Typography variant="body2" color="text.secondary">
-        {title}
-      </Typography>
-      {showMoreMenu && (
+      {showWidgetBar && (
         <Box
           display="flex"
           justifyContent="space-between"
           alignItems="center"
           mb={1}
         >
-          <Box fontWeight="bold">{title}</Box>
+        <Typography variant="body2" color="text.secondary">
+          {title}
+        </Typography>
           <IconButton
             size="small"
+            className="no-drag"
             onClick={(e) => {
-              e.stopPropagation(); // Prevent event bubbling
-              setAnchorEl({ x: e.clientX, y: e.clientY });
+              e.stopPropagation();
+              setAnchorEl(e.currentTarget);
             }}
           >
             <MoreVertIcon fontSize="small" />
@@ -118,17 +105,22 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
         </Box>
       )}
 
-      <Box flexGrow={1} minHeight={0}>
+      <Box flexGrow={1} minHeight={100}>
         {showContent && children}
       </Box>
 
       <Menu
-        open={isMenuOpen}
+        open={Boolean(anchorEl)}
         onClose={handleClose}
-        anchorReference="anchorPosition"
-        anchorPosition={
-          anchorEl !== null ? { top: anchorEl.y, left: anchorEl.x } : undefined
-        }
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
       >
         <MenuItem
           onClick={() => {

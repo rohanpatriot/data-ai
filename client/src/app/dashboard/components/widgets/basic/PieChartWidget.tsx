@@ -4,6 +4,7 @@ import WidgetBase from '../WidgetBase';
 
 interface PieChartWidgetProps {
   data: {
+    title: string;
     labels: string[];
     values: number[];
   };
@@ -33,7 +34,7 @@ const PieChartWidget: React.FC<PieChartWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

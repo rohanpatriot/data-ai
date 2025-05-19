@@ -4,6 +4,7 @@ import WidgetBase from '../WidgetBase';
 
 interface ProgressWidgetProps {
   data: {
+    title: string;
     value: number;
     label?: string;
   };
@@ -11,7 +12,7 @@ interface ProgressWidgetProps {
 
 const ProgressWidget: React.FC<ProgressWidgetProps> = ({ data }) => {
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <Box display="flex" flexDirection="column" gap={2}>
         {data.label && (
           <Typography variant="subtitle1">

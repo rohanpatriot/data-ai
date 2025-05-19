@@ -4,6 +4,7 @@ import WidgetBase from '../WidgetBase';
 
 interface AreaChartWidgetProps {
   data: {
+    title: string;
     xAxis: string[];
     series: { name: string; data: number[] }[];
   };
@@ -27,7 +28,7 @@ const AreaChartWidget: React.FC<AreaChartWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

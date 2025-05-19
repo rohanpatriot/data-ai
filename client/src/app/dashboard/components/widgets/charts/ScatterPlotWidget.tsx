@@ -4,6 +4,7 @@ import WidgetBase from '../WidgetBase';
 
 interface ScatterPlotWidgetProps {
   data: {
+    title: string;
     points: { x: number; y: number }[];
   };
 }
@@ -19,7 +20,7 @@ const ScatterPlotWidget: React.FC<ScatterPlotWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

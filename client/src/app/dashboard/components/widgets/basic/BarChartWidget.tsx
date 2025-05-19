@@ -4,6 +4,7 @@ import WidgetBase from '../WidgetBase';
 
 interface BarChartWidgetProps {
   data: {
+    title: string;
     categories: string[];
     series: { name: string; data: number[] }[];
   };
@@ -35,7 +36,7 @@ const BarChartWidget: React.FC<BarChartWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

@@ -4,6 +4,7 @@ import WidgetBase from '../../WidgetBase';
 
 interface BubbleChartWidgetProps {
   data: {
+    title: string;
     bubbles: { x: number; y: number; r: number }[];
   };
 }
@@ -20,7 +21,7 @@ const BubbleChartWidget: React.FC<BubbleChartWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

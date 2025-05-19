@@ -6,7 +6,7 @@ import WidgetBase from '../WidgetBase';
 
 interface KPIWidgetProps {
   data: {
-    metric: string;
+    title: string;
     value: number;
     trend?: number;
   };
@@ -14,11 +14,8 @@ interface KPIWidgetProps {
 
 const KPIWidget: React.FC<KPIWidgetProps> = ({ data }) => {
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height="100%">
-        <Typography variant="h6" gutterBottom>
-          {data.metric}
-        </Typography>
         <Typography variant="h4" gutterBottom>
           {data.value}
         </Typography>

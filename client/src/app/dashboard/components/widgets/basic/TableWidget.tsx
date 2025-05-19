@@ -4,6 +4,7 @@ import WidgetBase from '../WidgetBase';
 
 interface TableWidgetProps {
   data: {
+    title: string;
     columns: string[];
     rows: Record<string, string | number | boolean | null>[];
   };
@@ -11,7 +12,7 @@ interface TableWidgetProps {
 
 const TableWidget: React.FC<TableWidgetProps> = ({ data }) => {
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>

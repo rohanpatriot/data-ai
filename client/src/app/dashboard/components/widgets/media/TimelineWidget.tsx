@@ -4,13 +4,14 @@ import WidgetBase from '../WidgetBase';
 
 interface TimelineWidgetProps {
   data: {
+    title: string;
     events: { date: string; label: string }[];
   };
 }
 
 const TimelineWidget: React.FC<TimelineWidgetProps> = ({ data }) => {
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <Timeline>
         {data.events.map((event, index) => (
           <TimelineItem key={index}>

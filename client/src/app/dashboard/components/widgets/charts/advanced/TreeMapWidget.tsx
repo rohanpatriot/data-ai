@@ -4,7 +4,7 @@ import WidgetBase from '../../WidgetBase';
 
 interface TreemapWidgetProps {
   data: {
-    name: string;
+    title: string;
     value: number;
     children?: { name: string; value: number; children?: { name: string; value: number }[] }[];
   };
@@ -19,7 +19,7 @@ const TreemapWidget: React.FC<TreemapWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

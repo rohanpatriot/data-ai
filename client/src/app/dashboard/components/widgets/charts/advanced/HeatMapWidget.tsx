@@ -4,6 +4,7 @@ import WidgetBase from '../../WidgetBase';
 
 interface HeatMapWidgetProps {
   data: {
+    title: string;
     xLabels: string[];
     yLabels: string[];
     data: number[][];
@@ -36,7 +37,7 @@ const HeatMapWidget: React.FC<HeatMapWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );
