@@ -71,7 +71,6 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
   return (
     <Card
       ref={widgetRef}
-      className='no-drag'
       onContextMenu={(e) => {e.preventDefault();}}
       sx={{
         p: 1,
@@ -96,6 +95,7 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
           {showMoreMenu && (
             <IconButton
               size="small"
+              className='no-drag'
               onClick={(e) => {
                 e.stopPropagation(); 
                 setAnchorEl(e.currentTarget);
