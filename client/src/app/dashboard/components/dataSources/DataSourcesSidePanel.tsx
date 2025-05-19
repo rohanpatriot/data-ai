@@ -40,7 +40,7 @@ const DataSourcesSidePanel: React.FC<Props> = ({
   )!;
   const { dataSources, isLoading, refresh } = useDataSources(projectId);
   const { add, del } = useDataSourceDialogs({ projectId, refresh });
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const renderDataSources = () => {
     if (isLoading) {
       return <DataSourceCardSkeleton count={3} />;

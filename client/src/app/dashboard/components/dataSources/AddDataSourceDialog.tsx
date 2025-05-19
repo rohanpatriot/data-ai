@@ -7,7 +7,7 @@ import {
   CardActionArea,
 } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useAutoFocusAndSelect } from "../../../../shared/components/useAutoFocusAndSelect";
 import { BaseFormDialog } from "../../../../shared/components/BaseFormDialog";
 import CustomTextField from "../../../../shared/components/CustomTextField";
@@ -45,26 +45,64 @@ const AddDataSourceDialog = ({
 }: Props) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const [urlError, setUrlError] = useState<string | null>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
 
   useAutoFocusAndSelect(nameInputRef, open);
+
+  const validateUrl = (url: string): boolean => {
+    try {
+      // If URL doesn't start with http:// or https://, add https://
+      let urlToValidate = url;
+      if (!url.match(/^https?:\/\//i)) {
+        urlToValidate = `https://${url}`;
+      }
+
+      new URL(urlToValidate);
+      setUrlError(null);
+      return true;
+    } catch (e) {
+      setUrlError("Please enter a valid URL");
+      return false;
+    }
+  };
+
+  const validateFileType = (file: File): boolean => {
+    const fileExtension = file.name.split(".").pop()?.toLowerCase();
+    if (fileExtension !== "csv") {
+      setFileError("Only CSV files are allowed");
+      return false;
+    }
+    setFileError(null);
+    return true;
+  };
 
   const handleDragDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const dropped = e.dataTransfer.files?.[0];
     if (dropped) {
-      onChangeFile(dropped);
+      if (validateFileType(dropped)) {
+        onChangeFile(dropped);
+      }
     }
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
     if (selected) {
-      onChangeFile(selected);
+      if (validateFileType(selected)) {
+        onChangeFile(selected);
+      }
     }
   };
 
   const handleConfirm = async () => {
     if (!name.trim()) return;
+
+    if (sourceType === "Url" && !validateUrl(url)) {
+      return;
+    }
+
     await onConfirm();
   };
 
@@ -78,8 +116,8 @@ const AddDataSourceDialog = ({
       confirmDisabled={
         loading ||
         !name.trim() ||
-        (sourceType === "File" && !file) ||
-        (sourceType === "Url" && !url.trim())
+        (sourceType === "File" && (!file || !!fileError)) ||
+        (sourceType === "Url" && (!url.trim() || !!urlError))
       }
     >
       <Box sx={{ mt: 2 }}>
@@ -96,7 +134,14 @@ const AddDataSourceDialog = ({
           color="primary"
           value={sourceType}
           exclusive
-          onChange={(_e, value) => value && onChangeSourceType(value)}
+          onChange={(_e, value) => {
+            if (value) {
+              onChangeSourceType(value);
+              // Reset errors when switching source type
+              setUrlError(null);
+              setFileError(null);
+            }
+          }}
           sx={{ mb: 2 }}
         >
           <ToggleButton value="File">File</ToggleButton>
@@ -104,43 +149,64 @@ const AddDataSourceDialog = ({
         </ToggleButtonGroup>
 
         {sourceType === "File" ? (
-          <Card
-            variant="outlined"
-            sx={{
-              border: "2px dashed #A224F0",
-              bgcolor: "#faf7fd",
-              p: 3,
-              cursor: "pointer",
-              textAlign: "center",
-              mb: 2,
-            }}
-            onClick={() => fileInputRef.current?.click()}
-            onDrop={handleDragDrop}
-            onDragOver={(e) => e.preventDefault()}
-          >
-            <CardActionArea>
-              <AttachFileIcon sx={{ fontSize: 40, mb: 1 }} />
-              <Typography>
-                Drag & drop your file here, or click to select
-              </Typography>
-              {file && (
-                <Typography variant="caption">
-                  Selected: {file.name} ({(file.size / 1024).toFixed(1)} KB)
+          <>
+            <Card
+              variant="outlined"
+              sx={{
+                border: fileError ? "2px dashed #f44336" : "2px dashed #A224F0",
+                bgcolor: "#faf7fd",
+                p: 3,
+                cursor: "pointer",
+                textAlign: "center",
+                mb: fileError ? 1 : 2,
+              }}
+              onClick={() => fileInputRef.current?.click()}
+              onDrop={handleDragDrop}
+              onDragOver={(e) => e.preventDefault()}
+            >
+              <CardActionArea>
+                <AttachFileIcon sx={{ fontSize: 40, mb: 1 }} />
+                <Typography>
+                  Drag & drop your CSV file here, or click to select
                 </Typography>
-              )}
-              <input
-                ref={fileInputRef}
-                type="file"
-                style={{ display: "none" }}
-                onChange={handleFileSelect}
-              />
-            </CardActionArea>
-          </Card>
+                {file && (
+                  <Typography variant="caption">
+                    Selected: {file.name} ({(file.size / 1024).toFixed(1)} KB)
+                  </Typography>
+                )}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".csv"
+                  style={{ display: "none" }}
+                  onChange={handleFileSelect}
+                />
+              </CardActionArea>
+            </Card>
+            {fileError && (
+              <Typography color="error" variant="body2" sx={{ mb: 2 }}>
+                {fileError}
+              </Typography>
+            )}
+          </>
         ) : (
           <CustomTextField
             label="URL"
             value={url}
-            onChange={(e) => onChangeUrl(e.target.value)}
+            onChange={(e) => {
+              onChangeUrl(e.target.value);
+              if (urlError) {
+                // Clear error when user starts typing again
+                setUrlError(null);
+              }
+            }}
+            onBlur={() => {
+              if (url.trim()) {
+                validateUrl(url);
+              }
+            }}
+            error={!!urlError}
+            helperText={urlError}
             sx={{ mb: 2 }}
           />
         )}

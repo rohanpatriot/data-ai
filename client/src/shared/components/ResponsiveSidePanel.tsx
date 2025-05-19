@@ -24,11 +24,11 @@ export const ResponsiveSidePanel: React.FC<ResponsiveSidePanelProps> = ({
   children,
 }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   // Styles
   const drawerPaperStyles = {
-    width: isMobile ? "100%" : "45%",
+    width: isMobile ? "100%" : "450px",
     boxSizing: "border-box" as const,
     borderRadius: isMobile ? "16px 16px 0 0" : "20px 0 0 20px",
     maxHeight: isMobile ? "80vh" : "100%",

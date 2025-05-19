@@ -1,27 +1,14 @@
 import React from "react";
-import { IconButton, Box } from "@mui/material";
-import SendIcon from "./SendIcon";
+import { IconButton } from "@mui/material";
+import SendRoundedIcon from "@mui/icons-material/SendRounded";
 
 interface SendButtonProps {
   onClick: () => void;
 }
 
 const SendButton: React.FC<SendButtonProps> = ({ onClick }) => (
-  <IconButton
-    color="primary"
-    onClick={onClick}
-    sx={{
-      bgcolor: "#ecf5fe",
-      "&:hover": {
-        bgcolor: "#d9edfd",
-      },
-      width: 36,
-      height: 36,
-    }}
-  >
-    <Box component="span" sx={{ width: 16, height: 16, display: "flex" }}>
-      <SendIcon />
-    </Box>
+  <IconButton color="default" onClick={onClick}>
+    <SendRoundedIcon />
   </IconButton>
 );
 
