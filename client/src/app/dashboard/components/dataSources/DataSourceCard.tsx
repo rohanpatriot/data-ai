@@ -14,6 +14,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DescriptionIcon from "@mui/icons-material/Description";
+import LanguageIcon from "@mui/icons-material/Language";
 import { DataSource } from "../../../../types/dataSource";
 import { formatRelativeTime } from "../../../../shared/utils/dateUtils";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
@@ -105,6 +106,38 @@ const DataSourceCard: React.FC<Props> = ({
     </>
   );
 
+  // Handle file download or link opening
+  const handleSourceClick = () => {
+    if (source.is_link) {
+      // Open URL in new tab - ensure it has proper protocol
+      let url = source.path;
+
+      // Check if the URL has a protocol, if not add https://
+      if (!/^https?:\/\//i.test(url)) {
+        url = "https://" + url;
+      }
+
+      // Use window.location.href for direct navigation instead of window.open
+      window.location.href = url;
+    } else {
+      // For file download, create a download link
+      const link = document.createElement("a");
+      link.href = source.path;
+      link.download = source.name;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
+  const getSourceIcon = () => {
+    if (source.is_link) {
+      return <LanguageIcon sx={{ fontSize: "18px" }} />;
+    } else {
+      return <DescriptionIcon sx={{ fontSize: "18px" }} />;
+    }
+  };
+
   return (
     <Card variant="outlined" sx={{ mb: 2 }}>
       <Box
@@ -112,8 +145,7 @@ const DataSourceCard: React.FC<Props> = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          p: 1,
-          minHeight: 72,
+          p: 0,
         }}
       >
         <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
@@ -133,7 +165,26 @@ const DataSourceCard: React.FC<Props> = ({
           ) : (
             <Stack spacing={0.5}>
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Typography variant="subtitle1" fontWeight={500}>
+                <Typography
+                  variant="subtitle1"
+                  fontWeight={500}
+                  component="a"
+                  href={
+                    source.is_link
+                      ? !/^https?:\/\//i.test(source.path)
+                        ? `https://${source.path}`
+                        : source.path
+                      : undefined
+                  }
+                  target={source.is_link ? "_blank" : undefined}
+                  rel={source.is_link ? "noopener noreferrer" : undefined}
+                  onClick={source.is_link ? undefined : handleSourceClick}
+                  sx={{
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                    color: "text.primary",
+                  }}
+                >
                   {source.name}
                 </Typography>
               </Box>
@@ -145,13 +196,13 @@ const DataSourceCard: React.FC<Props> = ({
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center", mr: 1 }}>
-                  {getFileIcon()}
+                  {getSourceIcon()}
                   <Typography variant="body2" sx={{ ml: 0.5 }}>
-                    {source.is_link ? "URL" : "CSV"} file
+                    {source.is_link ? "Web" : "File"}
                   </Typography>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <AccessTimeIcon fontSize="small" />
+                  <AccessTimeIcon sx={{ fontSize: "18px" }} />
                   <Typography variant="body2" sx={{ ml: 0.5 }}>
                     Added {formatRelativeTime(source.created_at)}
                   </Typography>

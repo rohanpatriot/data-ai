@@ -58,9 +58,6 @@ export const useMessages = (projectId?: string) => {
           message: text,
           from_user: true,
         });
-
-        // Fetch messages to ensure we have the latest state
-        await fetchMessages(); // This is causing the scroll reset
       } catch (err) {
         setError("Error sending message");
         console.error("Error sending message:", err);
