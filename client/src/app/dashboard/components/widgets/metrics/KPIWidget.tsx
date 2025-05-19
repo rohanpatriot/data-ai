@@ -12,7 +12,7 @@ interface KPIWidgetProps {
 
 const KPIWidget: React.FC<KPIWidgetProps> = ({ data }) => {
   return (
-    <WidgetBase>
+    <WidgetBase title={data.title}>
       <Box
         display="flex"
         flexDirection="column"
