@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Container,
-  Typography,
-  Skeleton,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Container, useTheme, useMediaQuery } from "@mui/material";
 import { AnimatePresence, motion } from "motion/react";
 import { useSearchParams } from "react-router-dom";
 
@@ -105,11 +98,11 @@ const DashboardPage: React.FC = () => {
           />
 
           <Box
-            sx={{ flexGrow: 1, p: 2, overflowY: "auto" }}
+            sx={{ flexGrow: 1, padding: 0, overflowY: "auto" }}
             id="grid-container"
           >
-            <Container maxWidth="xl">
-              <Box sx={{ mb: 3, ml: 1 }}>
+            <Container maxWidth="xl" sx={{ padding: 0 }}>
+              {/* <Box sx={{ mb: 3, ml: 1 }}>
                 <Typography variant="h4" sx={{ mb: 1 }}>
                   Dashboard
                 </Typography>
@@ -123,8 +116,10 @@ const DashboardPage: React.FC = () => {
                     />
                   )}
                 </Typography>
+              </Box> */}
+              <Box sx={{ p: 0 }}>
+                <DashboardGrid />
               </Box>
-              <DashboardGrid />
             </Container>
           </Box>
         </Box>

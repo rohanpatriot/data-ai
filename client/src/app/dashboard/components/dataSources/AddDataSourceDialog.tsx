@@ -1,6 +1,5 @@
 import {
   Box,
-  TextField,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
@@ -11,6 +10,7 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useRef } from "react";
 import { useAutoFocusAndSelect } from "../../../../shared/components/useAutoFocusAndSelect";
 import { BaseFormDialog } from "../../../../shared/components/BaseFormDialog";
+import CustomTextField from "../../../../shared/components/CustomTextField";
 
 interface Props {
   open: boolean;
@@ -83,9 +83,8 @@ const AddDataSourceDialog = ({
       }
     >
       <Box sx={{ mt: 2 }}>
-        <TextField
+        <CustomTextField
           inputRef={nameInputRef}
-          fullWidth
           label="Name"
           value={name}
           onChange={(e) => onChangeName(e.target.value)}
@@ -138,8 +137,7 @@ const AddDataSourceDialog = ({
             </CardActionArea>
           </Card>
         ) : (
-          <TextField
-            fullWidth
+          <CustomTextField
             label="URL"
             value={url}
             onChange={(e) => onChangeUrl(e.target.value)}

@@ -23,6 +23,7 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
   children,
   onDelete,
   title,
+  showMoreMenu = true,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | {
     x: number;
@@ -93,26 +94,29 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
         minWidth: "200px",
       }}
     >
-      <Typography variant="body2" color="text.secondary">
-        {title} asd
-      </Typography>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={1}
-      >
-        <Box fontWeight="bold">{title}</Box>
-        <IconButton
-          size="small"
-          onClick={(e) => {
-            e.stopPropagation(); // Prevent event bubbling
-            setAnchorEl({ x: e.clientX, y: e.clientY });
-          }}
+      {title && (
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={1}
         >
-          <MoreVertIcon fontSize="small" />
-        </IconButton>
-      </Box>
+          <Typography variant="body1" fontWeight="bold">
+            {title}
+          </Typography>
+          {showMoreMenu && (
+            <IconButton
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent event bubbling
+                setAnchorEl({ x: e.clientX, y: e.clientY });
+              }}
+            >
+              <MoreVertIcon fontSize="small" />
+            </IconButton>
+          )}
+        </Box>
+      )}
 
       <Box flexGrow={1} minHeight={0}>
         {showContent && children}

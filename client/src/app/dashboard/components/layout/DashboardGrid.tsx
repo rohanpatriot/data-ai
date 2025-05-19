@@ -65,7 +65,6 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
 
   const generateWidgets = () =>
     widgets.map((widget) => (
-
       <Box
         key={widget.id}
         sx={{

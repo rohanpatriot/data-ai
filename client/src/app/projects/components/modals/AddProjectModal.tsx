@@ -1,7 +1,8 @@
-import { TextField, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import { useRef, useState, useEffect } from "react";
 import { BaseFormDialog } from "../../../../shared/components/BaseFormDialog";
 import { useAutoFocusAndSelect } from "../../../../shared/components/useAutoFocusAndSelect";
+import CustomTextField from "../../../../shared/components/CustomTextField";
 
 interface Props {
   open: boolean;
@@ -63,9 +64,8 @@ const AddProjectModal = ({
       confirmDisabled={!name.trim()}
     >
       <Box sx={{ mt: 2 }}>
-        <TextField
+        <CustomTextField
           inputRef={nameInputRef}
-          fullWidth
           label="Project Name"
           value={name}
           onChange={(e) => {
@@ -77,9 +77,8 @@ const AddProjectModal = ({
           onKeyDown={handleNameKeyDown}
           sx={{ mb: 2 }}
         />
-        <TextField
+        <CustomTextField
           inputRef={descInputRef}
-          fullWidth
           label="Description"
           value={description}
           onChange={(e) => onChangeDescription(e.target.value)}
