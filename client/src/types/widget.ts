@@ -6,4 +6,5 @@ export interface Widget {
   widget_type: string;
   cutsomization_type: number;
   position: number;
+  project_id: string;
 }

@@ -25,7 +25,6 @@ const ProfileModal: React.FC<ProfileProps> = ({ open, onClose, user }) => {
 
   return (
     <ResponsiveDialog open={open} onClose={onClose} title="My profile">
-      <DialogTitle variant="h5">My profile</DialogTitle>
       <DialogContent>
         <DialogContentText>
           <Box sx={{ display: "flex", alignItems: "center" }}>
