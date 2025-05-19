@@ -1,7 +1,7 @@
 import { DataSource } from "./dataSource";
 import { Widget } from "./widget";
 
-export interface Message {
+export interface Reponse {
   id: string;
   response: string;
   sourcesAdded?: DataSource[];

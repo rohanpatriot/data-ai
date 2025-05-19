@@ -6,7 +6,9 @@ export const ProjectsAPI = {
     const user_id = (await supabase.auth.getUser()).data.user?.id;
     const { data, error } = await supabase
       .from("projects")
-      .select("id, name, description, sources, widgets, updated_At")
+      .select(
+        "id, name, description, sources_number, widgets_number, updated_At"
+      )
       .eq("user_id", user_id)
       .order("updated_At", { ascending: false });
 
@@ -19,9 +21,9 @@ export const ProjectsAPI = {
     const newProject = {
       name: name || "Untitled Project",
       description: description || "",
-      sources: 0,
-      widgets: 0,
       user_id: user_id,
+      sources_number: 0,
+      widgets_number: 0,
     };
 
     const { data, error } = await supabase
@@ -29,7 +31,7 @@ export const ProjectsAPI = {
       .insert(newProject)
       .select()
       .single();
-
+    if (error) console.error(error);
     if (error) throw error;
     return data as Project;
   },
