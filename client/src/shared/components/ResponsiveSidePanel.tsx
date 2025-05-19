@@ -28,7 +28,7 @@ export const ResponsiveSidePanel: React.FC<ResponsiveSidePanelProps> = ({
 
   // Styles
   const drawerPaperStyles = {
-    width: isMobile ? "100%" : "450px",
+    width: isMobile ? "100%" : "510px",
     boxSizing: "border-box" as const,
     borderRadius: isMobile ? "16px 16px 0 0" : "20px 0 0 20px",
     maxHeight: isMobile ? "80vh" : "100%",

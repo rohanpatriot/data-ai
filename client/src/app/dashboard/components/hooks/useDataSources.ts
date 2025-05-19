@@ -1,15 +1,6 @@
 import { useEffect, useState } from "react";
 import { API } from "../../../api/api";
-
-export interface DataSource {
-  id: string;
-  name: string;
-  type: string;
-  fileType: string;
-  size: string;
-  addedAt: string;
-  path: string;
-}
+import { DataSource } from "../../../../types/dataSource";
 
 export const useDataSources = (projectId: string) => {
   const [dataSources, setDataSources] = useState<DataSource[] | null>(null);

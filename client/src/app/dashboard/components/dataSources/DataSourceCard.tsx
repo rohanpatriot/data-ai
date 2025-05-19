@@ -6,6 +6,7 @@ import {
   TextField,
   Box,
   Stack,
+  Chip,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -13,17 +14,11 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DescriptionIcon from "@mui/icons-material/Description";
-
+import { DataSource } from "../../../../types/dataSource";
+import { formatRelativeTime } from "../../../../shared/utils/dateUtils";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 interface Props {
-  source: {
-    id: string;
-    name: string;
-    type: string;
-    fileType: string;
-    size: string;
-    addedAt: string;
-    path: string;
-  };
+  source: DataSource;
   onDeleteClick: () => void;
   onEditConfirm: (id: string, newName: string) => Promise<void>;
 }
@@ -64,7 +59,9 @@ const DataSourceCard: React.FC<Props> = ({
   };
 
   const getFileIcon = () => {
-    switch (source.fileType.toLowerCase()) {
+    // Assuming fileType is extracted from the path or determined elsewhere
+    const fileType = source.path.split(".").pop()?.toLowerCase() || "";
+    switch (fileType) {
       case "csv":
         return <DescriptionIcon fontSize="small" />;
       default:
@@ -116,7 +113,7 @@ const DataSourceCard: React.FC<Props> = ({
           alignItems: "center",
           justifyContent: "space-between",
           p: 1,
-          minHeight: 72, // ✅ Consistent height
+          minHeight: 72,
         }}
       >
         <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
@@ -135,9 +132,11 @@ const DataSourceCard: React.FC<Props> = ({
             />
           ) : (
             <Stack spacing={0.5}>
-              <Typography variant="subtitle1" fontWeight={500}>
-                {source.name}
-              </Typography>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Typography variant="subtitle1" fontWeight={500}>
+                  {source.name}
+                </Typography>
+              </Box>
               <Box
                 sx={{
                   display: "flex",
@@ -148,14 +147,33 @@ const DataSourceCard: React.FC<Props> = ({
                 <Box sx={{ display: "flex", alignItems: "center", mr: 1 }}>
                   {getFileIcon()}
                   <Typography variant="body2" sx={{ ml: 0.5 }}>
-                    {source.fileType} file
+                    {source.is_link ? "URL" : "CSV"} file
                   </Typography>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <AccessTimeIcon fontSize="small" />
                   <Typography variant="body2" sx={{ ml: 0.5 }}>
-                    Added {source.addedAt}
+                    Added {formatRelativeTime(source.created_at)}
                   </Typography>
+                </Box>
+                <Box>
+                  {source.added_by_ai && (
+                    <Chip
+                      label="Added by AI"
+                      size="small"
+                      color="primary"
+                      icon={<AutoAwesomeIcon />}
+                      sx={{
+                        ml: 1,
+                        bgcolor: "#f0e6ff",
+                        color: "#A224F0",
+                        fontWeight: 500,
+                        fontSize: "0.7rem",
+                        height: 24,
+                        borderRadius: 2,
+                      }}
+                    />
+                  )}
                 </Box>
               </Box>
             </Stack>

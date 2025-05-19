@@ -1,18 +1,10 @@
 // src/api/dataSources.ts
 
-import { formatRelativeTime } from "../../shared/utils/dateUtils";
 import { supabase } from "../../supabase-client";
-
-export interface DataSource {
-  id: string;
-  name: string;
-  path: string;
-  is_link: boolean;
-  created_at: string;
-}
+import { DataSource } from "../../types/dataSource";
 
 export const DataSourcesAPI = {
-  async getAll(projectId: string) {
+  async getAll(projectId: string): Promise<DataSource[]> {
     const { data, error } = await supabase
       .from("datasources")
       .select("*")
@@ -21,20 +13,9 @@ export const DataSourcesAPI = {
 
     if (error) throw error;
 
-    return (data ?? []).map((source) => ({
-      id: source.id,
-      name: source.name,
-      type: source.is_link
-        ? "URL"
-        : source.path.split(".").pop()?.toUpperCase() || "FILE",
-      fileType: source.is_link
-        ? "URL"
-        : `${source.path.split(".").pop()?.toUpperCase() || "FILE"} file`,
-      size: source.is_link ? "0" : "2.2 Kb", // temp
-      addedAt: formatRelativeTime(source.created_at),
-      path: source.path,
-    }));
+    return (data as DataSource[]) ?? [];
   },
+
   async createFile({
     file,
     name,
@@ -81,33 +62,39 @@ export const DataSourcesAPI = {
       isLink: true,
     });
   },
+
   async create({
     name,
     path,
     projectId,
     isLink,
+    addedByAi = false,
   }: {
     name: string;
     path: string;
     projectId: string;
     isLink: boolean;
-  }) {
-    const { error } = await supabase.from("datasources").insert({
+    addedByAi?: boolean;
+  }): Promise<void> {
+    const newDataSource: Omit<DataSource, "id" | "created_at"> = {
       name,
       path,
       project_id: projectId,
       is_link: isLink,
-    });
+      added_by_ai: addedByAi,
+    };
+
+    const { error } = await supabase.from("datasources").insert(newDataSource);
 
     if (error) throw error;
   },
 
-  async delete(id: string) {
+  async delete(id: string): Promise<void> {
     const { error } = await supabase.from("datasources").delete().eq("id", id);
     if (error) throw error;
   },
 
-  async updateName(id: string, name: string) {
+  async updateName(id: string, name: string): Promise<void> {
     const { error } = await supabase
       .from("datasources")
       .update({ name })

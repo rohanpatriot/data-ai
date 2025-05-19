@@ -58,7 +58,14 @@ const AddDataSourceDialog = ({
         urlToValidate = `https://${url}`;
       }
 
-      new URL(urlToValidate);
+      const parsedUrl = new URL(urlToValidate);
+
+      // Check if the hostname has at least one dot (e.g., example.com)
+      // This prevents strings like "test" from being valid
+      if (!parsedUrl.hostname.includes(".")) {
+        throw new Error("Invalid hostname");
+      }
+
       setUrlError(null);
       return true;
     } catch (e) {
