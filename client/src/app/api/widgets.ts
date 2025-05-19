@@ -1,5 +1,6 @@
 import { Widget } from "../../types/widget";
 import { supabase } from "../../supabase-client";
+import { API } from "./api";
 
 export const WidgetsAPI = {
   /**
@@ -61,6 +62,14 @@ export const WidgetsAPI = {
       throw error;
     }
 
+    // Update the project's widgets count
+    try {
+      await API.projects.incrementWidgetsCount(widget.project_id);
+    } catch (countError) {
+      console.error("Failed to update project widgets count:", countError);
+      // Continue execution even if count update fails
+    }
+
     return data;
   },
 
@@ -95,6 +104,21 @@ export const WidgetsAPI = {
    * @returns Promise with success status
    */
   deleteWidget: async (widgetId: string): Promise<void> => {
+    // First get the widget to know which project to update
+    const { data, error: fetchError } = await supabase
+      .from("widgets")
+      .select("project_id")
+      .eq("id", widgetId)
+      .single();
+
+    if (fetchError) {
+      console.error("Error fetching widget project_id:", fetchError);
+      throw fetchError;
+    }
+
+    const projectId = data.project_id;
+
+    // Delete the widget
     const { error } = await supabase
       .from("widgets")
       .delete()
@@ -103,6 +127,14 @@ export const WidgetsAPI = {
     if (error) {
       console.error("Error deleting widget:", error);
       throw error;
+    }
+
+    // Update the project's widgets count
+    try {
+      await API.projects.decrementWidgetsCount(projectId);
+    } catch (countError) {
+      console.error("Failed to update project widgets count:", countError);
+      // Continue execution even if count update fails
     }
   },
 
@@ -164,6 +196,14 @@ export const WidgetsAPI = {
     if (error) {
       console.error("Error duplicating widget:", error);
       throw error;
+    }
+
+    // Update the project's widgets count
+    try {
+      await API.projects.incrementWidgetsCount(widget.project_id);
+    } catch (countError) {
+      console.error("Failed to update project widgets count:", countError);
+      // Continue execution even if count update fails
     }
 
     return data;

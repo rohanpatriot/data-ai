@@ -2,6 +2,7 @@
 
 import { supabase } from "../../supabase-client";
 import { DataSource } from "../../types/dataSource";
+import { API } from "./api";
 
 export const DataSourcesAPI = {
   async getAll(projectId: string): Promise<DataSource[]> {
@@ -85,13 +86,40 @@ export const DataSourcesAPI = {
     };
 
     const { error } = await supabase.from("datasources").insert(newDataSource);
-
     if (error) throw error;
+
+    // Update the project's data sources count
+    try {
+      await API.projects.incrementDataSourcesCount(projectId);
+    } catch (countError) {
+      console.error("Failed to update project data sources count:", countError);
+      // Continue execution even if count update fails
+    }
   },
 
   async delete(id: string): Promise<void> {
+    // First get the data source to know which project to update
+    const { data, error: fetchError } = await supabase
+      .from("datasources")
+      .select("project_id")
+      .eq("id", id)
+      .single();
+    
+    if (fetchError) throw fetchError;
+    
+    const projectId = data.project_id;
+    
+    // Delete the data source
     const { error } = await supabase.from("datasources").delete().eq("id", id);
     if (error) throw error;
+    
+    // Update the project's data sources count
+    try {
+      await API.projects.decrementDataSourcesCount(projectId);
+    } catch (countError) {
+      console.error("Failed to update project data sources count:", countError);
+      // Continue execution even if count update fails
+    }
   },
 
   async updateName(id: string, name: string): Promise<void> {
