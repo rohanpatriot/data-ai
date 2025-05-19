@@ -12,7 +12,7 @@ export const MessageAPI = {
       .from("messages")
       .select("*")
       .eq("project_id", projectId)
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: true });
 
     if (error) {
       console.error("Error fetching messages:", error);
