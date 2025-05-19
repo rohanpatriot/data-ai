@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { WidgetsAPI } from "../../api/widgets";
 import { WidgetConfig } from "../components/widgets/util/WidgetUtil";
+import { API } from "../../api/api";
 
 /**
  * Custom hook to fetch widgets from Supabase
@@ -20,7 +20,7 @@ export const useWidgets = (projectId?: string) => {
 
     try {
       setLoading(true);
-      const widgetsData = await WidgetsAPI.getWidgetsByProject(projectId);
+      const widgetsData = await API.widgets.getWidgetsByProject(projectId);
 
       // Transform the API response to match the WidgetConfig format
       const formattedWidgets: WidgetConfig[] = widgetsData.map(

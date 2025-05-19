@@ -1,6 +1,7 @@
-import React from 'react';
-import ReactECharts from 'echarts-for-react';
-import WidgetBase from '../WidgetBase';
+// src/widgets/charts/LineChartWidget.tsx
+import React from "react";
+import { getLineChartOptions } from "../charts/chartOptions";
+import BaseChartWidget from "../BaseChartWidget";
 
 interface LineChartWidgetProps {
   data: {
@@ -11,34 +12,8 @@ interface LineChartWidgetProps {
 }
 
 const LineChartWidget: React.FC<LineChartWidgetProps> = ({ data }) => {
-  const options = {
-    tooltip: {
-      trigger: 'axis',
-    },
-    legend: {
-      data: data.series.map((s) => s.name),
-      bottom: 0,
-    },
-    xAxis: {
-      type: 'category',
-      data: data.xAxis,
-    },
-    yAxis: {
-      type: 'value',
-    },
-    series: data.series.map((s) => ({
-      name: s.name,
-      type: 'line',
-      data: s.data,
-      smooth: true,
-    })),
-  };
-
-  return (
-    <WidgetBase title={data.title}>
-      <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
-    </WidgetBase>
-  );
+  const options = getLineChartOptions(data.xAxis, data.series);
+  return <BaseChartWidget title={data.title} options={options} />;
 };
 
 export default LineChartWidget;

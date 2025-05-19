@@ -1,6 +1,6 @@
-import React from 'react';
-import ReactECharts from 'echarts-for-react';
-import WidgetBase from '../WidgetBase';
+import React from "react";
+import { getAreaChartOptions } from "../charts/chartOptions";
+import BaseChartWidget from "../BaseChartWidget";
 
 interface AreaChartWidgetProps {
   data: {
@@ -11,27 +11,8 @@ interface AreaChartWidgetProps {
 }
 
 const AreaChartWidget: React.FC<AreaChartWidgetProps> = ({ data }) => {
-  const options = {
-    xAxis: {
-      type: 'category',
-      data: data.xAxis
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: data.series.map(s => ({
-      name: s.name,
-      type: 'line',
-      areaStyle: {},
-      data: s.data
-    }))
-  };
-
-  return (
-    <WidgetBase title={data.title}>
-      <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
-    </WidgetBase>
-  );
+  const options = getAreaChartOptions(data.xAxis, data.series);
+  return <BaseChartWidget title={data.title} options={options} />;
 };
 
 export default AreaChartWidget;

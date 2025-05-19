@@ -1,6 +1,7 @@
-import React from 'react';
-import ReactECharts from 'echarts-for-react';
-import WidgetBase from '../WidgetBase';
+// src/widgets/charts/PieChartWidget.tsx
+import React from "react";
+import { getPieChartOptions } from "../charts/chartOptions";
+import BaseChartWidget from "../BaseChartWidget";
 
 interface PieChartWidgetProps {
   data: {
@@ -11,33 +12,8 @@ interface PieChartWidgetProps {
 }
 
 const PieChartWidget: React.FC<PieChartWidgetProps> = ({ data }) => {
-  const options = {
-    tooltip: {
-      trigger: 'item',
-      formatter: '{b}: {c} ({d}%)'
-    },
-    series: [{
-      type: 'pie',
-      radius: '65%',
-      data: data.labels.map((label, index) => ({
-        name: label,
-        value: data.values[index]
-      })),
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: 'rgba(0, 0, 0, 0.5)'
-        }
-      }
-    }]
-  };
-
-  return (
-    <WidgetBase title={data.title}>
-      <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
-    </WidgetBase>
-  );
+  const options = getPieChartOptions(data.labels, data.values);
+  return <BaseChartWidget title={data.title} options={options} />;
 };
 
 export default PieChartWidget;

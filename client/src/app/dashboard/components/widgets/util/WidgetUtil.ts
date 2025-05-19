@@ -42,7 +42,6 @@ export interface WidgetTypeMap {
     }>;
   };
   Timeline: { title: string; events: { date: string; label: string }[] };
-  GaugeChart: { title: string; value: number; min: number; max: number };
   AreaChart: {
     title: string;
     xAxis: string[];
@@ -51,6 +50,8 @@ export interface WidgetTypeMap {
   KPI: { title: string; value: number; trend?: number };
   Progress: { title: string; value: number; label?: string };
 }
+
+type WidgetKey = keyof WidgetTypeMap;
 
 interface WidgetSizeConstraints {
   minW: number;
@@ -77,13 +78,10 @@ const widgetSizeConstraints: Record<WidgetKey, WidgetSizeConstraints> = {
   BubbleChart: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
   Treemap: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
   Timeline: { minW: 2, minH: 10, maxW: 6, maxH: 12 },
-  GaugeChart: { minW: 4, minH: 6, maxW: 6, maxH: 10 },
   AreaChart: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
   KPI: { minW: 2, minH: 4, maxW: 4, maxH: 4 },
   Progress: { minW: 4, minH: 2, maxW: 12, maxH: 8 },
 };
-
-type WidgetKey = keyof WidgetTypeMap;
 
 export const widgetRegistry: {
   [K in WidgetKey]: React.ComponentType<{ data: WidgetTypeMap[K] }>;
@@ -105,7 +103,6 @@ export const widgetRegistry: {
   BubbleChart: Widgets.BubbleChartWidget,
   Treemap: Widgets.TreemapWidget,
   Timeline: Widgets.TimelineWidget,
-  GaugeChart: Widgets.GaugeChartWidget,
   AreaChart: Widgets.AreaChartWidget,
   KPI: Widgets.KPIWidget,
   Progress: Widgets.ProgressWidget,
@@ -116,7 +113,6 @@ export interface WidgetConfig<K extends WidgetKey = WidgetKey> {
   name: string;
   type: K;
   data: WidgetTypeMap[K];
-  // Replace layout with direct position properties
   x?: number;
   y?: number;
   w?: number;

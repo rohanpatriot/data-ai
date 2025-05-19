@@ -1,6 +1,7 @@
-import React from 'react';
-import ReactECharts from 'echarts-for-react';
-import WidgetBase from '../WidgetBase';
+// src/widgets/charts/PlotChartWidget.tsx
+import React from "react";
+import { getPlotChartOptions } from "../charts/chartOptions";
+import BaseChartWidget from "../BaseChartWidget";
 
 interface PlotChartWidgetProps {
   data: {
@@ -11,20 +12,8 @@ interface PlotChartWidgetProps {
 }
 
 const PlotChartWidget: React.FC<PlotChartWidgetProps> = ({ data }) => {
-  const options = {
-    xAxis: { type: 'value' },
-    yAxis: { type: 'value' },
-    series: [{
-      type: 'scatter',
-      data: data.x.map((x, i) => [x, data.y[i]])
-    }]
-  };
-
-  return (
-    <WidgetBase title={data.title}>
-      <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
-    </WidgetBase>
-  );
+  const options = getPlotChartOptions(data.x, data.y);
+  return <BaseChartWidget title={data.title} options={options} />;
 };
 
 export default PlotChartWidget;
