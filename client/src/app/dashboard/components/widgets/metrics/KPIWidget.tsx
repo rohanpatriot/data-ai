@@ -20,9 +20,6 @@ const KPIWidget: React.FC<KPIWidgetProps> = ({ data }) => {
         justifyContent="center"
         height="100%"
       >
-        <Typography variant="h6" gutterBottom>
-          {data.title}
-        </Typography>
         <Typography variant="h4" gutterBottom>
           {data.value}
         </Typography>
