@@ -3,4 +3,7 @@ export interface Widget {
   created_at: string;
   name: string;
   data: JSON;
+  widget_type: string;
+  cutsomization_type: number;
+  position: number;
 }

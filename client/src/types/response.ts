@@ -3,9 +3,9 @@ import { Widget } from "./widget";
 
 export interface Message {
   id: string;
-  message: string;
-  sources: DataSource[];
-  widgets_context: Widget[];
+  response: string;
+  sourcesAdded?: DataSource[];
+  widgets_changed?: Widget[];
   project_id: string;
   created_at: string;
 }

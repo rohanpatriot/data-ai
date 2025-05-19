@@ -1,7 +1,7 @@
 import React from "react";
-import { Box, TextField, Stack, Card } from "@mui/material";
+import { Box, TextField, Stack, Card, IconButton } from "@mui/material";
 import SourcesButton from "../dataSources/SourcesButton";
-import SendButton from "./SendButton";
+import SendRoundedIcon from "@mui/icons-material/SendRounded";
 
 // Main component
 interface ChatBoxProps {
@@ -59,7 +59,9 @@ const ChatBox: React.FC<ChatBoxProps> = ({
           }}
         >
           <SourcesButton />
-          <SendButton onClick={handleSend} />
+          <IconButton color="default" onClick={handleSend}>
+            <SendRoundedIcon />
+          </IconButton>
         </Box>
       </Stack>
     </Card>
