@@ -59,17 +59,6 @@ const DataSourceCard: React.FC<Props> = ({
     }
   };
 
-  const getFileIcon = () => {
-    // Assuming fileType is extracted from the path or determined elsewhere
-    const fileType = source.path.split(".").pop()?.toLowerCase() || "";
-    switch (fileType) {
-      case "csv":
-        return <DescriptionIcon fontSize="small" />;
-      default:
-        return <DescriptionIcon fontSize="small" />;
-    }
-  };
-
   const renderEditButtons = () => (
     <>
       <IconButton
