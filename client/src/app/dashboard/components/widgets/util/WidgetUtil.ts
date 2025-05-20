@@ -16,6 +16,7 @@ export interface WidgetTypeMap {
   };
   Map: { title: string; geoData: object };
   Text: { title: string; content: string };
+  SmallText: { title: string; content: string };
   Image: { title: string; src: string; alt?: string };
   PlotChart: { title: string; x: number[]; y: number[] };
   Histogram: { title: string; bins: number[]; counts: number[] };
@@ -66,8 +67,9 @@ const widgetSizeConstraints: Record<WidgetKey, WidgetSizeConstraints> = {
   BarChart: { minW: 4, minH: 6, maxW: 12, maxH: 12 },
   Table: { minW: 4, minH: 6 },
   Map: { minW: 4, minH: 6, maxW: 12, maxH: 12 },
-  Text: { minW: 2, minH: 4 },
-  Image: { minW: 2, minH: 6 },
+  Text: { minW: 4, minH: 6 },
+  SmallText: { minW: 2, minH: 3 },
+  Image: { minW: 4, minH: 6 },
   PlotChart: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
   Histogram: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
   ScatterPlot: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
@@ -76,11 +78,11 @@ const widgetSizeConstraints: Record<WidgetKey, WidgetSizeConstraints> = {
   WordCloud: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
   BubbleChart: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
   Treemap: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
-  Timeline: { minW: 2, minH: 10, maxW: 6, maxH: 12 },
+  Timeline: { minW: 2, minH: 6, maxW: 6, maxH: 12 },
   GaugeChart: { minW: 4, minH: 6, maxW: 6, maxH: 10 },
   AreaChart: { minW: 4, minH: 6, maxW: 10, maxH: 12 },
-  KPI: { minW: 2, minH: 4, maxW: 4, maxH: 4 },
-  Progress: { minW: 4, minH: 2, maxW: 12, maxH: 8 },
+  KPI: { minW: 2, minH: 3, maxW: 4, maxH: 4 },
+  Progress: { minW: 4, minH: 3, maxW: 12, maxH: 8 },
 };
 
 type WidgetKey = keyof WidgetTypeMap;
@@ -95,6 +97,7 @@ export const widgetRegistry: {
   Table: Widgets.TableWidget,
   Map: Widgets.MapWidget,
   Text: Widgets.TextWidget,
+  SmallText: Widgets.SmallTextWidget,
   Image: Widgets.ImageWidget,
   PlotChart: Widgets.PlotChartWidget,
   Histogram: Widgets.HistogramWidget,

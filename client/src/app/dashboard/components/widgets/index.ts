@@ -5,6 +5,7 @@ export { default as BarChartWidget } from './basic/BarChartWidget';
 export { default as TableWidget } from './basic/TableWidget';
 export { default as MapWidget } from './media/MapWidget';
 export { default as TextWidget } from './media/TextWidget';
+export { default as SmallTextWidget } from './media/SmallTextWidget';
 export { default as ImageWidget } from './media/ImageWidget';
 export { default as PlotChartWidget } from './basic/PlotChartWidget';
 export { default as HistogramWidget } from './charts/HistogramWidget';

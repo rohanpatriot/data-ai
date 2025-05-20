@@ -46,11 +46,11 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
         console.debug("Size constraints: ", sizeConstraints);
 
         const defaultLayout: Layout = {
-          i: widget.id,
+          i: `${widget.id}`,
           x: widget.x || 0,
           y: widget.y || 0,
-          w: widget.w || sizeConstraints?.minW || 2,
-          h: widget.h || sizeConstraints?.minH || 4,
+          w: sizeConstraints?.minW || 2,
+          h: sizeConstraints?.minH || 4,
           //currently widgets are not resizable, once support is added, remove the comments below
           // Also adjust w / h in the defaultLayout object above, Add isResizable: true to object
           //--------------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
         }}
       >
         {/* Widget content without duplicating the title */}
-        <Box sx={{ flexGrow: 1, p: 1 }}>
+        <Box sx={{ flexGrow: 1, p: 1, width:'inherit', height:'inherit' }}>
           {WidgetFactory(widget.type, widget.data)}
         </Box>
       </Box>
@@ -143,6 +143,26 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
     );
   }
 
+  const hasAllBreakpoints = Object.keys(cols).every(
+    breakpoint => breakpoint in layouts && 
+                 layouts[breakpoint] && 
+                 layouts[breakpoint].length > 0
+  );
+
+  if (!hasAllBreakpoints) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100%"
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+
   return (
     <ResponsiveReactGridLayout
       className="layout"
@@ -153,9 +173,9 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
       onLayoutChange={handleLayoutChange}
       isDraggable
       isResizable={false}
-      compactType={null} // Change from "vertical" to null to prevent automatic compacting
-      preventCollision={true} // Prevent widgets from overlapping
+      compactType="vertical"
       draggableCancel=".no-drag"
+      margin={[5, 5]}
     >
       {generateWidgets()}
     </ResponsiveReactGridLayout>

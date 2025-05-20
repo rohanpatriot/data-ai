@@ -6,6 +6,8 @@ import {
   Menu,
   MenuItem,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -28,6 +30,8 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [showContent, setShowContent] = useState(false);
   const widgetRef = useRef<HTMLDivElement>(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     if (!widgetRef.current) return;
@@ -74,13 +78,14 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
       onContextMenu={(e) => {
         e.preventDefault();
       }}
+      className={isMobile ? "no-drag" : ""}
       sx={{
         p: 1,
         height: "100%",
         display: "flex",
         flexDirection: "column",
         width: "inherit",
-        minWidth: "200px",
+        minWidth: "150px",
       }}
     >
       {title && (
@@ -88,7 +93,6 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
           display="flex"
           justifyContent="space-between"
           alignItems="center"
-          mb={1}
         >
           <Typography variant="body1" fontWeight="bold">
             {title}
@@ -108,7 +112,7 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
         </Box>
       )}
 
-      <Box flexGrow={1} minHeight={100}>
+      <Box flexGrow={1} minHeight={50}>
         {showContent && children}
       </Box>
 

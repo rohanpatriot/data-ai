@@ -7,10 +7,10 @@ export const ProjectsAPI = {
     const { data, error } = await supabase
       .from("projects")
       .select(
-        "id, name, description, sources_number, widgets_number, updated_At"
+        "id, name, description, sources_number, widgets_number, created_at"
       )
       .eq("user_id", user_id)
-      .order("updated_At", { ascending: false });
+      .order("created_at", { ascending: false });
 
     if (error) throw error;
     return data as Project[];

@@ -72,7 +72,7 @@ export const sampleWidgets: WidgetConfig[] = [
   {
     id: "text1",
     name: "Conversion rate",
-    type: "Text",
+    type: "SmallText",
     data: { title: "", content: "Welcome to the Dashboard!" },
   },
   {
@@ -81,7 +81,7 @@ export const sampleWidgets: WidgetConfig[] = [
     type: "Text",
     data: {
       title: "test title",
-      content: "This is a text insight here. Take a look at the table!😂",
+      content: "This is a text insight here. Take a look at the table!😂 bla bla bla bla bla bla bla bla bla blabla bbla bla bla bla bla bla blala bla bla bla bla bla",
     },
   },
   {

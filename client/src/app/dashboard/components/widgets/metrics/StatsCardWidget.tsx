@@ -21,7 +21,7 @@ const StatsCardWidget: React.FC<StatsCardWidgetProps> = ({ data }) => {
         height="100%"
       >
         {data.icon && (
-          <Box mb={2}>
+          <Box mb={1}>
             <img
               src={data.icon}
               alt={data.title}
