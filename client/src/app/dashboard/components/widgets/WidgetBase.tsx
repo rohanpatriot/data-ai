@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Box,
   Card,
@@ -28,31 +28,9 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
   showMoreMenu = true,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [showContent, setShowContent] = useState(false);
   const widgetRef = useRef<HTMLDivElement>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-  useEffect(() => {
-    if (!widgetRef.current) return;
-
-    const observer = new window.ResizeObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.contentRect.width > 0) {
-          setShowContent(true);
-        }
-      }
-    });
-
-    observer.observe(widgetRef.current);
-    if (widgetRef.current.offsetWidth > 0) {
-      setShowContent(true);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -113,7 +91,7 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
       )}
 
       <Box flexGrow={1} minHeight={50}>
-        {showContent && children}
+        {children}
       </Box>
 
       <Menu

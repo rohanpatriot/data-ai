@@ -28,7 +28,7 @@ const DashboardPage: React.FC = () => {
     null
   );
   const [DSPanelOpen, setDSPanelOpen] = useState(false);
-
+  const [containerWidth, setContainerWidth] = useState(100);
   const { currentProject, loading, user } = useProjectData(projectId);
 
   const { refresh } = useDataSources(projectId!);
@@ -36,6 +36,17 @@ const DashboardPage: React.FC = () => {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  // Added to handle size issues
+  React.useEffect(() => {
+    setContainerWidth(101);
+      const timer = setTimeout(() => {
+        if(!loading) {
+        setContainerWidth(100);
+        }
+      }, 200);
+        return () => clearTimeout(timer);
+  }, [loading]);
 
   return (
     <motion.div
@@ -92,7 +103,7 @@ const DashboardPage: React.FC = () => {
             sx={{ flexGrow: 1, padding: 0, overflowY: "auto" }}
             id="grid-container"
           >
-            <Container maxWidth="xl" sx={{ padding: 0 }}>
+            <Container maxWidth="xl" sx={{ padding: 0, width: `${containerWidth}%` }}>
               <Box sx={{ p: 0 }}>
                 <DashboardGrid />
               </Box>
