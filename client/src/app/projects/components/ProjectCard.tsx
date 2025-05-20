@@ -14,7 +14,7 @@ interface ProjectCardProps {
   title: string;
   sources: number;
   widgets: number;
-  updatedAt: string;
+  createdAt: string;
   onClick: (id: string) => void;
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
@@ -25,7 +25,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   sources,
   widgets,
-  updatedAt,
+  createdAt,
   onClick,
   onEdit,
   onDelete,
@@ -102,7 +102,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               variant="body2"
               sx={{ color: theme.palette.text.secondary }}
             >
-              {formatRelativeTime(updatedAt)}
+              {formatRelativeTime(createdAt)}
             </Typography>
             <IconButton size="small" onClick={handleMoreClick} sx={{ ml: 1 }}>
               <MoreVertIcon fontSize="small" />

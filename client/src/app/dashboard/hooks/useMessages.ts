@@ -58,9 +58,6 @@ export const useMessages = (projectId?: string) => {
           message: text,
           from_user: true,
         });
-
-        // Fetch messages to ensure we have the latest state
-        await fetchMessages();
       } catch (err) {
         setError("Error sending message");
         console.error("Error sending message:", err);

@@ -1,6 +1,7 @@
-import React from 'react';
-import ReactECharts from 'echarts-for-react';
-import WidgetBase from '../WidgetBase';
+// src/widgets/charts/BarChartWidget.tsx
+import React from "react";
+import { getBarChartOptions } from "../charts/chartOptions";
+import BaseChartWidget from "../BaseChartWidget";
 
 interface BarChartWidgetProps {
   data: {
@@ -11,35 +12,8 @@ interface BarChartWidgetProps {
 }
 
 const BarChartWidget: React.FC<BarChartWidgetProps> = ({ data }) => {
-  const options = {
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow'
-      }
-    },
-    legend: {
-      data: data.series.map(s => s.name)
-    },
-    xAxis: {
-      type: 'category',
-      data: data.categories
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: data.series.map(s => ({
-      name: s.name,
-      type: 'bar',
-      data: s.data
-    }))
-  };
-
-  return (
-    <WidgetBase title={data.title}>
-      <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
-    </WidgetBase>
-  );
+  const options = getBarChartOptions(data.categories, data.series);
+  return <BaseChartWidget title={data.title} options={options} />;
 };
 
 export default BarChartWidget;

@@ -30,13 +30,13 @@ const DeleteProjectModal = ({
     setIsDeleting(true);
     try {
       await onConfirm();
+      onClose(); // << Force close here
     } catch (err) {
       console.error("Delete failed:", err);
     } finally {
       setIsDeleting(false);
     }
   };
-
   return (
     <ResponsiveDialog
       open={open}
