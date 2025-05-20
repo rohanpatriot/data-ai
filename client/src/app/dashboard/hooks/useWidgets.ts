@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { WidgetConfig } from "../components/widgets/util/WidgetUtil";
 import { API } from "../../api/api";
+import { sampleWidgets } from "../dev/mockData";
 
 /**
  * Custom hook to fetch widgets from Supabase
@@ -58,7 +59,7 @@ export const useWidgets = (projectId?: string) => {
         }
       );
 
-      setWidgets(formattedWidgets);
+      setWidgets(sampleWidgets);
       setError(null);
     } catch (err) {
       console.error("Error fetching widgets:", err);
