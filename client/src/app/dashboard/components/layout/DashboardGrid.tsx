@@ -86,7 +86,7 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
       >
         {/* Widget content without duplicating the title */}
         <Box sx={{ flexGrow: 1, p: 1, width:'inherit', height:'inherit' }}>
-          {WidgetFactory(widget.type, widget.data)}
+          {WidgetFactory(widget.type, widget.data, widget.id)}
         </Box>
       </Box>
     ));

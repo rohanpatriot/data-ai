@@ -13,9 +13,12 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import FormatPaintIcon from "@mui/icons-material/FormatPaint";
+import { WidgetsAPI } from "../../../api/widgets";
+import DeleteWidgetDialog from "./DeleteWidgetDialog";
 
 interface WidgetBaseProps {
   children: React.ReactNode;
+  widgetId: string;
   onDelete?: () => void;
   title?: string;
   showMoreMenu?: boolean;
@@ -23,11 +26,13 @@ interface WidgetBaseProps {
 
 const WidgetBase: React.FC<WidgetBaseProps> = ({
   children,
+  widgetId,
   onDelete,
   title,
   showMoreMenu = true,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
   const widgetRef = useRef<HTMLDivElement>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -49,6 +54,25 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
   }, []);
 
   const handleClose = () => setAnchorEl(null);
+
+  const handleDeleteClick = () => {
+    handleClose();
+    if (widgetId) {
+      setDeleteDialogOpen(true);
+    } else if (onDelete) {
+      onDelete();
+    }
+  };
+
+  const handleDeleteWidget = async () => {
+    if (!widgetId) return;
+    
+    await WidgetsAPI.deleteWidget(widgetId);
+    
+    // if (onWidgetDeleted) {
+    //   onWidgetDeleted();
+    // }
+  };
 
   return (
     <Card
@@ -110,6 +134,7 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
         <MenuItem
           onClick={() => {
             handleClose();
+            handleDeleteClick();
             onDelete?.();
           }}
         >
@@ -141,6 +166,14 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
           </Box>
         </MenuItem>
       </Menu>
+
+      {widgetId && (
+        <DeleteWidgetDialog
+          open={deleteDialogOpen}
+          onClose={() => setDeleteDialogOpen(false)}
+          onDelete={handleDeleteWidget}
+        />
+      )}
     </Card>
   );
 };

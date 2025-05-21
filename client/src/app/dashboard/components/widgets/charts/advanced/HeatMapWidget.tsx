@@ -9,9 +9,10 @@ interface HeatMapWidgetProps {
     yLabels: string[];
     data: number[][];
   };
+  id: string;
 }
 
-const HeatMapWidget: React.FC<HeatMapWidgetProps> = ({ data }) => {
+const HeatMapWidget: React.FC<HeatMapWidgetProps> = ({ data, id }) => {
   const options = {
     xAxis: {
       type: 'category',
@@ -37,7 +38,7 @@ const HeatMapWidget: React.FC<HeatMapWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase title={data.title}>
+    <WidgetBase widgetId={id} title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

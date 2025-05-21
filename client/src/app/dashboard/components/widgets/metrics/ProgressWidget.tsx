@@ -8,11 +8,12 @@ interface ProgressWidgetProps {
     value: number;
     label?: string;
   };
+  id: string;
 }
 
-const ProgressWidget: React.FC<ProgressWidgetProps> = ({ data }) => {
+const ProgressWidget: React.FC<ProgressWidgetProps> = ({ data, id }) => {
   return (
-    <WidgetBase title={data.title}>
+    <WidgetBase widgetId={id} title={data.title}>
       <Box display="flex" flexDirection="column" gap={2}>
         {data.label && (
           <Typography variant="subtitle1">

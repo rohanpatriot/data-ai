@@ -8,11 +8,12 @@ interface ImageWidgetProps {
     src: string;
     alt?: string;
   };
+  id: string;
 }
 
-const ImageWidget: React.FC<ImageWidgetProps> = ({ data }) => {
+const ImageWidget: React.FC<ImageWidgetProps> = ({ data, id }) => {
   return (
-    <WidgetBase title={data.title}>
+    <WidgetBase widgetId={id} title={data.title}>
       <Box display="flex" justifyContent="center" alignItems="center" height="100%">
         <img src={data.src} alt={data.alt || ''} style={{ maxWidth: '100%', maxHeight: '100%' }} />
       </Box>

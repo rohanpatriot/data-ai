@@ -9,11 +9,12 @@ interface BarChartWidgetProps {
     categories: string[];
     series: { name: string; data: number[] }[];
   };
+  id: string;
 }
 
-const BarChartWidget: React.FC<BarChartWidgetProps> = ({ data }) => {
+const BarChartWidget: React.FC<BarChartWidgetProps> = ({ data, id }) => {
   const options = getBarChartOptions(data.categories, data.series);
-  return <BaseChartWidget title={data.title} options={options} />;
+  return <BaseChartWidget id={id} title={data.title} options={options} />;
 };
 
 export default BarChartWidget;

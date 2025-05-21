@@ -8,11 +8,12 @@ interface StatsCardWidgetProps {
     value: number;
     icon?: string;
   };
+  id: string;
 }
 
-const StatsCardWidget: React.FC<StatsCardWidgetProps> = ({ data }) => {
+const StatsCardWidget: React.FC<StatsCardWidgetProps> = ({ data, id }) => {
   return (
-    <WidgetBase title={data.title}>
+    <WidgetBase widgetId={id} title={data.title}>
       <Box
         display="flex"
         flexDirection="column"

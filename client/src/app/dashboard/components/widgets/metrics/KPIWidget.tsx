@@ -8,11 +8,12 @@ interface KPIWidgetProps {
     value: number;
     trend?: number;
   };
+  id: string;
 }
 
-const KPIWidget: React.FC<KPIWidgetProps> = ({ data }) => {
+const KPIWidget: React.FC<KPIWidgetProps> = ({ data, id }) => {
   return (
-    <WidgetBase title={data.title}>
+    <WidgetBase widgetId={id} title={data.title}>
       <Box
         display="flex"
         flexDirection="column"

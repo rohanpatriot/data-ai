@@ -7,9 +7,10 @@ interface ScatterPlotWidgetProps {
     title: string;
     points: { x: number; y: number }[];
   };
+  id: string;
 }
 
-const ScatterPlotWidget: React.FC<ScatterPlotWidgetProps> = ({ data }) => {
+const ScatterPlotWidget: React.FC<ScatterPlotWidgetProps> = ({ data, id }) => {
   const options = {
     xAxis: { type: 'value' },
     yAxis: { type: 'value' },
@@ -20,7 +21,7 @@ const ScatterPlotWidget: React.FC<ScatterPlotWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase title={data.title}>
+    <WidgetBase widgetId={id} title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

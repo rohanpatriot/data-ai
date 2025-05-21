@@ -7,11 +7,12 @@ interface SmallTextWidgetProps {
     title: string;
     content: string;
   };
+  id: string;
 }
 
-const SmallTextWidget: React.FC<SmallTextWidgetProps> = ({ data }) => {
+const SmallTextWidget: React.FC<SmallTextWidgetProps> = ({ data, id }) => {
   return (
-    <WidgetBase title={data.title}>
+    <WidgetBase widgetId={id} title={data.title}>
       <Typography>{data.content}</Typography>
     </WidgetBase>
   );

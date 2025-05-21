@@ -8,9 +8,10 @@ interface WordCloudWidgetProps {
     title: string;
     words: { text: string; value: number }[];
   };
+  id: string;
 }
 
-const WordCloudWidget: React.FC<WordCloudWidgetProps> = ({ data }) => {
+const WordCloudWidget: React.FC<WordCloudWidgetProps> = ({ data, id }) => {
   const options = {
     series: [{
       type: 'wordCloud',
@@ -52,7 +53,7 @@ const WordCloudWidget: React.FC<WordCloudWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase title={data.title}>
+    <WidgetBase widgetId={id} title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

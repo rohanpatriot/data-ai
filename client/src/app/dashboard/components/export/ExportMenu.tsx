@@ -35,7 +35,6 @@ const ExportMenu: React.FC<ExportMenuProps> = ({
 
   const handleExport = (_format: string) => {
     exportGrid(_format as ExportFormat);
-    console.log("format: ", _format, "exporting...")
     handleExportMenuClose();
   };
 

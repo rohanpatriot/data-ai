@@ -73,7 +73,7 @@ export const sampleWidgets: WidgetConfig[] = [
     id: "text1",
     name: "Conversion rate",
     type: "SmallText",
-    data: { title: "", content: "Welcome to the Dashboard!" },
+    data: { title: "some title", content: "Welcome to the Dashboard!" },
   },
   {
     id: "text2",

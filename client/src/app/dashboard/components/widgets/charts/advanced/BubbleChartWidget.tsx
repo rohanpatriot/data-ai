@@ -7,9 +7,10 @@ interface BubbleChartWidgetProps {
     title: string;
     bubbles: { x: number; y: number; r: number }[];
   };
+  id: string;
 }
 
-const BubbleChartWidget: React.FC<BubbleChartWidgetProps> = ({ data }) => {
+const BubbleChartWidget: React.FC<BubbleChartWidgetProps> = ({ data, id }) => {
   const options = {
     xAxis: { type: 'value' },
     yAxis: { type: 'value' },
@@ -21,7 +22,7 @@ const BubbleChartWidget: React.FC<BubbleChartWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase title={data.title}>
+    <WidgetBase widgetId={id} title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

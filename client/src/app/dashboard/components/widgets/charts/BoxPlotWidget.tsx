@@ -8,9 +8,10 @@ interface BoxPlotWidgetProps {
     categories: string[];
     values: number[][];
   };
+  id: string;
 }
 
-const BoxPlotWidget: React.FC<BoxPlotWidgetProps> = ({ data }) => {
+const BoxPlotWidget: React.FC<BoxPlotWidgetProps> = ({ data, id }) => {
   const options = {
     xAxis: {
       type: 'category',
@@ -26,7 +27,7 @@ const BoxPlotWidget: React.FC<BoxPlotWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase title={data.title}>
+    <WidgetBase title={data.title} widgetId={id}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

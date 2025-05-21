@@ -10,9 +10,10 @@ interface MapWidgetProps {
     title: string;
     geoData: object;
   };
+  id: string;
 }
 
-const MapWidget: React.FC<MapWidgetProps> = ({ data }) => {
+const MapWidget: React.FC<MapWidgetProps> = ({ data, id }) => {
   const options = {
     geo: {
       map: 'world',
@@ -22,7 +23,7 @@ const MapWidget: React.FC<MapWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase title={data.title}>
+    <WidgetBase widgetId={id} title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

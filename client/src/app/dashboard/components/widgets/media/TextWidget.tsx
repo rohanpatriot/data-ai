@@ -7,11 +7,12 @@ interface TextWidgetProps {
     title: string;
     content: string;
   };
+  id: string;
 }
 
-const TextWidget: React.FC<TextWidgetProps> = ({ data }) => {
+const TextWidget: React.FC<TextWidgetProps> = ({ data, id }) => {
   return (
-    <WidgetBase title={data.title}>
+    <WidgetBase widgetId={id} title={data.title}>
       <Typography>{data.content}</Typography>
     </WidgetBase>
   );

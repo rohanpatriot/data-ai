@@ -8,11 +8,12 @@ interface TableWidgetProps {
     columns: string[];
     rows: Record<string, string | number | boolean | null>[];
   };
+  id: string;
 }
 
-const TableWidget: React.FC<TableWidgetProps> = ({ data }) => {
+const TableWidget: React.FC<TableWidgetProps> = ({ data, id }) => {
   return (
-    <WidgetBase title={data.title}>
+    <WidgetBase widgetId={id} title={data.title}>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>

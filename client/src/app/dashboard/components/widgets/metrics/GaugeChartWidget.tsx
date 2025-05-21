@@ -9,9 +9,10 @@ interface GaugeChartWidgetProps {
     min: number;
     max: number;
   };
+  id: string;
 }
 
-const GaugeChartWidget: React.FC<GaugeChartWidgetProps> = ({ data }) => {
+const GaugeChartWidget: React.FC<GaugeChartWidgetProps> = ({ data, id }) => {
   const options = {
     series: [{
       type: 'gauge',
@@ -24,7 +25,7 @@ const GaugeChartWidget: React.FC<GaugeChartWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase title={data.title}>
+    <WidgetBase widgetId={id} title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

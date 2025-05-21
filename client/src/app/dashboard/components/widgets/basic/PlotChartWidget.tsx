@@ -9,11 +9,12 @@ interface PlotChartWidgetProps {
     x: number[];
     y: number[];
   };
+  id: string;
 }
 
-const PlotChartWidget: React.FC<PlotChartWidgetProps> = ({ data }) => {
+const PlotChartWidget: React.FC<PlotChartWidgetProps> = ({ data, id }) => {
   const options = getPlotChartOptions(data.x, data.y);
-  return <BaseChartWidget title={data.title} options={options} />;
+  return <BaseChartWidget id={id} title={data.title} options={options} />;
 };
 
 export default PlotChartWidget;

@@ -8,9 +8,10 @@ interface TreemapWidgetProps {
     value: number;
     children?: { name: string; value: number; children?: { name: string; value: number }[] }[];
   };
+  id: string;
 }
 
-const TreemapWidget: React.FC<TreemapWidgetProps> = ({ data }) => {
+const TreemapWidget: React.FC<TreemapWidgetProps> = ({ data, id }) => {
   const options = {
     series: [{
       type: 'treemap',
@@ -19,7 +20,7 @@ const TreemapWidget: React.FC<TreemapWidgetProps> = ({ data }) => {
   };
 
   return (
-    <WidgetBase title={data.title}>
+    <WidgetBase widgetId={id} title={data.title}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );
