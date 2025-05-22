@@ -204,6 +204,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             exportMenuOpen={exportMenuOpen}
             shareMenuAnchor={shareMenuAnchor}
             setIsShareModalOpen={setIsShareModalOpen}
+            projectName={projectName ?? ""}
           />
           {!isMobile ? (
             <Box

@@ -7,10 +7,11 @@ export function WidgetFactory<K extends WidgetKey>(
   type: K,
   data: WidgetTypeMap[K],
   id: string,
+  refresh?: () => void,
   props?: Record<string, unknown>
 ): React.ReactElement {
   const WidgetComponent = widgetRegistry[type] as React.ComponentType<
     { data: WidgetTypeMap[K] } & typeof props
   >;
-  return <WidgetComponent data={data} id={id} {...props} />;
+  return <WidgetComponent data={data} id={id} refresh={refresh} {...props} />;
 }

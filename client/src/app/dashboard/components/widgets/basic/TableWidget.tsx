@@ -9,11 +9,12 @@ interface TableWidgetProps {
     rows: Record<string, string | number | boolean | null>[];
   };
   id: string;
+  refresh?: () => void;
 }
 
-const TableWidget: React.FC<TableWidgetProps> = ({ data, id }) => {
+const TableWidget: React.FC<TableWidgetProps> = ({ data, id, refresh }) => {
   return (
-    <WidgetBase widgetId={id} title={data.title}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>

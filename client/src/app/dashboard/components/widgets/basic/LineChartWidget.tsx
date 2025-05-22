@@ -10,11 +10,12 @@ interface LineChartWidgetProps {
     series: { name: string; data: number[] }[];
   };
   id: string;
+  refresh: () => void;
 }
 
-const LineChartWidget: React.FC<LineChartWidgetProps> = ({ data, id }) => {
+const LineChartWidget: React.FC<LineChartWidgetProps> = ({ data, id, refresh }) => {
   const options = getLineChartOptions(data.xAxis, data.series);
-  return <BaseChartWidget id={id} title={data.title} options={options} />;
+  return <BaseChartWidget id={id} title={data.title} options={options} refresh={refresh} />;
 };
 
 export default LineChartWidget;

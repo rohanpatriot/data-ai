@@ -86,7 +86,7 @@ const widgetSizeConstraints: Record<WidgetKey, WidgetSizeConstraints> = {
 };
 
 export const widgetRegistry: {
-  [K in WidgetKey]: React.ComponentType<{ data: WidgetTypeMap[K] }>;
+  [K in WidgetKey]: React.ComponentType<{ data: WidgetTypeMap[K]; id: string, refresh: () => void }>;
 } = {
   LineChart: Widgets.LineChartWidget,
   PieChart: Widgets.PieChartWidget,

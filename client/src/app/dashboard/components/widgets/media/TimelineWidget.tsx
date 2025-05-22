@@ -16,11 +16,12 @@ interface TimelineWidgetProps {
     events: { date: string; label: string }[];
   };
   id: string;
+  refresh?: () => void;
 }
 
-const TimelineWidget: React.FC<TimelineWidgetProps> = ({ data, id }) => {
+const TimelineWidget: React.FC<TimelineWidgetProps> = ({ data, id, refresh }) => {
   return (
-    <WidgetBase widgetId={id} title={data.title}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
       <Box sx={{ ml: -2 }}>  {/* Negative margin to offset Timeline's default padding */}
         <Timeline
           sx={{

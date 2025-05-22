@@ -10,11 +10,12 @@ interface PieChartWidgetProps {
     values: number[];
   };
   id: string;
+  refresh?: () => void;
 }
 
-const PieChartWidget: React.FC<PieChartWidgetProps> = ({ data, id }) => {
+const PieChartWidget: React.FC<PieChartWidgetProps> = ({ data, id, refresh }) => {
   const options = getPieChartOptions(data.labels, data.values);
-  return <BaseChartWidget id={id} title={data.title} options={options} />;
+  return <BaseChartWidget id={id} title={data.title} options={options} refresh={refresh} />;
 };
 
 export default PieChartWidget;

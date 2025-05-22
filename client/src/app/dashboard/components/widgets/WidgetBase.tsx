@@ -13,8 +13,9 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import FormatPaintIcon from "@mui/icons-material/FormatPaint";
-import { WidgetsAPI } from "../../../api/widgets";
-import DeleteWidgetDialog from "./DeleteWidgetDialog";
+import DeleteWidgetDialog from "./dialogs/DeleteWidgetDialog";
+import { useWidgetDialogs } from "../hooks/useWidgetDialogs";
+import EditWidgetDialog from "./dialogs/EditWidgetDialog";
 
 interface WidgetBaseProps {
   children: React.ReactNode;
@@ -22,6 +23,7 @@ interface WidgetBaseProps {
   onDelete?: () => void;
   title?: string;
   showMoreMenu?: boolean;
+  refresh?: () => void;
 }
 
 const WidgetBase: React.FC<WidgetBaseProps> = ({
@@ -30,12 +32,13 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
   onDelete,
   title,
   showMoreMenu = true,
+  refresh,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
   const widgetRef = useRef<HTMLDivElement>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const { edit, del } = useWidgetDialogs({ widgetId, refresh: refresh || (() => {}) });
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -58,20 +61,15 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
   const handleDeleteClick = () => {
     handleClose();
     if (widgetId) {
-      setDeleteDialogOpen(true);
+      del.open(widgetId);
     } else if (onDelete) {
       onDelete();
     }
   };
 
-  const handleDeleteWidget = async () => {
-    if (!widgetId) return;
-    
-    await WidgetsAPI.deleteWidget(widgetId);
-    
-    // if (onWidgetDeleted) {
-    //   onWidgetDeleted();
-    // }
+  const handleEditClick = () => {
+    handleClose();
+    edit.open(widgetId, title || '');
   };
 
   return (
@@ -157,23 +155,36 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
 
         <MenuItem
           onClick={() => {
+            handleEditClick();
             handleClose();
           }}
         >
           <Box display="flex" alignItems="center">
             <FormatPaintIcon fontSize="small" />
-            <Box ml={1}>Customize</Box>
+            <Box ml={1}>Edit</Box>
           </Box>
         </MenuItem>
       </Menu>
 
       {widgetId && (
         <DeleteWidgetDialog
-          open={deleteDialogOpen}
-          onClose={() => setDeleteDialogOpen(false)}
-          onDelete={handleDeleteWidget}
+          open={del.isOpen}
+          onClose={del.close}
+          onDelete={del.confirm}
         />
       )}
+
+      {edit.isOpen && 
+        <EditWidgetDialog
+          open={edit.isOpen}
+          onClose={edit.close}
+          onSave={edit.confirm}
+          name={edit.name}
+          setName={edit.setName}
+          loading={edit.loading}
+          error={edit.error}
+        />
+      }
     </Card>
   );
 };

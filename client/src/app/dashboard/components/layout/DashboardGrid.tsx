@@ -27,7 +27,7 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
   const [searchParams] = useSearchParams();
   const projectId = searchParams.get("projectId");
 
-  const { widgets, loading, error } = useWidgets(projectId || undefined);
+  const { widgets, loading, error, refresh } = useWidgets(projectId || undefined);
   const [layouts, setLayouts] = useState<Layouts>({});
 
   const generateLayouts = (): Layouts => {
@@ -86,7 +86,7 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
       >
         {/* Widget content without duplicating the title */}
         <Box sx={{ flexGrow: 1, p: 1, width:'inherit', height:'inherit' }}>
-          {WidgetFactory(widget.type, widget.data, widget.id)}
+          {WidgetFactory(widget.type, widget.data, widget.id, refresh)}
         </Box>
       </Box>
     ));

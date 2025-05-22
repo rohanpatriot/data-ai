@@ -9,9 +9,10 @@ interface WordCloudWidgetProps {
     words: { text: string; value: number }[];
   };
   id: string;
+  refresh?: () => void;
 }
 
-const WordCloudWidget: React.FC<WordCloudWidgetProps> = ({ data, id }) => {
+const WordCloudWidget: React.FC<WordCloudWidgetProps> = ({ data, id, refresh }) => {
   const options = {
     series: [{
       type: 'wordCloud',
@@ -53,7 +54,7 @@ const WordCloudWidget: React.FC<WordCloudWidgetProps> = ({ data, id }) => {
   };
 
   return (
-    <WidgetBase widgetId={id} title={data.title}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

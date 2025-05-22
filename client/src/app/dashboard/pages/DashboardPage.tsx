@@ -44,7 +44,7 @@ const DashboardPage: React.FC = () => {
         if(!loading) {
         setContainerWidth(100);
         }
-      }, 200);
+      }, 300);
         return () => clearTimeout(timer);
   }, [loading]);
 

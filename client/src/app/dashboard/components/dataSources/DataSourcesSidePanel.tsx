@@ -11,6 +11,7 @@ import { Add } from "@mui/icons-material";
 import DataSourceCardSkeleton from "./DataSourceCardSkeleton";
 import ResponsiveSidePanel from "../../../../shared/components/ResponsiveSidePanel";
 import theme from "../../../../theme/theme";
+import { API } from "../../../api/api";
 
 // === Props ===
 interface Props {
@@ -62,8 +63,13 @@ const DataSourcesSidePanel: React.FC<Props> = ({
             key={source.id}
             source={source}
             onDeleteClick={() => del.open(source.id)}
-            onEditConfirm={async () => {
-              await refresh();
+            onEditConfirm={async (id, newName) => {
+              try {
+                await API.dataSources.updateName(id, newName);
+                await refresh();
+              } catch (error) {
+                console.error("Failed to update data source name:", error);
+              }
             }}
           />
         ))}

@@ -9,11 +9,12 @@ interface KPIWidgetProps {
     trend?: number;
   };
   id: string;
+  refresh?: () => void;
 }
 
-const KPIWidget: React.FC<KPIWidgetProps> = ({ data, id }) => {
+const KPIWidget: React.FC<KPIWidgetProps> = ({ data, id, refresh }) => {
   return (
-    <WidgetBase widgetId={id} title={data.title}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
       <Box
         display="flex"
         flexDirection="column"

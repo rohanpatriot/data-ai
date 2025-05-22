@@ -8,11 +8,12 @@ interface TextWidgetProps {
     content: string;
   };
   id: string;
+  refresh?: () => void;
 }
 
-const TextWidget: React.FC<TextWidgetProps> = ({ data, id }) => {
+const TextWidget: React.FC<TextWidgetProps> = ({ data, id, refresh }) => {
   return (
-    <WidgetBase widgetId={id} title={data.title}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
       <Typography>{data.content}</Typography>
     </WidgetBase>
   );

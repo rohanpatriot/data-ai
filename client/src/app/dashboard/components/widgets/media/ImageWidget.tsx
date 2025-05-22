@@ -9,11 +9,12 @@ interface ImageWidgetProps {
     alt?: string;
   };
   id: string;
+  refresh?: () => void;
 }
 
-const ImageWidget: React.FC<ImageWidgetProps> = ({ data, id }) => {
+const ImageWidget: React.FC<ImageWidgetProps> = ({ data, id, refresh }) => {
   return (
-    <WidgetBase widgetId={id} title={data.title}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
       <Box display="flex" justifyContent="center" alignItems="center" height="100%">
         <img src={data.src} alt={data.alt || ''} style={{ maxWidth: '100%', maxHeight: '100%' }} />
       </Box>

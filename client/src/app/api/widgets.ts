@@ -3,64 +3,38 @@ import { supabase } from "../../supabase-client";
 import { API } from "./api";
 
 export const WidgetsAPI = {
-  /**
-   * Get all widgets for a specific project
-   * @param projectId - The ID of the project
-   * @returns Promise with an array of widgets
-   */
-  getWidgetsByProject: async (projectId: string): Promise<Widget[]> => {
+  async getAll(projectId: string): Promise<Widget[]> {
     const { data, error } = await supabase
       .from("widgets")
       .select("*")
       .eq("project_id", projectId)
       .order("position", { ascending: true });
 
-    if (error) {
-      console.error("Error fetching widgets:", error);
-      throw error;
-    }
+    if (error) throw error;
 
-    return data || [];
+    return (data as Widget[]) ?? [];
   },
 
-  /**
-   * Get a specific widget by ID
-   * @param widgetId - The ID of the widget to retrieve
-   * @returns Promise with the widget data
-   */
-  getWidgetById: async (widgetId: string): Promise<Widget | null> => {
+  async getById(widgetId: string): Promise<Widget | null> {
     const { data, error } = await supabase
       .from("widgets")
       .select("*")
       .eq("id", widgetId)
       .single();
 
-    if (error) {
-      console.error("Error fetching widget:", error);
-      throw error;
-    }
+    if (error) throw error;
 
-    return data;
+    return data as Widget;
   },
 
-  /**
-   * Create a new widget
-   * @param widget - The widget data to create
-   * @returns Promise with the created widget
-   */
-  createWidget: async (
-    widget: Omit<Widget, "id" | "created_at">
-  ): Promise<Widget> => {
+  async create(widget: Omit<Widget, "id" | "created_at">): Promise<Widget> {
     const { data, error } = await supabase
       .from("widgets")
       .insert([widget])
       .select()
       .single();
 
-    if (error) {
-      console.error("Error creating widget:", error);
-      throw error;
-    }
+    if (error) throw error;
 
     // Update the project's widgets count
     try {
@@ -70,19 +44,13 @@ export const WidgetsAPI = {
       // Continue execution even if count update fails
     }
 
-    return data;
+    return data as Widget;
   },
 
-  /**
-   * Update an existing widget
-   * @param widgetId - The ID of the widget to update
-   * @param updates - The widget data to update
-   * @returns Promise with the updated widget
-   */
-  updateWidget: async (
+  async update(
     widgetId: string,
     updates: Partial<Omit<Widget, "id" | "created_at">>
-  ): Promise<Widget> => {
+  ): Promise<Widget> {
     const { data, error } = await supabase
       .from("widgets")
       .update(updates)
@@ -90,20 +58,12 @@ export const WidgetsAPI = {
       .select()
       .single();
 
-    if (error) {
-      console.error("Error updating widget:", error);
-      throw error;
-    }
+    if (error) throw error;
 
-    return data;
+    return data as Widget;
   },
 
-  /**
-   * Delete a widget
-   * @param widgetId - The ID of the widget to delete
-   * @returns Promise with success status
-   */
-  deleteWidget: async (widgetId: string): Promise<void> => {
+  async delete(widgetId: string): Promise<void> {
     // First get the widget to know which project to update
     const { data, error: fetchError } = await supabase
       .from("widgets")
@@ -111,23 +71,13 @@ export const WidgetsAPI = {
       .eq("id", widgetId)
       .single();
 
-    if (fetchError) {
-      console.error("Error fetching widget project_id:", fetchError);
-      throw fetchError;
-    }
+    if (fetchError) throw fetchError;
 
     const projectId = data.project_id;
 
     // Delete the widget
-    const { error } = await supabase
-      .from("widgets")
-      .delete()
-      .eq("id", widgetId);
-
-    if (error) {
-      console.error("Error deleting widget:", error);
-      throw error;
-    }
+    const { error } = await supabase.from("widgets").delete().eq("id", widgetId);
+    if (error) throw error;
 
     // Update the project's widgets count
     try {
@@ -138,31 +88,18 @@ export const WidgetsAPI = {
     }
   },
 
-  /**
-   * Update the positions of multiple widgets
-   * @param updates - Array of widget IDs and their new positions
-   * @returns Promise with success status
-   */
-  updateWidgetPositions: async (
+  async updatePositions(
     updates: { id: string; position: number }[]
-  ): Promise<void> => {
+  ): Promise<void> {
     // Using transaction to ensure all updates succeed or fail together
     const { error } = await supabase.rpc("update_widget_positions", {
       position_updates: updates,
     });
 
-    if (error) {
-      console.error("Error updating widget positions:", error);
-      throw error;
-    }
+    if (error) throw error;
   },
 
-  /**
-   * Duplicate a widget
-   * @param widgetId - The ID of the widget to duplicate
-   * @returns Promise with the duplicated widget
-   */
-  duplicateWidget: async (widgetId: string): Promise<Widget> => {
+  async duplicate(widgetId: string): Promise<Widget> {
     // First get the widget to duplicate
     const { data: widget, error: fetchError } = await supabase
       .from("widgets")
@@ -170,10 +107,7 @@ export const WidgetsAPI = {
       .eq("id", widgetId)
       .single();
 
-    if (fetchError) {
-      console.error("Error fetching widget to duplicate:", fetchError);
-      throw fetchError;
-    }
+    if (fetchError) throw fetchError;
 
     if (!widget) {
       throw new Error("Widget not found");
@@ -187,25 +121,6 @@ export const WidgetsAPI = {
       name: `${widget.name} (Copy)`,
     };
 
-    const { data, error } = await supabase
-      .from("widgets")
-      .insert([newWidget])
-      .select()
-      .single();
-
-    if (error) {
-      console.error("Error duplicating widget:", error);
-      throw error;
-    }
-
-    // Update the project's widgets count
-    try {
-      await API.projects.incrementWidgetsCount(widget.project_id);
-    } catch (countError) {
-      console.error("Failed to update project widgets count:", countError);
-      // Continue execution even if count update fails
-    }
-
-    return data;
-  },
+    return await this.create(newWidget);
+  }
 };

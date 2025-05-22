@@ -20,7 +20,7 @@ export const useWidgets = (projectId?: string) => {
 
     try {
       setLoading(true);
-      const widgetsData = await API.widgets.getWidgetsByProject(projectId);
+      const widgetsData = await API.widgets.getAll(projectId);
 
       // Transform the API response to match the WidgetConfig format
       const formattedWidgets: WidgetConfig[] = widgetsData.map(

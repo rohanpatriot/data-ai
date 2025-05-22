@@ -9,11 +9,12 @@ interface AreaChartWidgetProps {
     series: { name: string; data: number[] }[];
   };
   id: string;
+  refresh?: () => void;
 }
 
-const AreaChartWidget: React.FC<AreaChartWidgetProps> = ({ data, id }) => {
+const AreaChartWidget: React.FC<AreaChartWidgetProps> = ({ data, id, refresh }) => {
   const options = getAreaChartOptions(data.xAxis, data.series);
-  return <BaseChartWidget id={id} title={data.title} options={options} />;
+  return <BaseChartWidget id={id} title={data.title} options={options} refresh={refresh} />;
 };
 
 export default AreaChartWidget;

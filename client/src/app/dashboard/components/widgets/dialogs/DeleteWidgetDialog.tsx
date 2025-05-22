@@ -1,6 +1,6 @@
 import { Button, CircularProgress, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { ResponsiveDialog } from "../../../../shared/components/ResponsiveDialog";
+import { ResponsiveDialog } from "../../../../../shared/components/ResponsiveDialog";
 
 interface DeleteWidgetDialogProps {
   open: boolean;

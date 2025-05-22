@@ -9,9 +9,10 @@ interface HistogramWidgetProps {
     counts: number[];
   };
   id: string;
+  refresh?: () => void;
 }
 
-const HistogramWidget: React.FC<HistogramWidgetProps> = ({ data, id }) => {
+const HistogramWidget: React.FC<HistogramWidgetProps> = ({ data, id, refresh }) => {
   const options = {
     xAxis: {
       type: 'category',
@@ -27,7 +28,7 @@ const HistogramWidget: React.FC<HistogramWidgetProps> = ({ data, id }) => {
   };
 
   return (
-    <WidgetBase widgetId={id} title={data.title}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

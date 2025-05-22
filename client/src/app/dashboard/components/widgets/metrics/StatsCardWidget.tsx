@@ -9,11 +9,12 @@ interface StatsCardWidgetProps {
     icon?: string;
   };
   id: string;
+  refresh?: () => void;
 }
 
-const StatsCardWidget: React.FC<StatsCardWidgetProps> = ({ data, id }) => {
+const StatsCardWidget: React.FC<StatsCardWidgetProps> = ({ data, id, refresh }) => {
   return (
-    <WidgetBase widgetId={id} title={data.title}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
       <Box
         display="flex"
         flexDirection="column"

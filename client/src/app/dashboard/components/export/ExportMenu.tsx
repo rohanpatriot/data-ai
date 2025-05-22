@@ -12,6 +12,7 @@ interface ExportMenuProps {
   exportMenuOpen: boolean;
   shareMenuAnchor: HTMLElement | null;
   setIsShareModalOpen: (open: boolean) => void;
+  projectName: string;
 }
 
 const ExportMenu: React.FC<ExportMenuProps> = ({
@@ -19,6 +20,7 @@ const ExportMenu: React.FC<ExportMenuProps> = ({
   exportMenuOpen,
   shareMenuAnchor,
   setIsShareModalOpen,
+  projectName,
 }) => {
   const handleExportMenuClose = () => {
     setExportMenuOpen(false);
@@ -34,7 +36,7 @@ const ExportMenu: React.FC<ExportMenuProps> = ({
   };
 
   const handleExport = (_format: string) => {
-    exportGrid(_format as ExportFormat);
+    exportGrid(_format as ExportFormat, projectName);
     handleExportMenuClose();
   };
 
