@@ -6,23 +6,82 @@ PerplexiGrid is an analytics tool that enables rapid dashboard creation by combi
 
 ## What's under the hood of PerplexiGrid?
 
-PerplexiGrid leverages the **Sonar API** from Perplexity to scrape relevant web data and transform it into structured, visual components. Users can create projects, generate dashboards through conversational prompts, and refine visualizations through a collaborative interface.
+PerplexiGrid leverages the **Sonar API** from Perplexity to scrape relevant web data and transform it into structured, valuable insights. Users can create projects, generate dashboards through conversational prompts, and refine visualizations through a collaborative interface.
 
-## Core Functionality
+## Core Functionality & Features
 
-- **Instant Dashboard Generation**: Convert natural language queries into complete dashboards with multiple visualization widgets
-- **Mixed Data Sources**: Combine your own data with real-time web information via Perplexity's Sonar API
-- **Collaborative Workspace**: Invite team members to develop dashboards together through a shared chat interface
-- **Flexible Layout System**: Rearrange widgets on a grid canvas with drag-and-drop functionality
-- **Widget Customization**: Select and edit individual widgets without affecting the entire dashboard
-- **Quick Editor**: Modify widget appearance and settings through an intuitive interface
+### 🤖 AI-Powered Dashboard Generation
+
+- Natural language to dashboard conversion
+- Intelligent widget type selection
+- Automatic data validation and cleaning
+
+### 🎨 Advanced Customization
+
+- 3-tier customization system (Basic/Moderate/Advanced)
+- Multiple theme presets with live preview
+- Drag-and-drop grid layout system
+
+### 👥 Collaboration Features [ Coming soon ]
+
+- Real-time multi-user editing
+- Project sharing and permissions
+- Chat-based dashboard refinement
+
+### 📤 Export & Sharing
+
+- PDF export with custom layouts
+- High-quality image generation
+- Shareable dashboard links
+- Version history tracking (Coming soon)
 
 ## Technical Implementation
 
-- **Frontend**: React + Vite + MUI + more soon...
-- **Canvas System**: React Grid Layout for precise widget positioning
-- **Data Visualization**: Recharts(or d3js!) library for responsive charts and graphs
-- **API Integration**: Perplexity Sonar API for web-based research and reasoning + our own Engine for turning data into insights
+- **Data Visualization**: Apache **ECharts**
+- **Frontend**: **React + Vite + Material-UI**
+- **Backend**: **Supabase + Express.js**
+
+## Tech Stack
+
+**Frontend:**
+
+- React 19 + TypeScript
+- Vite (build tool)
+- Material-UI (MUI)
+- ECharts + echarts-for-react (data visualization)
+- React Grid Layout (dashboard layout)
+- Motion (animations)
+- React Router DOM
+
+**Backend & Database:**
+
+- Supabase (PostgreSQL database + authentication)
+- Express.js (minimal API server)
+- Perplexity Sonar API integration
+
+**Additional Libraries:**
+
+- html2canvas + jsPDF (export functionality)
+- echarts-wordcloud (word cloud widgets)
+
+## Supported Visualizations (25+ Widget Types)
+
+### Charts & Analytics
+
+- **Basic Charts**: Line, Bar, Pie, Area, Scatter Plot
+- **Advanced Charts**: Box Plot, Histogram, Heat Map, Bubble Chart, Treemap
+- **Specialized**: Word Cloud, Timeline, Plot Chart
+
+### Metrics & KPIs
+
+- **Performance Metrics**: KPI Cards, Stats Cards, Progress Bars
+- **Gauges**: Gauge Charts for performance indicators
+
+### Data Display
+
+- **Tables**: Interactive data tables
+- **Text Widgets**: Rich text, small text displays
+- **Media**: Image widgets, interactive maps
 
 ## Usage Flow
 
@@ -40,50 +99,68 @@ PerplexiGrid leverages the **Sonar API** from Perplexity to scrape relevant web 
 
 PerplexiGrid uses Perplexity's Sonar API in several key ways:
 
-- **Research-Driven Visualization**: Converting web search results into structured data formats
-- **Contextual Understanding**: Maintaining conversation context for follow-up queries and refinements
-- **Multi-Modal Output**: Transforming search results into appropriate visualization types based on data characteristics
+- [ Description coming soon! ]
 
-## Setup Instructions
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- Perplexity API key
+- Supabase account
+
+### Environment Setup
+
+1. **Clone and install:**
 
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/perplexigrid.git
+git clone https://github.com/PetarRan/perplexigrid.git
 cd perplexigrid
 
-# navigate to server and start it
-cd server
-node index.js
+# Install client dependencies
+cd client && npm install
 
-cd ..
+# Install server dependencies
+cd ../server && npm install
 
-# navigate to client and Install dependencies
-cd client
-npm install
-
-# Add your Perplexity API key
-# Create a .env file with:
-VITE_SONAR_API_KEY=your_perplexity_api_key_here
-
-# Start the development server
-npm run dev
+# Create a .env file in the server directory and add your Supabase and Perplexity API keys
+touch .env
+# Add your Supabase and Perplexity API keys to the .env file
+echo "SUPABASE_URL=your_supabase_url" >> .env
+echo "SUPABASE_KEY=your_supabase_key" >> .env
+echo "PERPLEXITY_API_KEY=your_perplexity_api_key" >> .env
 ```
 
-## Some more feature we are doing
+2. **Start the development server:**
 
-- Dashboard export functionality (PDF, image, shareable links)
-- Advanced data source connections (spreadsheets, APIs, JSON)
-- Custom widget creation
-- Template library for common dashboard types
-- Version history and change tracking
+```bash
+# Start the client
+cd client && npm run dev
+# Start the server
+cd ../server && npm start
+```
 
-## Hackathon Submission Notes
+3. **Open the app:**
+   Open your browser and navigate to `ht
+4. **Open the app:**
+   Open your browser and navigate to `localhost:5173` to access PerplexiGrid.
 
-This project was developed for the Sonar API hackathon as an exploration of Perplexity's Sonar API capabilities for data visualization and analytics.
+## 🏆 Hackathon Submission
 
-- **Category**: [Still thinking]
+**Perplexity Sonar API Hackathon 2025**
+
+- **Category**: Best Deep Research Project && Most Fun / Creative Project
+- **Innovation**: First AI-powered dashboard generator using Sonar API
 - **Team**: Peter ([@PetarRan](https://github.com/PetarRan)) & Alessandro ([@AlessandroDodi](https://github.com/AlessandroDodi))
-- **Repository**: Private, shared with `james.liounis@perplexity.ai` and `testing@devpost.com` as per the hackathon rulebook.
+- **Demo**: [We are live!!! Try it out.](https://perplexigrid.framer.website/)
+- **Submission**: Private repository shared with hackathon organizers (`james.liounis@perplexity.ai`, `vikvang`, `pplx-judges` and `testing@devpost.com`)
+
+### What Makes PerplexiGrid Special
+
+- **Novel Use Case**: First implementation of Sonar API for dashboard generation
+- **Technical Innovation**: AI-driven widget selection and data validation
+- **User Experience**: Natural language interface for complex data visualization
+- **Scalability**: Modular widget system supporting 25+ visualization types
 
 ## License
 
