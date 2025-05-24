@@ -141,8 +141,6 @@ cd ../server && npm start
 ```
 
 3. **Open the app:**
-   Open your browser and navigate to `ht
-4. **Open the app:**
    Open your browser and navigate to `localhost:5173` to access PerplexiGrid.
 
 ## 🏆 Hackathon Submission
