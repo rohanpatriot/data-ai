@@ -1,12 +1,11 @@
 import { WidgetConfig } from "../components/widgets/util/WidgetUtil";
 import logo from "@/assets/logo.svg";
 
-// ToDo
+// ************************* ToDo *************************
 // This is just sample mock dataset.
 // This just simulates a bunch of components on the dashboard.
 // It will be replaced by the actual dashboard components.
-// PLS remember to delete this shit once done.
-// ************ Map is still a bit clunky, let's revisit this later.
+//  Map is still a bit clunky, let's revisit this later.
 export const sampleWidgets: WidgetConfig[] = [
   {
     id: "kpi1",

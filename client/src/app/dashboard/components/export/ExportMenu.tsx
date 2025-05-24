@@ -78,7 +78,7 @@ const ExportMenu: React.FC<ExportMenuProps> = ({
         <PictureAsPdfIcon fontSize="small" />
         PDF Document
       </MenuItem>
-      <MenuItem onClick={() => handleExport("JSON")} sx={{ gap: 2 }}>
+      <MenuItem onClick={() => handleExport("JSON")} sx={{ gap: 2 }} disabled>
         <FileDownloadIcon fontSize="small" />
         JSON Data
       </MenuItem>

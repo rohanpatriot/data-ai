@@ -117,6 +117,9 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
                   height: 36,
                   bgcolor: "transparent",
                   padding: 0.8,
+                  "& img": {
+                    objectFit: "contain",
+                  },
                 }}
               />
             )}
