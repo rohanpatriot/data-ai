@@ -164,21 +164,21 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
 
 
   return (
-    <ResponsiveReactGridLayout
-      className="layout"
-      layouts={layouts}
-      breakpoints={breakpoints}
-      cols={cols}
-      rowHeight={rowHeight}
-      onLayoutChange={handleLayoutChange}
-      isDraggable
-      isResizable={false}
-      compactType="vertical"
-      draggableCancel=".no-drag"
-      margin={[5, 5]}
-    >
-      {generateWidgets()}
-    </ResponsiveReactGridLayout>
+      <ResponsiveReactGridLayout
+        className="layout"
+        layouts={layouts}
+        breakpoints={breakpoints}
+        cols={cols}
+        rowHeight={rowHeight}
+        onLayoutChange={handleLayoutChange}
+        isDraggable
+        isResizable={false}
+        compactType="vertical"
+        draggableCancel=".no-drag"
+        margin={[5, 5]}
+      >
+        {generateWidgets()}
+      </ResponsiveReactGridLayout>
   );
 };
 

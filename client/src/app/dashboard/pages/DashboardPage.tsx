@@ -16,6 +16,7 @@ import { useDataSources } from "../hooks/useDataSources";
 import { useDataSourceDialogs } from "../components/hooks/useDataSourceDialogs";
 import AddDataSourceDialog from "../components/dataSources/AddDataSourceDialog";
 import DeleteDataSourceDailog from "../components/dataSources/DeleteDataSourceDialog";
+import { WidgetThemeProvider } from "../store/WidgetThemeContext";
 
 const DashboardPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -55,6 +56,7 @@ const DashboardPage: React.FC = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
+      <WidgetThemeProvider project={currentProject}>
       <Box sx={{ display: "flex", height: "100vh", overflow: "hidden" }}>
         <AnimatePresence>
           {chatOpen && !isMobile && (
@@ -145,6 +147,7 @@ const DashboardPage: React.FC = () => {
           onClose={() => setIsShareModalOpen(false)}
         />
       </Box>
+      </WidgetThemeProvider>
     </motion.div>
   );
 };

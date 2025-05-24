@@ -18,6 +18,7 @@ import ChatIcon from "../chat/ChatIcon";
 import databaseIcon from "@/assets/icons/db_icon.svg";
 import exportIcon from "@/assets/icons/export_icon.svg";
 import chatIconRound from "@/assets/icons/chat_icon_round.svg";
+import DashboardThemeSelector from "./DashboardThemeSelector";
 
 interface DashboardHeaderProps {
   loading: boolean;
@@ -206,6 +207,9 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             setIsShareModalOpen={setIsShareModalOpen}
             projectName={projectName ?? ""}
           />
+
+          <DashboardThemeSelector />
+
           {!isMobile ? (
             <Box
               sx={{

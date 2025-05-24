@@ -63,7 +63,7 @@ function App() {
                   <Loading />
                 ) : (
                   <ProtectedRoute session={session}>
-                    <Dashboard />
+                      <Dashboard />
                   </ProtectedRoute>
                 )
               }

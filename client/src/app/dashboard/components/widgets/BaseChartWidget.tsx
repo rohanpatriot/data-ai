@@ -1,6 +1,7 @@
 import React from "react";
 import ReactECharts from "echarts-for-react";
 import WidgetBase from "./WidgetBase";
+import { applyThemeToChartOptions, useWidgetTheme } from "./util/chartThemeUtil";
 
 interface BaseChartWidgetProps {
   id: string;
@@ -14,10 +15,18 @@ const BaseChartWidget: React.FC<BaseChartWidgetProps> = ({
   title,
   refresh,
   options,
-}) => (
-  <WidgetBase widgetId={id} title={title} refresh={refresh}>
-    <ReactECharts option={options} style={{ height: "100%", width: "100%" }} />
-  </WidgetBase>
-);
+}) => {
+  const { colors, themePreset } = useWidgetTheme();
+  const themedOptions = applyThemeToChartOptions(options, colors);
+
+  return (
+    <WidgetBase widgetId={id} title={title} refresh={refresh}>
+      <ReactECharts 
+        option={themedOptions} 
+        style={{ height: "100%", width: "100%" }} 
+        key={`chart-${id}-${themePreset}`}/>
+    </WidgetBase>
+  )
+};
 
 export default BaseChartWidget;

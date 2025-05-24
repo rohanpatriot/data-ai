@@ -180,4 +180,19 @@ export const ProjectsAPI = {
     const { error } = await supabase.from("projects").delete().eq("id", id);
     if (error) throw error;
   },
+
+  async updateTheme(
+    id: string,
+    theme: string
+  ): Promise<Project> {
+    const { data, error } = await supabase
+      .from("projects")
+      .update({ theme })
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data as Project;
+  },
 };

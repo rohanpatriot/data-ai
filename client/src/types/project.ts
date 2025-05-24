@@ -5,4 +5,5 @@ export interface Project {
   sources_number: number;
   widgets_number: number;
   created_at: string;
+  theme: string;
 }
