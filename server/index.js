@@ -29,9 +29,8 @@ async function callPerplexityAPI(systemPrompt, messages) {
         ],
         temeperature: 0.2,
         top_p: 0.9,
-        requency_penalty: 1,
+        frequency_penalty: 1,
         presence_penalty: 0.5,
-        max_tokens: 2000,
         stream: false,
         response_format: {
           type: "json_schema",
