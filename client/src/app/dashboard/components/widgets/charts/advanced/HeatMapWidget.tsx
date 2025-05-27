@@ -11,9 +11,10 @@ interface HeatMapWidgetProps {
   };
   id: string;
   refresh?: () => void;
+  onReference?: (widgetId: string) => void;
 }
 
-const HeatMapWidget: React.FC<HeatMapWidgetProps> = ({ data, id, refresh }) => {
+const HeatMapWidget: React.FC<HeatMapWidgetProps> = ({ data, id, refresh, onReference }) => {
   const options = {
     xAxis: {
       type: 'category',
@@ -39,7 +40,7 @@ const HeatMapWidget: React.FC<HeatMapWidgetProps> = ({ data, id, refresh }) => {
   };
 
   return (
-    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh} onReference={onReference}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

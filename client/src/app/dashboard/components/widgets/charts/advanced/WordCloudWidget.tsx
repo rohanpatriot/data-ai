@@ -10,9 +10,10 @@ interface WordCloudWidgetProps {
   };
   id: string;
   refresh?: () => void;
+  onReference?: (widgetId: string) => void;
 }
 
-const WordCloudWidget: React.FC<WordCloudWidgetProps> = ({ data, id, refresh }) => {
+const WordCloudWidget: React.FC<WordCloudWidgetProps> = ({ data, id, refresh, onReference }) => {
   const options = {
     series: [{
       type: 'wordCloud',
@@ -54,7 +55,7 @@ const WordCloudWidget: React.FC<WordCloudWidgetProps> = ({ data, id, refresh }) 
   };
 
   return (
-    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh} onReference={onReference}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, List, useMediaQuery } from "@mui/material";
 
 import { useDataSources } from "../../hooks/useDataSources";
@@ -17,6 +17,7 @@ import { API } from "../../../api/api";
 interface Props {
   DSPanelOpen: boolean;
   setDSPanelOpen: (open: boolean) => void;
+  dashboardLoading: boolean;
 }
 
 // === Styles ===
@@ -35,6 +36,7 @@ const styles = {
 const DataSourcesSidePanel: React.FC<Props> = ({
   DSPanelOpen,
   setDSPanelOpen,
+  dashboardLoading,
 }) => {
   const projectId = new URLSearchParams(window.location.search).get(
     "projectId"
@@ -42,6 +44,13 @@ const DataSourcesSidePanel: React.FC<Props> = ({
   const { dataSources, isLoading, refresh } = useDataSources(projectId);
   const { add, del } = useDataSourceDialogs({ projectId, refresh });
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  
+  useEffect(() => {
+    if (dashboardLoading) {
+      refresh();
+    }
+  }, [dashboardLoading]);
+
   const renderDataSources = () => {
     if (isLoading) {
       return <DataSourceCardSkeleton count={3} />;

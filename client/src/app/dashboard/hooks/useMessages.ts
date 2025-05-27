@@ -8,6 +8,9 @@ import { DataSourcesAPI } from "../../api/dataSources";
 interface Message {
   sender: string;
   text: string;
+  references?: {
+    id: string;
+  }[];
 }
 
 export const useMessages = (projectId?: string) => {
@@ -16,6 +19,8 @@ export const useMessages = (projectId?: string) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [dashboardLoading, setDashboardLoading] = useState(false);
+  const [returnOnlyMessage, setReturnOnlyMessage] = useState(false);
+  const [referencedWidget, setReferencedWidget] = useState<{id: string; } | null>(null);
 
   // Fetch messages from API
   const fetchMessages = useCallback(async () => {
@@ -45,104 +50,134 @@ export const useMessages = (projectId?: string) => {
     setLoading(true);
     setDashboardLoading(true);
     setError(null);
-
+  
     try {
-      await MessageAPI.create({
-        message,
-        project_id: projectId,
-        from_user: true
-      });
-      // Optimistically add user message to the UI
-      const userMessage: Message = { sender: "user", text: message };
-      setMessages((prev) => [...prev, userMessage]);
-
-      // 2. Get data sources if any
-      const dataSources = await API.dataSources.getAll(projectId);
-      const structuredData = dataSources.reduce((acc, source) => {
-        (acc as Record<string, string>)[source.name] = source.path;
-        return acc;
-      }, {});
-
-      // 3. Determine if it's first message
+      // Save user message with reference
+      await saveUserMessage(message, projectId, referencedWidget ? { id: referencedWidget.id, name: referencedWidget.id } : null);
+      
+      // Get structured data
+      const structuredData = await getStructuredData(projectId);
+      
+      // Determine if it's first message
       const isFirstMessage = messages.length === 0;
-
-      // 4. Call Supabase Edge Function
-      const response = await supabase.functions.invoke('call-perplexity', {
-        body: {
-          mode: isFirstMessage ? 'f1' : 'r1',
-          query: message,
-          structuredDataSource: structuredData,
-          chatHistory: messages,
-          previousWidgets: isFirstMessage? null : await API.widgets.getAll(projectId),
-          focusedWidgetsData: null,
-        }
-      }
-    );
-
-      // 5. Save the generated widgets
-      if (response.data?.choices) {
-        const responseData = response.data.choices[0].message.content;
-        const cleanData = responseData.replace(/```json|```/g, '').trim();
-        const parsedJSON = JSON.parse(cleanData);
       
-        if (!parsedJSON.widgets) {
-          throw new Error("No widgets found in the response.");
-        }
-        let position = 1;
-        for (const widget of parsedJSON.widgets) {
-          const widgetData = JSON.stringify(widget);
-          
-          await API.widgets.create({
-            project_id: projectId,
-            widget_type: widget.type,
-            data: JSON.parse(widgetData),
-            position: position,
-            customization_type: 1,
-            name: widget.title || "Untitled Widget",
-          });
-          position++;
-        }
-      }
-
-      // 6. Save AI response message
-      if (response.data?.choices) {
-        const responseData = response.data.choices[0].message.content;
-        const cleanData = responseData.replace(/```json|```/g, '').trim();
-        const parsedJSON = JSON.parse(cleanData);
-        await MessageAPI.create({
-          message: parsedJSON.message,
-          project_id: projectId,
-          from_user: false
-        });
-      }
-
-      if(response.data?.choices) {
-        const responseData = response.data.choices[0].message.content;
-        const cleanData = responseData.replace(/```json|```/g, '').trim();
-        const parsedJSON = JSON.parse(cleanData);
-        const sources = parsedJSON.sources || [];
+      // Call Edge Function
+      const response = await callEdgeFunction(message, structuredData, isFirstMessage, projectId);
       
-        for (const source of sources) {
-          const url = source.trim();
-          const name = url.replace(/^https?:\/\//, '').split('/')[0];
-          await DataSourcesAPI.create({
-            projectId: projectId,
-            name: name,
-            path: url,
-            isLink: true,
-            addedByAi: true,
-          });
-        }
+      if (!response.data?.choices) {
+        throw new Error("Invalid response format from API");
       }
-
+  
+      const responseData = response.data.choices[0].message.content;
+      let parsedJSON;
+  
+      try {
+        const cleanData = responseData.replace(/```json|```/g, '').trim();
+        parsedJSON = JSON.parse(cleanData);
+        setReturnOnlyMessage(!parsedJSON.widgets);
+      } catch (parseError) {
+        parsedJSON = { message: responseData };
+        setReturnOnlyMessage(true);
+      }
+  
+      if (!returnOnlyMessage && parsedJSON.widgets) {
+        await saveWidgets(parsedJSON.widgets, projectId);
+      }
+  
+      await saveAIResponse(parsedJSON.message, projectId);
+  
+      if (!returnOnlyMessage && parsedJSON.sources) {
+        await saveDataSources(parsedJSON.sources, projectId);
+      }
+  
       await fetchMessages();
-
+  
     } catch (err) {
-      setError("Error processing message");
+      setError(err instanceof Error ? err.message : "Error processing message");
       console.error("Error processing message:", err);
     } finally {
       setLoading(false);
       setDashboardLoading(false);
+      setReferencedWidget(null); // Clear reference after sending
+    }
+  };
+  
+  // Modified saveUserMessage to include reference
+  const saveUserMessage = async (message: string, projectId: string, reference: { id: string; name: string; } | null) => {
+    const messageData = {
+      message,
+      project_id: projectId,
+      from_user: true,
+      references: reference ? [{
+        id: reference.id,
+        name: reference.name
+      }] : undefined
+    };
+
+    await MessageAPI.create(messageData);
+    const userMessage: Message = { 
+      sender: "user", 
+      text: message,
+      references: messageData.references
+    };
+    setMessages((prev) => [...prev, userMessage]);
+  };
+  
+  const getStructuredData = async (projectId: string) => {
+    const dataSources = await API.dataSources.getAll(projectId);
+    return dataSources.reduce((acc, source) => {
+      (acc as Record<string, string>)[source.name] = source.path;
+      return acc;
+    }, {});
+  };
+  
+  const callEdgeFunction = async (message: string, structuredData: Record<string, string>, isFirstMessage: boolean, projectId: string) => {
+    return await supabase.functions.invoke('call-perplexity', {
+      body: {
+        mode: isFirstMessage ? 'f1' : 'r1',
+        query: message,
+        structuredDataSource: structuredData,
+        chatHistory: messages,
+        previousWidgets: isFirstMessage ? null : await API.widgets.getAll(projectId),
+        focusedWidgetsData: JSON.stringify(referencedWidget),
+      }
+    });
+  };
+  
+  const saveWidgets = async (widgets: any[], projectId: string) => {
+    let position = 1;
+    for (const widget of widgets) {
+      const widgetData = JSON.stringify(widget);
+      await API.widgets.create({
+        project_id: projectId,
+        widget_type: widget.type,
+        data: JSON.parse(widgetData),
+        position: position++,
+        customization_type: 1,
+        name: widget.title || "Untitled Widget",
+      });
+    }
+  };
+  
+  const saveAIResponse = async (message: string, projectId: string) => {
+    await MessageAPI.create({
+      message,
+      project_id: projectId,
+      from_user: false
+    });
+  };
+  
+  const saveDataSources = async (sources: string[], projectId: string) => {
+    for (const source of sources) {
+      const url = source.trim();
+      const name = url.replace(/^https?:\/\//, '').split('/')[0];
+      await DataSourcesAPI.create({
+        projectId,
+        name,
+        path: url,
+        isLink: true,
+        addedByAi: true,
+      });
     }
   };
 
@@ -158,5 +193,7 @@ export const useMessages = (projectId?: string) => {
     dashboardLoading,
     error,
     handleSendMessage,
+    referencedWidget,
+    setReferencedWidget,
   };
 };

@@ -10,11 +10,12 @@ interface StatsCardWidgetProps {
   };
   id: string;
   refresh?: () => void;
+  onReference?: (widgetId: string) => void;
 }
 
-const StatsCardWidget: React.FC<StatsCardWidgetProps> = ({ data, id, refresh }) => {
+const StatsCardWidget: React.FC<StatsCardWidgetProps> = ({ data, id, refresh, onReference }) => {
   return (
-    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh} onReference={onReference}>
       <Box
         display="flex"
         flexDirection="column"

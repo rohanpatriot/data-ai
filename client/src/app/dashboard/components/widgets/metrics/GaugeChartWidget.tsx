@@ -11,9 +11,10 @@ interface GaugeChartWidgetProps {
   };
   id: string;
   refresh: () => void;
+  onReference: (widgetId: string) => void; 
 }
 
-const GaugeChartWidget: React.FC<GaugeChartWidgetProps> = ({ data, id, refresh }) => {
+const GaugeChartWidget: React.FC<GaugeChartWidgetProps> = ({ data, id, refresh, onReference }) => {
   const options = {
     series: [{
       type: 'gauge',
@@ -26,7 +27,7 @@ const GaugeChartWidget: React.FC<GaugeChartWidgetProps> = ({ data, id, refresh }
   };
 
   return (
-    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh} onReference={onReference}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

@@ -10,9 +10,10 @@ interface TreemapWidgetProps {
   };
   id: string;
   refresh: () => void;
+  onReference?: (widgetId: string) => void;
 }
 
-const TreemapWidget: React.FC<TreemapWidgetProps> = ({ data, id, refresh }) => {
+const TreemapWidget: React.FC<TreemapWidgetProps> = ({ data, id, refresh, onReference }) => {
   const options = {
     series: [{
       type: 'treemap',
@@ -21,7 +22,7 @@ const TreemapWidget: React.FC<TreemapWidgetProps> = ({ data, id, refresh }) => {
   };
 
   return (
-    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh} onReference={onReference}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

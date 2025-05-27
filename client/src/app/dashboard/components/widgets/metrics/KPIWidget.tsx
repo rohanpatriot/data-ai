@@ -10,11 +10,12 @@ interface KPIWidgetProps {
   };
   id: string;
   refresh?: () => void;
+  onReference?: (widgetId: string) => void;
 }
 
-const KPIWidget: React.FC<KPIWidgetProps> = ({ data, id, refresh }) => {
+const KPIWidget: React.FC<KPIWidgetProps> = ({ data, id, refresh, onReference }) => {
   return (
-    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh} onReference={onReference}>
       <Box
         display="flex"
         flexDirection="column"

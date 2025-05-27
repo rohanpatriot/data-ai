@@ -19,6 +19,7 @@ import databaseIcon from "@/assets/icons/db_icon.svg";
 import exportIcon from "@/assets/icons/export_icon.svg";
 import chatIconRound from "@/assets/icons/chat_icon_round.svg";
 import DashboardThemeSelector from "./DashboardThemeSelector";
+import { RefreshOutlined } from "@mui/icons-material";
 
 interface DashboardHeaderProps {
   loading: boolean;
@@ -31,6 +32,7 @@ interface DashboardHeaderProps {
   shareMenuAnchor: HTMLElement | null;
   setShareMenuAnchor: (anchor: HTMLElement | null) => void;
   setIsShareModalOpen: (open: boolean) => void;
+  refreshDash: () => void;
 }
 
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({
@@ -44,6 +46,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   shareMenuAnchor,
   setShareMenuAnchor,
   setIsShareModalOpen,
+  refreshDash,
 }) => {
   const navigate = useNavigate();
   const theme = useTheme();
@@ -209,6 +212,14 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           />
 
           <DashboardThemeSelector />
+          <Button
+            variant="outlined"
+            size="small"
+            color="secondary"
+            onClick={refreshDash}
+          >
+            <RefreshOutlined />
+          </Button>
 
           {!isMobile ? (
             <Box

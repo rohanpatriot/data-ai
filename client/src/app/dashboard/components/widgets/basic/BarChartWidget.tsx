@@ -11,11 +11,12 @@ interface BarChartWidgetProps {
   };
   id: string;
   refresh?: () => void;
+  onReference?: (widgetId: string) => void;
 }
 
-const BarChartWidget: React.FC<BarChartWidgetProps> = ({ data, id, refresh }) => {
+const BarChartWidget: React.FC<BarChartWidgetProps> = ({ data, id, refresh, onReference }) => {
   const options = getBarChartOptions(data.categories, data.series);
-  return <BaseChartWidget id={id} title={data.title} options={options} refresh={refresh} />;
+  return <BaseChartWidget id={id} title={data.title} options={options} refresh={refresh} onReference={onReference} />;
 };
 
 export default BarChartWidget;

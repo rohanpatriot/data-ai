@@ -13,6 +13,7 @@ import ChatBox from "./ChatBox";
 import brandmark from "@/assets/brandmark.svg";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useMessages } from "../../hooks/useMessages";
+import { useWidgets } from "../../hooks/useWidgets";
 
 interface ChatSidePanelProps {
   setChatOpen: (open: boolean) => void;
@@ -32,11 +33,17 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
   projectId,
   setDashboardLoading
 }) => {
-  // Use the hook directly in the component
-  const { messages, newMessage, setNewMessage, handleSendMessage, loading,
-    dashboardLoading
-   } =
-    useMessages(projectId);
+  const { 
+    messages, 
+    newMessage, 
+    setNewMessage, 
+    handleSendMessage, 
+    loading,
+    dashboardLoading,
+    referencedWidget,  // Get the referenced widget from useMessages
+  } = useMessages(projectId);
+
+  const {get: getWidget} = useWidgets(projectId)
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -153,7 +160,9 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
           value={newMessage}
           onChange={setNewMessage}
           onSend={handleSendMessage}
-          disabledSend={loading || dashboardLoading}
+          disabledSend={loading}
+          referencedWidget={referencedWidget || undefined}
+          getWidget={getWidget}
         />
       </Box>
     </Box>

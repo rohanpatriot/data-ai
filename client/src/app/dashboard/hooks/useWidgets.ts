@@ -12,6 +12,11 @@ export const useWidgets = (projectId?: string) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
+  const getWidgetNameById = async (widgetId: string) => {
+    const widgetData = await API.widgets.getById(widgetId);
+    return widgetData?.name;
+  }
+
   const fetchWidgets = async () => {
     if (!projectId) {
       setLoading(false);
@@ -79,5 +84,6 @@ export const useWidgets = (projectId?: string) => {
     loading,
     error,
     refresh: fetchWidgets,
+    get: getWidgetNameById,
   };
 };

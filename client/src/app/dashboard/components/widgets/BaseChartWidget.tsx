@@ -8,6 +8,7 @@ interface BaseChartWidgetProps {
   title?: string;
   refresh?: () => void;
   options: any;
+  onReference?: (widgetId: string) => void;
 }
 
 const BaseChartWidget: React.FC<BaseChartWidgetProps> = ({
@@ -15,12 +16,13 @@ const BaseChartWidget: React.FC<BaseChartWidgetProps> = ({
   title,
   refresh,
   options,
+  onReference,
 }) => {
   const { colors, themePreset } = useWidgetTheme();
   const themedOptions = applyThemeToChartOptions(options, colors);
 
   return (
-    <WidgetBase widgetId={id} title={title} refresh={refresh}>
+    <WidgetBase widgetId={id} title={title} refresh={refresh} onReference={onReference}>
       <ReactECharts 
         option={themedOptions} 
         style={{ height: "100%", width: "100%" }} 

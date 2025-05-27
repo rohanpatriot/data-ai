@@ -9,11 +9,12 @@ interface TextWidgetProps {
   };
   id: string;
   refresh?: () => void;
+  onReference?: (widgetId: string) => void;
 }
 
-const TextWidget: React.FC<TextWidgetProps> = ({ data, id, refresh }) => {
+const TextWidget: React.FC<TextWidgetProps> = ({ data, id, refresh, onReference }) => {
   return (
-    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh} onReference={onReference}>
       <Typography>{data.content}</Typography>
     </WidgetBase>
   );

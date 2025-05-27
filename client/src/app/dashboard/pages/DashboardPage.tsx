@@ -17,6 +17,7 @@ import { useDataSourceDialogs } from "../components/hooks/useDataSourceDialogs";
 import AddDataSourceDialog from "../components/dataSources/AddDataSourceDialog";
 import DeleteDataSourceDailog from "../components/dataSources/DeleteDataSourceDialog";
 import { WidgetThemeProvider } from "../store/WidgetThemeContext";
+import { useWidgets } from "../hooks/useWidgets";
 
 const DashboardPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -34,6 +35,7 @@ const DashboardPage: React.FC = () => {
   const [dashboardLoading, setDashboardLoading] = useState(false);
 
   const { refresh } = useDataSources(projectId!);
+  const { refresh: refreshDashboard } = useWidgets(projectId!);
   const dialogs = useDataSourceDialogs({ projectId: projectId!, refresh });
 
   const theme = useTheme();
@@ -46,9 +48,19 @@ const DashboardPage: React.FC = () => {
         if(!loading) {
         setContainerWidth(100);
         }
-      }, 400);
+      }, 500);
         return () => clearTimeout(timer);
   }, [loading, dashboardLoading]);
+
+  //refresh dashboard
+  const refreshDash = () => {
+    setDashboardLoading(true);
+    refresh().finally(() => {
+      refreshDashboard().finally(() => {
+        setDashboardLoading(false);
+      });
+    });
+  };
 
   return (
     <motion.div
@@ -102,6 +114,7 @@ const DashboardPage: React.FC = () => {
             shareMenuAnchor={shareMenuAnchor}
             setShareMenuAnchor={setShareMenuAnchor}
             setIsShareModalOpen={setIsShareModalOpen}
+            refreshDash={refreshDash}
           />
 
           <Box
@@ -120,6 +133,7 @@ const DashboardPage: React.FC = () => {
         <DataSourcesSidePanel
           DSPanelOpen={DSPanelOpen}
           setDSPanelOpen={setDSPanelOpen}
+          dashboardLoading={dashboardLoading}
         />
 
         {/* Dialogs */}

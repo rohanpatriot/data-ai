@@ -10,11 +10,12 @@ interface TableWidgetProps {
   };
   id: string;
   refresh?: () => void;
+  onReference?: (widgetId: string) => void;
 }
 
-const TableWidget: React.FC<TableWidgetProps> = ({ data, id, refresh }) => {
+const TableWidget: React.FC<TableWidgetProps> = ({ data, id, refresh, onReference }) => {
   return (
-    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh} onReference={onReference}>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>

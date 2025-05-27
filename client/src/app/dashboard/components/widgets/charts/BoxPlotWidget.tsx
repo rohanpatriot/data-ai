@@ -10,9 +10,10 @@ interface BoxPlotWidgetProps {
   };
   id: string;
   refresh?: () => void;
+  onReference?: (widgetId: string) => void;
 }
 
-const BoxPlotWidget: React.FC<BoxPlotWidgetProps> = ({ data, id, refresh }) => {
+const BoxPlotWidget: React.FC<BoxPlotWidgetProps> = ({ data, id, refresh, onReference }) => {
   const options = {
     xAxis: {
       type: 'category',
@@ -28,7 +29,7 @@ const BoxPlotWidget: React.FC<BoxPlotWidgetProps> = ({ data, id, refresh }) => {
   };
 
   return (
-    <WidgetBase title={data.title} widgetId={id} refresh={refresh}>
+    <WidgetBase title={data.title} widgetId={id} refresh={refresh} onReference={onReference}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

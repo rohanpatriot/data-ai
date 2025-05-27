@@ -21,6 +21,7 @@ interface WidgetBaseProps {
   children: React.ReactNode;
   widgetId: string;
   onDelete?: () => void;
+  onReference?: (widgetId: string) => void;
   title?: string;
   showMoreMenu?: boolean;
   refresh?: () => void;
@@ -30,6 +31,7 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
   children,
   widgetId,
   onDelete,
+  onReference,
   title,
   showMoreMenu = true,
   refresh,
@@ -144,6 +146,7 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
 
         <MenuItem
           onClick={() => {
+            onReference?.(widgetId);
             handleClose();
           }}
         >

@@ -12,9 +12,10 @@ interface MapWidgetProps {
   };
   id: string;
   refresh?: () => void;
+  onReference?: (widgetId: string) => void;
 }
 
-const MapWidget: React.FC<MapWidgetProps> = ({ data, id, refresh }) => {
+const MapWidget: React.FC<MapWidgetProps> = ({ data, id, refresh, onReference }) => {
   const options = {
     geo: {
       map: 'world',
@@ -24,7 +25,7 @@ const MapWidget: React.FC<MapWidgetProps> = ({ data, id, refresh }) => {
   };
 
   return (
-    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh} onReference={onReference}>
       <ReactECharts option={options} style={{ height: '100%', width: '100%' }} />
     </WidgetBase>
   );

@@ -11,11 +11,13 @@ interface PieChartWidgetProps {
   };
   id: string;
   refresh?: () => void;
+  onReference?: (widgetId: string) => void;
 }
 
-const PieChartWidget: React.FC<PieChartWidgetProps> = ({ data, id, refresh }) => {
+const PieChartWidget: React.FC<PieChartWidgetProps> = ({ data, id, refresh, onReference }) => {
   const options = getPieChartOptions(data.labels, data.values);
-  return <BaseChartWidget id={id} title={data.title} options={options} refresh={refresh} />;
+  return <BaseChartWidget id={id} title={data.title} options={options} refresh={refresh} 
+  onReference={onReference}/>;
 };
 
 export default PieChartWidget;

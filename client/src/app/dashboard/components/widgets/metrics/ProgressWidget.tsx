@@ -10,11 +10,12 @@ interface ProgressWidgetProps {
   };
   id: string;
   refresh?: () => void;
+  onReference?: (widgetId: string) => void;
 }
 
-const ProgressWidget: React.FC<ProgressWidgetProps> = ({ data, id, refresh }) => {
+const ProgressWidget: React.FC<ProgressWidgetProps> = ({ data, id, refresh, onReference }) => {
   return (
-    <WidgetBase widgetId={id} title={data.title} refresh={refresh}>
+    <WidgetBase widgetId={id} title={data.title} refresh={refresh} onReference={onReference}>
       <Box display="flex" flexDirection="column" gap={2}>
         {data.label && (
           <Typography variant="subtitle1">

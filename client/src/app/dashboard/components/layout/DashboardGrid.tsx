@@ -8,6 +8,7 @@ import { WidgetFactory } from "../widgets/WidgetFactory";
 import { removeHorizontalGaps } from "../../util/DashboardUtil";
 import { useSearchParams } from "react-router-dom";
 import { useWidgets } from "../../hooks/useWidgets";
+import { useMessages } from "../../hooks/useMessages";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -30,7 +31,12 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
   const projectId = searchParams.get("projectId");
 
   const { widgets, loading, error, refresh } = useWidgets(projectId || undefined);
+  const { setReferencedWidget } = useMessages(projectId || undefined);
   const [layouts, setLayouts] = useState<Layouts>({});
+
+  const onReference = (widgetId: string) => {
+    setReferencedWidget({ id: widgetId });
+  };
 
   const generateLayouts = (): Layouts => {
     const breakpointsList = Object.keys(cols) as Array<keyof typeof cols>;
@@ -94,7 +100,7 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
       >
         {/* Widget content without duplicating the title */}
         <Box sx={{ flexGrow: 1, p: 1, width:'inherit', height:'inherit' }}>
-          {WidgetFactory(widget.type, widget.data, widget.id, refresh)}
+          {WidgetFactory(widget.type, widget.data, widget.id, refresh, () => {onReference(widget.id)})}
         </Box>
       </Box>
     ));
