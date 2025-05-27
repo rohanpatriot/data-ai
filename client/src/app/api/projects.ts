@@ -195,4 +195,28 @@ export const ProjectsAPI = {
     if (error) throw error;
     return data as Project;
   },
+
+  async getSharedWith(id: string): Promise<string[]> {
+    const { data, error } = await supabase
+    .from("projects")
+    .select("shared_with")
+    .eq("id", id)
+    .single();
+    if (error) throw error;
+    return data.shared_with as string[];
+  },
+
+  async updateSharedWith(
+    id: string,
+    shared_with: string[]
+  ): Promise<Project> {
+    const { data, error } = await supabase
+     .from("projects")
+     .update({ shared_with })
+     .eq("id", id)
+     .select()
+     .single();
+    if (error) throw error;
+    return data as Project;
+  },
 };

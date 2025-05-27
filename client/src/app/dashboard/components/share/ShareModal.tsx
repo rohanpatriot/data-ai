@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -19,8 +19,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { useProjectShare } from "../../hooks/useProjectShares";
-// import { supabase } from "../../../../supabase-client";
-// import { shareInvitationTemplate } from "../../util/emailUtil";
+import { supabase } from "../../../../supabase-client";
+import { shareInvitationTemplate } from "../../util/emailUtil";
+import { useProjects } from "../../../projects/hooks/useProjects";
 
 
 interface EmailItem {
@@ -36,9 +37,24 @@ interface ShareModalProps {
 
 export default function ShareModal({ isOpen, onClose, projectId }: ShareModalProps) {
   const [email, setEmail] = useState("");
+  const { createShareLink } = useProjectShare(projectId);
+  const { getSharedWith, updateSharedWith } = useProjects();
   const [collaborators, setCollaborators] = useState<EmailItem[]>([
   ]);
-  const { createShareLink } = useProjectShare(projectId);
+  useEffect(() => {
+    const fetchCollaborators = async () => {
+      try {
+          const sharedEmails = await getSharedWith(projectId);
+          setCollaborators(sharedEmails.map((email: string) => ({ id: Date.now().toString(), email })));
+        } catch (error) {
+        console.error("Failed to fetch collaborators:", error);
+        showSnackbar("Failed to load collaborators", "error");
+      }
+    };
+    if (isOpen && projectId) {
+      fetchCollaborators();
+    }
+  }, [isOpen, projectId]);
 
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
@@ -53,7 +69,7 @@ export default function ShareModal({ isOpen, onClose, projectId }: ShareModalPro
     setSnackbar({ open: true, message, severity });
   };
 
-  const handleAddCollaborator = () => {
+  const handleAddCollaborator = async () => {
     if (!email.trim() || !email.includes("@")) {
       showSnackbar("Please enter a valid email address.", "error");
       return;
@@ -64,42 +80,61 @@ export default function ShareModal({ isOpen, onClose, projectId }: ShareModalPro
       return;
     }
 
-    setCollaborators([...collaborators, { id: Date.now().toString(), email }]);
-    showSnackbar(`${email} has been invited to collaborate.`, "success");
-    // Couldn't find a good way to do this unfortunately handleSendEmail(email);
-    setEmail("");
+    const newCollaborators = [...collaborators, { id: email, email }];
+    setCollaborators(newCollaborators);
+    try {
+      await updateSharedWith(projectId, newCollaborators.map(c => c.email));
+      showSnackbar(`${email} has been invited to collaborate.`, "success");
+      handleSendEmail(email);
+      setEmail("");
+    } catch (error) {
+      console.error("Failed to add collaborator:", error);
+      showSnackbar("Failed to add collaborator", "error");
+      // Revert state if update fails
+      setCollaborators(collaborators);
+    }
   };
 
-  const handleRemoveCollaborator = (id: string) => {
-    setCollaborators(collaborators.filter((c) => c.id !== id));
+  const handleRemoveCollaborator = async (id: string) => {
+    const updatedCollaborators = collaborators.filter((c) => c.id !== id);
+    setCollaborators(updatedCollaborators);
+    try {
+      await updateSharedWith(projectId, updatedCollaborators.map(c => c.email));
+      showSnackbar(`Collaborator ${id} removed.`, "success");
+    } catch (error) {
+      console.error("Failed to remove collaborator:", error);
+      showSnackbar("Failed to remove collaborator", "error");
+      // Revert state if update fails
+      setCollaborators(collaborators);
+    }
   };
 
-  // const handleSendEmail = async (email: string) => {
-  //   try {
-  //     const url = await createShareLink();
-  //     if (!url) {
-  //       showSnackbar("Failed to create share link", "error");
-  //       return;
-  //     }
+  const handleSendEmail = async (email: string) => {
+    try {
+      const url = await createShareLink();
+      if (!url) {
+        showSnackbar("Failed to create share link", "error");
+        return;
+      }
       
-  //     const { data, error } = await supabase
-  //       .functions
-  //       .invoke('send-share-email', { 
-  //         body: {
-  //           to: email,
-  //           subject: 'You\'ve been invited to view a PerplexiGrid project!',
-  //           html: shareInvitationTemplate(url)
-  //         }
-  //       });
+      const { data, error } = await supabase
+        .functions
+        .invoke('send-share-email', { 
+          body: {
+            email: email,
+            subject: 'You\'ve been invited to view a PerplexiGrid project!',
+            html: shareInvitationTemplate(url)
+          }
+        });
       
-  //     console.debug(data); 
-  //     if (error) throw error;
-  //     showSnackbar(`Share link sent to ${email}`, "success");
-  //   } catch (err) {
-  //     console.error("Failed to send email:", err);
-  //     showSnackbar("Failed to send email", "error");
-  //   }
-  // };
+      console.debug(data); 
+      if (error) throw error;
+      showSnackbar(`Share link sent to ${email}`, "success");
+    } catch (err) {
+      console.error("Failed to send email:", err);
+      showSnackbar("Failed to send email", "error");
+    }
+  };
 
   const handleCopyLink = async () => {
     const url = await createShareLink();
