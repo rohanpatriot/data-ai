@@ -4,7 +4,7 @@
 
 ![Powered by Perplexity](https://img.shields.io/badge/Powered%20by%20Perplexity%20Sonar%20API-000000?style=for-the-badge&logo=perplexity&logoColor=088F8F)
 
-PerplexiGrid is an analytics tool that enables rapid dashboard creation by combining your datasources with live web search. Built as a Perplexity API wrapper, it transforms natural language queries into interactive visual dashboards in seconds. Think of it as the first, Data Visualization Platofmr and Analytics Tool built with Perplexity!
+PerplexiGrid is an analytics tool that enables rapid dashboard creation by combining your datasources with live web search. Built as a Perplexity API wrapper, it transforms natural language queries into interactive visual dashboards in seconds. Think of it as the first, Data Visualization Platform and Analytics Tool built with Perplexity!
 
 ## What's under the hood of PerplexiGrid?
 
@@ -107,20 +107,20 @@ PerplexiGrid uses Perplexity's Sonar API in several key ways:
 - **Full-Featured Dashboard Generation (f1)**: Leverages Sonar-pro's advanced capabilities to create comprehensive dashboards with 25+ widget types, including charts, KPIs, and data tables. This mode supports web data fetching and combines user-provided data with live sources.
 
 ```javascript
-  // Example f1 call
-  fetch('http://localhost:3000/api/perplexigrid/f1', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      query: "Create a dashboard analyzing global AI investment trends in 2024",
-      structuredDataSource: {
-        investments: [
-          { sector: "AI", amount: 500000000, quarter: "Q1" },
-          { sector: "AI", amount: 750000000, quarter: "Q2" }
-        ]
-      }
-    })
-  })
+// Example f1 call
+fetch("http://localhost:3000/api/perplexigrid/f1", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    query: "Create a dashboard analyzing global AI investment trends in 2024",
+    structuredDataSource: {
+      investments: [
+        { sector: "AI", amount: 500000000, quarter: "Q1" },
+        { sector: "AI", amount: 750000000, quarter: "Q2" },
+      ],
+    },
+  }),
+});
 ```
 
 - **Lightweight Embedded Mode (l1)**: Optimized for embedded systems and real-time applications, this mode generates ECharts-compatible visualizations using only provided data sources, ensuring fast rendering and minimal resource usage.
