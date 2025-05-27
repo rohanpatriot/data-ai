@@ -19,6 +19,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { useProjectShare } from "../../hooks/useProjectShares";
+import { supabase } from "../../../../supabase-client";
+import { shareInvitationTemplate } from "../../util/emailUtil";
 
 
 interface EmailItem {
@@ -63,12 +65,41 @@ export default function ShareModal({ isOpen, onClose, projectId }: ShareModalPro
     }
 
     setCollaborators([...collaborators, { id: Date.now().toString(), email }]);
-    setEmail("");
     showSnackbar(`${email} has been invited to collaborate.`, "success");
+    // Couldn't find a good way to do this unfortunately handleSendEmail(email);
+    setEmail("");
   };
 
   const handleRemoveCollaborator = (id: string) => {
     setCollaborators(collaborators.filter((c) => c.id !== id));
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleSendEmail = async (email: string) => {
+    try {
+      const url = await createShareLink();
+      if (!url) {
+        showSnackbar("Failed to create share link", "error");
+        return;
+      }
+      
+      const { data, error } = await supabase
+        .functions
+        .invoke('send-share-email', { 
+          body: {
+            to: email,
+            subject: 'You\'ve been invited to view a PerplexiGrid project!',
+            html: shareInvitationTemplate(url)
+          }
+        });
+      
+      console.debug(data); 
+      if (error) throw error;
+      showSnackbar(`Share link sent to ${email}`, "success");
+    } catch (err) {
+      console.error("Failed to send email:", err);
+      showSnackbar("Failed to send email", "error");
+    }
   };
 
   const handleCopyLink = async () => {
