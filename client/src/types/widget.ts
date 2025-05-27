@@ -4,7 +4,7 @@ export interface Widget {
   name: string;
   data: JSON;
   widget_type: string;
-  cutsomization_type: number;
+  customization_type: number;
   position: number;
   project_id: string;
 }

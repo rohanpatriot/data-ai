@@ -5,14 +5,16 @@ import SendIcon from "@mui/icons-material/Send";
 interface ChatBoxProps {
   value: string;
   onChange: (message: string) => void;
-  onSend: () => void;
+  onSend: (message: string) => void;
+  disabledSend: boolean;
 }
 
-const ChatBox: React.FC<ChatBoxProps> = ({ value, onChange, onSend }) => {
+const ChatBox: React.FC<ChatBoxProps> = ({ value, onChange, onSend, disabledSend }) => {
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      onSend();
+      onSend(value);
+      onChange("");
     }
   };
 
@@ -23,6 +25,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ value, onChange, onSend }) => {
         placeholder="Type a message..."
         variant="outlined"
         size="small"
+        disabled={disabledSend}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={handleKeyDown}
@@ -34,8 +37,8 @@ const ChatBox: React.FC<ChatBoxProps> = ({ value, onChange, onSend }) => {
       />
       <IconButton
         color="primary"
-        onClick={onSend}
-        disabled={!value.trim()}
+        onClick={() => onSend(value)}
+        disabled={!value.trim() || disabledSend}
         sx={{ ml: 1 }}
       >
         <SendIcon />

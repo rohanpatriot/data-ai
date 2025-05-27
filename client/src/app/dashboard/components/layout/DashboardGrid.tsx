@@ -12,11 +12,13 @@ import { useWidgets } from "../../hooks/useWidgets";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 interface DashboardGridProps {
+  dashboardLoading?: boolean;
   rowHeight?: number;
   onLayoutChange?: (layout: Layout[], allLayouts: Layouts) => void;
 }
 
 const DashboardGrid: React.FC<DashboardGridProps> = ({
+  dashboardLoading = false,
   rowHeight = 40,
   onLayoutChange = () => {},
 }) => {
@@ -72,6 +74,12 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
     }
   }, [widgets]);
 
+  useEffect(() => {
+    if(!dashboardLoading) {
+      refresh();
+    }
+  }, [dashboardLoading]);
+
   const generateWidgets = () =>
     widgets.map((widget) => (
       <Box
@@ -104,7 +112,7 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
     onLayoutChange(currentLayout, compactedLayouts);
   };
 
-  if (loading) {
+  if (loading  || dashboardLoading) {
     return (
       <Box
         display="flex"

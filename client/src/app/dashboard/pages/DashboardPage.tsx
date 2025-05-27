@@ -31,6 +31,7 @@ const DashboardPage: React.FC = () => {
   const [DSPanelOpen, setDSPanelOpen] = useState(false);
   const [containerWidth, setContainerWidth] = useState(100);
   const { currentProject, loading, user } = useProjectData(projectId);
+  const [dashboardLoading, setDashboardLoading] = useState(false);
 
   const { refresh } = useDataSources(projectId!);
   const dialogs = useDataSourceDialogs({ projectId: projectId!, refresh });
@@ -45,9 +46,9 @@ const DashboardPage: React.FC = () => {
         if(!loading) {
         setContainerWidth(100);
         }
-      }, 300);
+      }, 400);
         return () => clearTimeout(timer);
-  }, [loading]);
+  }, [loading, dashboardLoading]);
 
   return (
     <motion.div
@@ -72,6 +73,7 @@ const DashboardPage: React.FC = () => {
                 user={user}
                 chatOpen={chatOpen}
                 projectId={projectId || undefined}
+                setDashboardLoading={setDashboardLoading}
               />
             </motion.div>
           )}
@@ -83,6 +85,7 @@ const DashboardPage: React.FC = () => {
             user={user}
             chatOpen={chatOpen}
             projectId={projectId || undefined}
+            setDashboardLoading={setDashboardLoading}
           />
         )}
 
@@ -107,7 +110,7 @@ const DashboardPage: React.FC = () => {
           >
             <Container maxWidth="xl" sx={{ padding: 0, width: `${containerWidth}%` }}>
               <Box sx={{ p: 0 }}>
-                <DashboardGrid />
+                <DashboardGrid dashboardLoading={dashboardLoading} />
               </Box>
             </Container>
           </Box>

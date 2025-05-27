@@ -99,7 +99,45 @@ PerplexiGrid leverages the **Sonar API** from Perplexity to scrape relevant web 
 
 PerplexiGrid uses Perplexity's Sonar API in several key ways:
 
-- [ Description coming soon! ]
+- **Full-Featured Dashboard Generation (f1)**: Leverages Sonar-pro's advanced capabilities to create comprehensive dashboards with 25+ widget types, including charts, KPIs, and data tables. This mode supports web data fetching and combines user-provided data with live sources.
+
+```javascript
+  ```javascript
+  // Example f1 call
+  fetch('http://localhost:3000/api/perplexigrid/f1', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query: "Create a dashboard analyzing global AI investment trends in 2024",
+      structuredDataSource: {
+        investments: [
+          { sector: "AI", amount: 500000000, quarter: "Q1" },
+          { sector: "AI", amount: 750000000, quarter: "Q2" }
+        ]
+      }
+    })
+  })
+```
+
+- **Lightweight Embedded Mode (l1)**: Optimized for embedded systems and real-time applications, this mode generates ECharts-compatible visualizations using only provided data sources, ensuring fast rendering and minimal resource usage.
+
+- **Interactive Dashboard Updates (r1)**: Enables dynamic dashboard modifications through natural language, allowing users to refine and expand existing visualizations while maintaining context from previous interactions.
+
+- **Focused Widget Refinement (r2)**: Provides precise control over individual widgets, supporting targeted updates to specific visualizations while preserving the overall dashboard structure.
+
+### Key Integration Features:
+
+- **Natural Language Processing**: Transforms user queries into structured dashboard specifications
+- **Smart Widget Selection**: Automatically chooses appropriate visualization types based on data characteristics
+- **Data Validation**: Ensures numeric values, dates, and categorical data meet widget-specific requirements
+- **Context Awareness**: Maintains conversation history for coherent dashboard evolution
+- **Real-time Updates**: Supports immediate visualization updates based on user feedback
+
+### API Implementation:
+
+- Uses Sonar Pro model for advanced natural language understanding
+- Supports both static and dynamic data sources
+- Maintains consistent JSON schema across all response types
 
 ## 🚀 Quick Start
 

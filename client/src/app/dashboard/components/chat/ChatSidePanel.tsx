@@ -22,6 +22,7 @@ interface ChatSidePanelProps {
   };
   chatOpen: boolean;
   projectId?: string;
+  setDashboardLoading: (loading: boolean) => void;
 }
 
 const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
@@ -29,12 +30,18 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
   user,
   chatOpen,
   projectId,
+  setDashboardLoading
 }) => {
   // Use the hook directly in the component
-  const { messages, newMessage, setNewMessage, handleSendMessage } =
+  const { messages, newMessage, setNewMessage, handleSendMessage, loading,
+    dashboardLoading
+   } =
     useMessages(projectId);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    setDashboardLoading(dashboardLoading);
+  }, [dashboardLoading, setDashboardLoading]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -146,6 +153,7 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
           value={newMessage}
           onChange={setNewMessage}
           onSend={handleSendMessage}
+          disabledSend={loading || dashboardLoading}
         />
       </Box>
     </Box>
