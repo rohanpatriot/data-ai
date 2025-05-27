@@ -105,6 +105,7 @@ const DashboardPage: React.FC = () => {
         <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
           <DashboardHeader
             loading={loading}
+            projectId={projectId || ""}
             projectName={currentProject?.name}
             chatOpen={chatOpen}
             setChatOpen={setChatOpen}
@@ -160,6 +161,7 @@ const DashboardPage: React.FC = () => {
         />
 
         <ShareModal
+          projectId={projectId || ""}
           isOpen={isShareModalOpen}
           onClose={() => setIsShareModalOpen(false)}
         />

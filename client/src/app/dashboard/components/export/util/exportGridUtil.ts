@@ -37,7 +37,7 @@ export const exportGrid = async (format: ExportFormat, projectName: string) => {
 
     // Get the actual size of the grid content, not just the visible part
     const gridContent = gridElement.querySelector('.layout') || gridElement;
-    const scrollWidth = gridContent.scrollWidth;
+    const scrollWidth = gridContent.scrollWidth*1.5;
     const scrollHeight = gridContent.scrollHeight;
 
     const canvas = await html2canvas(gridElement, {

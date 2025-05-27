@@ -15,6 +15,7 @@ import UpdateUser from "./app/auth/pages/UpdateUserPage";
 import AuthConfirm from "./app/auth/pages/AuthConfirmPage";
 import Loading from "./shared/pages/LoadingPage";
 import ProtectedRoute from "./app/auth/components/ProtectedRoute";
+import SharedProject from "./app/projects/pages/SharedProjectPage";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -48,6 +49,7 @@ function App() {
       <BrowserRouter>
         <AnimatePresence>
           <Routes>
+            <Route path="/share/:token" element={<SharedProject />} />
             <Route path="/auth/confirm" element={<AuthConfirm />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />

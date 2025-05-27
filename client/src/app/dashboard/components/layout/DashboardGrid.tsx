@@ -13,13 +13,17 @@ import { useMessages } from "../../hooks/useMessages";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 interface DashboardGridProps {
+  readonly?: boolean;
+  projectId?: string;
   dashboardLoading?: boolean;
   rowHeight?: number;
   onLayoutChange?: (layout: Layout[], allLayouts: Layouts) => void;
 }
 
 const DashboardGrid: React.FC<DashboardGridProps> = ({
+  readonly = false,
   dashboardLoading = false,
+  projectId: propProjectId,
   rowHeight = 40,
   onLayoutChange = () => {},
 }) => {
@@ -28,7 +32,7 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
   const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 };
 
   const [searchParams] = useSearchParams();
-  const projectId = searchParams.get("projectId");
+  const projectId = propProjectId || searchParams.get("projectId");
 
   const { widgets, loading, error, refresh } = useWidgets(projectId || undefined);
   const { setReferencedWidget } = useMessages(projectId || undefined);
@@ -185,7 +189,7 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
         cols={cols}
         rowHeight={rowHeight}
         onLayoutChange={handleLayoutChange}
-        isDraggable
+        isDraggable={!readonly}
         isResizable={false}
         compactType="vertical"
         draggableCancel=".no-drag"

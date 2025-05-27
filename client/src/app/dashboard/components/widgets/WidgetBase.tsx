@@ -16,6 +16,8 @@ import FormatPaintIcon from "@mui/icons-material/FormatPaint";
 import DeleteWidgetDialog from "./dialogs/DeleteWidgetDialog";
 import { useWidgetDialogs } from "../hooks/useWidgetDialogs";
 import EditWidgetDialog from "./dialogs/EditWidgetDialog";
+import ImageIcon from '@mui/icons-material/Image';
+import { exportWidgetToPng } from "./util/exportWidget";
 
 interface WidgetBaseProps {
   children: React.ReactNode;
@@ -68,6 +70,13 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
       onDelete();
     }
   };
+
+  const handleExportWidget = () => {
+    const widgetElement = widgetRef.current;
+    if (widgetElement) {
+      exportWidgetToPng(widgetElement, title || 'My Widget');
+    }
+  }
 
   const handleEditClick = () => {
     handleClose();
@@ -149,6 +158,7 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
             onReference?.(widgetId);
             handleClose();
           }}
+          disabled={true}
         >
           <Box display="flex" alignItems="center">
             <RateReviewIcon fontSize="small" />
@@ -165,6 +175,18 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
           <Box display="flex" alignItems="center">
             <FormatPaintIcon fontSize="small" />
             <Box ml={1}>Edit</Box>
+          </Box>
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            handleExportWidget();
+            handleClose();
+          }}
+        >
+          <Box display="flex" alignItems="center">
+          <ImageIcon fontSize="small" />
+          <Box ml={1}>Export Widget to PNG</Box>
           </Box>
         </MenuItem>
       </Menu>

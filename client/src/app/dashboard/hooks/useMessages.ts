@@ -8,9 +8,6 @@ import { DataSourcesAPI } from "../../api/dataSources";
 interface Message {
   sender: string;
   text: string;
-  references?: {
-    id: string;
-  }[];
 }
 
 export const useMessages = (projectId?: string) => {
@@ -53,7 +50,7 @@ export const useMessages = (projectId?: string) => {
   
     try {
       // Save user message with reference
-      await saveUserMessage(message, projectId, referencedWidget ? { id: referencedWidget.id, name: referencedWidget.id } : null);
+      await saveUserMessage(message, projectId);
       
       // Get structured data
       const structuredData = await getStructuredData(projectId);
@@ -103,22 +100,17 @@ export const useMessages = (projectId?: string) => {
   };
   
   // Modified saveUserMessage to include reference
-  const saveUserMessage = async (message: string, projectId: string, reference: { id: string; name: string; } | null) => {
+  const saveUserMessage = async (message: string, projectId: string) => {
     const messageData = {
       message,
       project_id: projectId,
       from_user: true,
-      references: reference ? [{
-        id: reference.id,
-        name: reference.name
-      }] : undefined
     };
 
     await MessageAPI.create(messageData);
     const userMessage: Message = { 
       sender: "user", 
       text: message,
-      references: messageData.references
     };
     setMessages((prev) => [...prev, userMessage]);
   };
@@ -139,7 +131,7 @@ export const useMessages = (projectId?: string) => {
         structuredDataSource: structuredData,
         chatHistory: messages,
         previousWidgets: isFirstMessage ? null : await API.widgets.getAll(projectId),
-        focusedWidgetsData: JSON.stringify(referencedWidget),
+        focusedWidgetsData: null,
       }
     });
   };

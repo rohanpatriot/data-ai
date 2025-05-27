@@ -23,6 +23,7 @@
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",
     "motion": "^12.9.4",
+    "nanoid": "^5.1.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-grid-layout": "^1.5.1",

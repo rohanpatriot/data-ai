@@ -13,9 +13,13 @@ import {
   ListItemText,
   Snackbar,
   Alert,
+  Chip,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import { useProjectShare } from "../../hooks/useProjectShares";
+
 
 interface EmailItem {
   id: string;
@@ -25,12 +29,14 @@ interface EmailItem {
 interface ShareModalProps {
   isOpen: boolean;
   onClose: () => void;
+  projectId: string;
 }
 
-export default function ShareModal({ isOpen, onClose }: ShareModalProps) {
+export default function ShareModal({ isOpen, onClose, projectId }: ShareModalProps) {
   const [email, setEmail] = useState("");
   const [collaborators, setCollaborators] = useState<EmailItem[]>([
   ]);
+  const { createShareLink } = useProjectShare(projectId);
 
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
@@ -65,8 +71,13 @@ export default function ShareModal({ isOpen, onClose }: ShareModalProps) {
     setCollaborators(collaborators.filter((c) => c.id !== id));
   };
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
+  const handleCopyLink = async () => {
+    const url = await createShareLink();
+    if(url === null) {
+      showSnackbar("Failed to create share link", "error");
+      return;
+    }
+    navigator.clipboard.writeText(url);
     showSnackbar("Board link has been copied to clipboard", "info");
   };
 
@@ -90,7 +101,22 @@ export default function ShareModal({ isOpen, onClose }: ShareModalProps) {
             component="div"
             sx={{ fontWeight: "bold", fontSize: "24px" }}
           >
-            Share Board
+            Share Board <Chip
+                      label="Coming Soon!"
+                      size="small"
+                      color="primary"
+                      icon={<AutoAwesomeIcon />}
+                      sx={{
+                        ml: 1,
+                        mb: 1,
+                        bgcolor: "#f0e6ff",
+                        color: "#A224F0",
+                        fontWeight: 500,
+                        fontSize: "0.7rem",
+                        height: 32,
+                        borderRadius: 2,
+                      }}
+                    />
           </Typography>
           <IconButton
             aria-label="close"

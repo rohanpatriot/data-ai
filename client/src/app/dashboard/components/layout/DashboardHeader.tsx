@@ -24,6 +24,7 @@ import { RefreshOutlined } from "@mui/icons-material";
 interface DashboardHeaderProps {
   loading: boolean;
   projectName: string | undefined;
+  projectId: string | undefined;
   chatOpen: boolean;
   setChatOpen: (open: boolean) => void;
   setDSPanelOpen: (open: boolean) => void;
@@ -38,6 +39,7 @@ interface DashboardHeaderProps {
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   loading,
   projectName,
+  projectId,
   chatOpen,
   setChatOpen,
   setDSPanelOpen,
@@ -89,7 +91,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
-                maxWidth: { xs: "250px", md: "340px" },
+                maxWidth: { xs: "250px", md: chatOpen ? "100px" : "320px" },
+                fontSize: { xs: 20, md: 16 },
               }}
             >
               {loading ? (
@@ -209,6 +212,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             shareMenuAnchor={shareMenuAnchor}
             setIsShareModalOpen={setIsShareModalOpen}
             projectName={projectName ?? ""}
+            projectId={projectId || ""}
           />
 
           <DashboardThemeSelector />
