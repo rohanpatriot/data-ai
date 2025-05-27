@@ -10,7 +10,6 @@ import { useProjectShare } from "../../dashboard/hooks/useProjectShares";
 import { useProjectData } from "../../dashboard/hooks/useProjectData";
 import { useWidgets } from "../../dashboard/hooks/useWidgets";
 import ExportMenu from "../../dashboard/components/export/ExportMenu";
-import { display } from "html2canvas/dist/types/css/property-descriptors/display";
 import Logo from "../../../shared/components/Logo";
 
 const SharedProject: React.FC = () => {
@@ -18,11 +17,11 @@ const SharedProject: React.FC = () => {
   const theme = useTheme();
 
   const { sharedProjectId, loading: shareLoading, error: shareError } = useProjectShare(undefined, token);
-  const { currentProject, loading: projectLoading, error: projectError } = useProjectData(sharedProjectId);
+  const { currentProject, loading: projectLoading } = useProjectData(sharedProjectId);
   const { widgets, loading: widgetsLoading, error: widgetsError } = useWidgets(sharedProjectId || undefined);
 
   const loading = shareLoading || projectLoading || widgetsLoading;
-  const error = shareError || projectError || widgetsError;
+  const error = shareError || widgetsError;
 
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
@@ -30,13 +29,9 @@ const SharedProject: React.FC = () => {
     null
   );
 
-  console.log("SharedProject", {
-    sharedProjectId,
-    loading,
-    error,
-    currentProject,
-    widgets,
-  });
+  console.debug("SharedProject", {
+    isShareModalOpen, widgets
+  })
 
   if (loading) {
     return (

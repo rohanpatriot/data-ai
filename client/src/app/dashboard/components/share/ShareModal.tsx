@@ -101,7 +101,7 @@ export default function ShareModal({ isOpen, onClose, projectId }: ShareModalPro
             component="div"
             sx={{ fontWeight: "bold", fontSize: "24px" }}
           >
-            Share Board <Chip
+            Invite Collaborators <Chip
                       label="Coming Soon!"
                       size="small"
                       color="primary"
@@ -134,13 +134,16 @@ export default function ShareModal({ isOpen, onClose, projectId }: ShareModalPro
 
         <DialogContent sx={{ pt: 2 }}>
           <Typography color="text.secondary" sx={{ mb: 3 }}>
-            Invite others to view and collaborate on this board.
+            Invite others to view and collaborate on this board. Is coming soon!
+          </Typography>
+          <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
+            Invite to readonly access for now:
           </Typography>
 
           <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
             <TextField
               fullWidth
-              placeholder="Enter an email address"
+              placeholder="Enter an email address to"
               variant="outlined"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
