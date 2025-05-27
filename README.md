@@ -2,7 +2,7 @@
 
 [![Go to Website](https://img.shields.io/badge/Go_to_Website-%238200FF?style=for-the-badge&labelColor=212529)](https://perplexigrid.framer.website/)
 
-PerplexiGrid is an analytics tool that enables rapid dashboard creation by combining your datasources with live web search. Built as a Perplexity API wrapper, it transforms natural language queries into interactive visual dashboards in seconds. Think of it as Perplexity for Analytics Dashboards.
+PerplexiGrid is an analytics tool that enables rapid dashboard creation by combining your datasources with live web search. Built as a Perplexity API wrapper, it transforms natural language queries into interactive visual dashboards in seconds. Think of it as the first, Data Visualization Platofmr and Analytics Tool built with Perplexity!
 
 ## What's under the hood of PerplexiGrid?
 
