@@ -12,7 +12,7 @@ PerplexiGrid leverages the **Sonar API** from Perplexity to scrape relevant web 
 
 ## Core Functionality & Features
 
-### 🤖 AI-Powered Dashboard Generation
+### AI-Powered Dashboard Generation
 
 - Natural language to dashboard conversion
 - Intelligent widget type selection
@@ -99,6 +99,44 @@ PerplexiGrid leverages the **Sonar API** from Perplexity to scrape relevant web 
 7. Prompt some more
 8. Have a quick coffee break
 9. Iterate
+
+## How PerplexiGrid Uses the Sonar API with Advanced Parameters
+
+PerplexiGrid transforms natural language queries into interactive dashboards by calling the Perplexity Sonar API behind the scenes. The API accepts detailed configuration parameters that influence how the model responds — controlling style, structure, and relevance of the returned data.
+
+```
+{
+// ...
+  temperature: 0.2,
+  top_p: 0.9,
+  frequency_penalty: 1,
+  presence_penalty: 0.5,
+  stream: false,
+  response_format: {
+    type: "json_schema",
+    json_schema: {
+      schema: AnswerFormat.model_json_schema()
+    }
+  }
+// ...
+}
+```
+
+### Custom Prompts = Structured Output
+
+Our system prompt acts like a contract: it tells the model what to return and how. We’ve essentially instructed it to always produce:
+	•	A valid JSON schema
+	•	Widget types matched to data types
+	•	Clean, structured output you can plug directly into ECharts
+
+This is the core secret sauce. You’re not just “asking questions” — you’re programming through prompting.
+
+### Parameter Control = Precision
+
+You’re leveraging model controls to eliminate noise:
+	•	temperature: 0.2 gives deterministic, reusable results
+	•	frequency_penalty: 1 reduces repetition (like repeating “Bar Chart” 3 times)
+	•	search_recency_filter + web_search_options = up-to-date insights
 
 ## Sonar API Integration
 
