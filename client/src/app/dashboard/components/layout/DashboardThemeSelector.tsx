@@ -75,7 +75,7 @@ const DashboardThemeSelector: React.FC = () => {
         <IconButton
           onClick={handleClick}
           size="small"
-          sx={{ p: 0.5, borderRadius: "4px" }}
+          sx={{ borderRadius: "4px", p: 0 }}
           key={`theme-selector-button-${themePreset}`}
         >
           <ThemeCircle preset={themePreset} />

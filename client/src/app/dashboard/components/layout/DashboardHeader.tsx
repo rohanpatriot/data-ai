@@ -158,6 +158,9 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               size="small"
               fullWidth={isMobile}
               onClick={() => setDSPanelOpen(true)}
+              sx={{
+                height: 32,
+              }}
             >
               Data sources
             </Button>
@@ -187,6 +190,9 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 setShareMenuAnchor(e.currentTarget);
                 setExportMenuOpen(true);
               }}
+              sx={{
+                height: 32,
+              }}
             >
               Export
             </Button>
@@ -207,6 +213,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             sx={{
               border: `1px solid ${theme.palette.divider}`,
               borderRadius: 3,
+              height: 32,
             }}
             onClick={refreshDash}
           >
