@@ -193,12 +193,10 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
                   display: "flex",
                   flexDirection: "column",
                   gap: 0.5,
-                  width: "",
+                  wdith: "100%",
                 }}
               >
-                <Skeleton variant="text" width="100%" height={20} />
-                <Skeleton variant="text" width="75%" height={20} />
-                <Skeleton variant="text" width="60%" height={20} />
+                <Skeleton variant="text" width="80%" height={20} />
               </Box>
             </Box>
             <div ref={messagesEndRef} />
