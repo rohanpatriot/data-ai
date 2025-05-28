@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import ReactECharts from "echarts-for-react";
 import WidgetBase from "./WidgetBase";
 import {
@@ -23,6 +23,21 @@ const BaseChartWidget: React.FC<BaseChartWidgetProps> = ({
 }) => {
   const { colors, themePreset } = useWidgetTheme();
   const themedOptions = applyThemeToChartOptions(options, colors);
+  const chartRef = useRef<any>(null);
+
+  // Force resize after mount to fix initial sizing issue
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (chartRef.current) {
+        const chartInstance = chartRef.current.getEchartsInstance();
+        if (chartInstance) {
+          chartInstance.resize();
+        }
+      }
+    }, 420); // Small delay to ensure container is fully rendered
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <WidgetBase
@@ -32,9 +47,11 @@ const BaseChartWidget: React.FC<BaseChartWidgetProps> = ({
       onReference={onReference}
     >
       <ReactECharts
+        ref={chartRef}
         option={themedOptions}
-        style={{ height: "100%", width: "100% !important" }}
+        style={{ height: "100%", width: "100%" }}
         key={`chart-${id}-${themePreset}`}
+        opts={{ renderer: "canvas" }}
       />
     </WidgetBase>
   );

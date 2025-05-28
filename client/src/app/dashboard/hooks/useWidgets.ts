@@ -15,7 +15,7 @@ export const useWidgets = (projectId?: string) => {
   const getWidgetNameById = async (widgetId: string) => {
     const widgetData = await API.widgets.getById(widgetId);
     return widgetData?.name;
-  }
+  };
 
   const fetchWidgets = async () => {
     if (!projectId) {

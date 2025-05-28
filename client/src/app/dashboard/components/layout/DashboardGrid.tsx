@@ -102,6 +102,7 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
           height: "100%",
           display: "flex",
           flexDirection: "column",
+          width: "100%",
         }}
       >
         {/* Widget content without duplicating the title */}
