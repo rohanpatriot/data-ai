@@ -90,7 +90,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
-                maxWidth: { xs: "250px", md: chatOpen ? "100px" : "320px" },
+                maxWidth: { xs: "275px", md: chatOpen ? "190px" : "320px" },
                 fontSize: { xs: 20, md: 16 },
               }}
             >
