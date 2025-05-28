@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Container, useTheme, Typography, CircularProgress, Button } from "@mui/material";
+import { Box, Container, useTheme, Typography, CircularProgress, Button, useMediaQuery } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 // Components
@@ -19,6 +19,7 @@ const SharedProject: React.FC = () => {
   const { sharedProjectId, loading: shareLoading, error: shareError } = useProjectShare(undefined, token);
   const { currentProject, loading: projectLoading } = useProjectData(sharedProjectId);
   const { widgets, loading: widgetsLoading, error: widgetsError } = useWidgets(sharedProjectId || undefined);
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const loading = shareLoading || projectLoading || widgetsLoading;
   const error = shareError || widgetsError;
@@ -68,9 +69,9 @@ const SharedProject: React.FC = () => {
         gap: 2,
        }}>
         <Logo />
-        <Typography variant="h5" component="h1">
+        {!isMobile && <Typography variant="h5" component="h1">
           {currentProject.name}
-        </Typography>
+        </Typography>}
         <Button
               variant="outlined"
               size="medium"
@@ -83,6 +84,13 @@ const SharedProject: React.FC = () => {
               Export
             </Button>
       </Box>
+      {isMobile &&
+      <Box sx={{ padding: 2, borderBottom: '1px solid'+ theme.palette.divider }}>
+        <Typography variant="h5" component="h1">
+          {currentProject.name}
+        </Typography>
+      </Box>
+      }
       {/* Subheader for description */}
       <Box sx={{ padding: 2, borderBottom: '1px solid'+ theme.palette.divider }}>
         <Typography variant="body1" color="text.secondary">
