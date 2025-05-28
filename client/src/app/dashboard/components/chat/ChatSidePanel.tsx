@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import {
   Box,
   IconButton,
@@ -7,6 +7,7 @@ import {
   useTheme,
   useMediaQuery,
   SwipeableDrawer,
+  Skeleton,
 } from "@mui/material";
 import Logo from "../../../../shared/components/Logo";
 import ChatBox from "./ChatBox";
@@ -31,19 +32,19 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
   user,
   chatOpen,
   projectId,
-  setDashboardLoading
+  setDashboardLoading,
 }) => {
-  const { 
-    messages, 
-    newMessage, 
-    setNewMessage, 
-    handleSendMessage, 
+  const {
+    messages,
+    newMessage,
+    setNewMessage,
+    handleSendMessage,
     loading,
     dashboardLoading,
-    referencedWidget,  // Get the referenced widget from useMessages
+    referencedWidget, // Get the referenced widget from useMessages
   } = useMessages(projectId);
 
-  const {get: getWidget} = useWidgets(projectId)
+  const { get: getWidget } = useWidgets(projectId);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -54,7 +55,7 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages]);
+  }, [messages, dashboardLoading]);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -146,13 +147,45 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
               <Typography
                 ref={messagesEndRef}
                 variant="body2"
-                sx={{ textAlign: "start" }}
+                sx={{ textAlign: "start", wordBreak: "break-word" }}
               >
                 {msg.text}
               </Typography>
             </Box>
           </Box>
         ))}
+
+        {/* Show skeleton when dashboardLoading is true */}
+        {dashboardLoading && (
+          <Box sx={{ mb: 3, display: "flex", alignItems: "flex-start" }}>
+            <Avatar
+              src={brandmark}
+              sx={{
+                mr: 2,
+                width: 36,
+                height: 36,
+                bgcolor: "transparent",
+                padding: 0.8,
+                "& img": {
+                  objectFit: "contain",
+                },
+              }}
+            />
+            <Box sx={{ maxWidth: "85%" }}>
+              <Box sx={{ display: "flex", alignItems: "flex-start", mb: 0.5 }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+                  perplexigrid
+                </Typography>
+              </Box>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+                <Skeleton variant="text" width="90%" height={20} />
+                <Skeleton variant="text" width="75%" height={20} />
+                <Skeleton variant="text" width="60%" height={20} />
+              </Box>
+            </Box>
+            <div ref={messagesEndRef} />
+          </Box>
+        )}
       </Box>
 
       <Box sx={{ p: 2 }}>

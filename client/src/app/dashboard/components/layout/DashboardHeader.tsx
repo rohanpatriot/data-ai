@@ -169,7 +169,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             <Button
               variant="outlined"
               color="secondary"
-              size="medium"
+              size="small"
               fullWidth={isMobile}
               onClick={() => setDSPanelOpen(true)}
             >
@@ -194,7 +194,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           ) : (
             <Button
               variant="outlined"
-              size="medium"
+              size="small"
               color="secondary"
               fullWidth={isMobile}
               onClick={(e) => {
@@ -216,14 +216,16 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           />
 
           <DashboardThemeSelector />
-          <Button
-            variant="outlined"
-            size="small"
-            color="secondary"
+          <IconButton
+            size="medium"
+            sx={{
+              border: `1px solid ${theme.palette.divider}`,
+              borderRadius: 3,
+            }}
             onClick={refreshDash}
           >
             <RefreshOutlined />
-          </Button>
+          </IconButton>
 
           {!isMobile ? (
             <Box

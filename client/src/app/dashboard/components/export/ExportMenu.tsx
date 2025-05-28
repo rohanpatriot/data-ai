@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Menu, MenuItem, Typography, Divider, Snackbar, Alert } from "@mui/material";
+import {
+  Menu,
+  MenuItem,
+  Typography,
+  Divider,
+  Snackbar,
+  Alert,
+} from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import ImageIcon from "@mui/icons-material/Image";
@@ -25,7 +32,7 @@ const ExportMenu: React.FC<ExportMenuProps> = ({
   setIsShareModalOpen,
   projectName,
   projectId,
-  exportOnly = false
+  exportOnly = false,
 }) => {
   const handleExportMenuClose = () => {
     setExportMenuOpen(false);
@@ -46,9 +53,9 @@ const ExportMenu: React.FC<ExportMenuProps> = ({
     setSnackbar({ open: true, message, severity });
   };
 
-  const handleCopyLink = async() => {
+  const handleCopyLink = async () => {
     const url = await createShareLink();
-    if(url === null) {
+    if (url === null) {
       showSnackbar("Failed to create share link", "error");
       return;
     }
@@ -72,29 +79,30 @@ const ExportMenu: React.FC<ExportMenuProps> = ({
       anchorEl={shareMenuAnchor}
       open={exportMenuOpen}
       onClose={() => setExportMenuOpen(false)}
+      elevation={1}
       sx={{
         "& .MuiPaper-root": {
           borderRadius: "8px",
-          boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.1)",
           width: "220px",
         },
       }}
     >
-      {!exportOnly && 
-      <>
-        <Typography sx={{ px: 2, py: 1, fontWeight: "bold" }}>
-          Share Options
-        </Typography>
-        <MenuItem onClick={handleCopyLink} sx={{ gap: 2 }}>
-          <ContentCopyIcon fontSize="small" />
-          Copy link
-        </MenuItem>
-        <MenuItem onClick={handleInviteUsers} sx={{ gap: 2 }}>
-          <PersonAddIcon fontSize="small" />
-          Invite users
-        </MenuItem>
-        <Divider />
-      </>}
+      {!exportOnly && (
+        <>
+          <Typography sx={{ px: 2, py: 1, fontWeight: "bold" }}>
+            Share Options
+          </Typography>
+          <MenuItem onClick={handleCopyLink} sx={{ gap: 2 }}>
+            <ContentCopyIcon fontSize="small" />
+            Copy link
+          </MenuItem>
+          <MenuItem onClick={handleInviteUsers} sx={{ gap: 2 }}>
+            <PersonAddIcon fontSize="small" />
+            Invite users
+          </MenuItem>
+          <Divider />
+        </>
+      )}
       <Typography sx={{ px: 2, py: 1, fontWeight: "bold" }}>
         Export As
       </Typography>

@@ -1,6 +1,14 @@
-import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import WidgetBase from '../WidgetBase';
+import React from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+import WidgetBase from "../WidgetBase";
 
 interface TableWidgetProps {
   data: {
@@ -13,10 +21,27 @@ interface TableWidgetProps {
   onReference?: (widgetId: string) => void;
 }
 
-const TableWidget: React.FC<TableWidgetProps> = ({ data, id, refresh, onReference }) => {
+const TableWidget: React.FC<TableWidgetProps> = ({
+  data,
+  id,
+  refresh,
+  onReference,
+}) => {
   return (
-    <WidgetBase widgetId={id} title={data.title} refresh={refresh} onReference={onReference}>
-      <TableContainer component={Paper}>
+    <WidgetBase
+      widgetId={id}
+      title={data.title}
+      refresh={refresh}
+      onReference={onReference}
+    >
+      <TableContainer
+        component={Paper}
+        sx={{
+          overflowX: "auto",
+          overflowY: "auto",
+          maxWidth: "100%",
+        }}
+      >
         <Table>
           <TableHead>
             <TableRow>
@@ -29,7 +54,9 @@ const TableWidget: React.FC<TableWidgetProps> = ({ data, id, refresh, onReferenc
             {data.rows.map((row, rowIndex) => (
               <TableRow key={rowIndex}>
                 {data.columns.map((column, colIndex) => (
-                  <TableCell key={colIndex}>{String(row[column] ?? '')}</TableCell>
+                  <TableCell key={colIndex}>
+                    {String(row[column] ?? "")}
+                  </TableCell>
                 ))}
               </TableRow>
             ))}

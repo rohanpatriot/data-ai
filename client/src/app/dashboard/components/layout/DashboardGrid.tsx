@@ -34,7 +34,9 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
   const [searchParams] = useSearchParams();
   const projectId = propProjectId || searchParams.get("projectId");
 
-  const { widgets, loading, error, refresh } = useWidgets(projectId || undefined);
+  const { widgets, loading, error, refresh } = useWidgets(
+    projectId || undefined
+  );
   const { setReferencedWidget } = useMessages(projectId || undefined);
   const [layouts, setLayouts] = useState<Layouts>({});
 
@@ -85,7 +87,7 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
   }, [widgets]);
 
   useEffect(() => {
-    if(!dashboardLoading) {
+    if (!dashboardLoading) {
       refresh();
     }
   }, [dashboardLoading]);
@@ -103,8 +105,10 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
         }}
       >
         {/* Widget content without duplicating the title */}
-        <Box sx={{ flexGrow: 1, p: 1, width:'inherit', height:'inherit' }}>
-          {WidgetFactory(widget.type, widget.data, widget.id, refresh, () => {onReference(widget.id)})}
+        <Box sx={{ flexGrow: 1, width: "inherit", height: "inherit" }}>
+          {WidgetFactory(widget.type, widget.data, widget.id, refresh, () => {
+            onReference(widget.id);
+          })}
         </Box>
       </Box>
     ));
@@ -122,13 +126,13 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
     onLayoutChange(currentLayout, compactedLayouts);
   };
 
-  if (loading  || dashboardLoading) {
+  if (loading) {
     return (
       <Box
         display="flex"
         justifyContent="center"
         alignItems="center"
-        height="100%"
+        height="85vh"
       >
         <CircularProgress />
       </Box>
@@ -162,9 +166,10 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
   }
 
   const hasAllBreakpoints = Object.keys(cols).every(
-    breakpoint => breakpoint in layouts && 
-                 layouts[breakpoint] && 
-                 layouts[breakpoint].length > 0
+    (breakpoint) =>
+      breakpoint in layouts &&
+      layouts[breakpoint] &&
+      layouts[breakpoint].length > 0
   );
 
   if (!hasAllBreakpoints) {
@@ -180,23 +185,21 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
     );
   }
 
-
   return (
-      <ResponsiveReactGridLayout
-        className="layout"
-        layouts={layouts}
-        breakpoints={breakpoints}
-        cols={cols}
-        rowHeight={rowHeight}
-        onLayoutChange={handleLayoutChange}
-        isDraggable={!readonly}
-        isResizable={false}
-        compactType="vertical"
-        draggableCancel=".no-drag"
-        margin={[5, 5]}
-      >
-        {generateWidgets()}
-      </ResponsiveReactGridLayout>
+    <ResponsiveReactGridLayout
+      className="layout"
+      layouts={layouts}
+      breakpoints={breakpoints}
+      cols={cols}
+      rowHeight={rowHeight}
+      onLayoutChange={handleLayoutChange}
+      isDraggable={!readonly}
+      isResizable={false}
+      compactType="vertical"
+      draggableCancel=".no-drag"
+    >
+      {generateWidgets()}
+    </ResponsiveReactGridLayout>
   );
 };
 

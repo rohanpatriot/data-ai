@@ -16,7 +16,7 @@ import FormatPaintIcon from "@mui/icons-material/FormatPaint";
 import DeleteWidgetDialog from "./dialogs/DeleteWidgetDialog";
 import { useWidgetDialogs } from "../hooks/useWidgetDialogs";
 import EditWidgetDialog from "./dialogs/EditWidgetDialog";
-import ImageIcon from '@mui/icons-material/Image';
+import ImageIcon from "@mui/icons-material/Image";
 import { exportWidgetToPng } from "./util/exportWidget";
 
 interface WidgetBaseProps {
@@ -42,7 +42,10 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
   const widgetRef = useRef<HTMLDivElement>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const { edit, del } = useWidgetDialogs({ widgetId, refresh: refresh || (() => {}) });
+  const { edit, del } = useWidgetDialogs({
+    widgetId,
+    refresh: refresh || (() => {}),
+  });
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -74,13 +77,13 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
   const handleExportWidget = () => {
     const widgetElement = widgetRef.current;
     if (widgetElement) {
-      exportWidgetToPng(widgetElement, title || 'My Widget');
+      exportWidgetToPng(widgetElement, title || "My Widget");
     }
-  }
+  };
 
   const handleEditClick = () => {
     handleClose();
-    edit.open(widgetId, title || '');
+    edit.open(widgetId, title || "");
   };
 
   return (
@@ -91,7 +94,6 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
       }}
       className={isMobile ? "no-drag" : ""}
       sx={{
-        p: 1,
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -100,11 +102,7 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
       }}
     >
       {title && (
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-        >
+        <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="body1" fontWeight="bold">
             {title}
           </Typography>
@@ -123,7 +121,7 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
         </Box>
       )}
 
-      <Box flexGrow={1} minHeight={50}>
+      <Box flexGrow={1} minHeight={50} sx={{ width: "100%" }}>
         {children}
       </Box>
 
@@ -185,8 +183,8 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
           }}
         >
           <Box display="flex" alignItems="center">
-          <ImageIcon fontSize="small" />
-          <Box ml={1}>Export Widget to PNG</Box>
+            <ImageIcon fontSize="small" />
+            <Box ml={1}>Export Widget to PNG</Box>
           </Box>
         </MenuItem>
       </Menu>
@@ -199,7 +197,7 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
         />
       )}
 
-      {edit.isOpen && 
+      {edit.isOpen && (
         <EditWidgetDialog
           open={edit.isOpen}
           onClose={edit.close}
@@ -209,7 +207,7 @@ const WidgetBase: React.FC<WidgetBaseProps> = ({
           loading={edit.loading}
           error={edit.error}
         />
-      }
+      )}
     </Card>
   );
 };
