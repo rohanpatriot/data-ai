@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
-import UserMenu from "../../../../shared/components/UserMenu";
 import ExportMenu from "../../components/export/ExportMenu";
 import ChatIcon from "../chat/ChatIcon";
 import databaseIcon from "@/assets/icons/db_icon.svg";
