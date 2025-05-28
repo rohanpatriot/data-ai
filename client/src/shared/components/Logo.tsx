@@ -3,7 +3,7 @@ import { Box, Menu, MenuItem } from "@mui/material";
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo.svg";
 import brandmark from "@/assets/brandmark.svg";
-// import brandKit from "@/assets/brand-kit.zip?url";
+import brandKit from "@/assets/brandkit.zip?url";
 
 const Logo: React.FC = () => {
   const [anchor, setAnchor] = useState<null | {
@@ -30,7 +30,7 @@ const Logo: React.FC = () => {
 
   const handleDownload = () => {
     const link = document.createElement("a");
-    // link.href = brandKit;
+    link.href = brandKit;
     link.download = "Perplexigrid-BrandKit.zip";
     link.click();
     handleClose();
