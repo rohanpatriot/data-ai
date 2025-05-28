@@ -63,7 +63,7 @@ const AddProjectModal = ({
       confirmLabel="Add"
       confirmDisabled={!name.trim()}
     >
-      <Box sx={{ mt: 2 }}>
+      <Box>
         <CustomTextField
           inputRef={nameInputRef}
           label="Project Name"
@@ -75,7 +75,6 @@ const AddProjectModal = ({
           error={!!error}
           helperText={error || " "}
           onKeyDown={handleNameKeyDown}
-          sx={{ mb: 2 }}
         />
         <CustomTextField
           inputRef={descInputRef}

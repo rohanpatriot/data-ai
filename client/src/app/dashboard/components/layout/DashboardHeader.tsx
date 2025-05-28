@@ -107,19 +107,6 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               )}
             </Typography>
           </Box>
-
-          {isMobile ? (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <UserMenu />
-            </Box>
-          ) : (
-            []
-          )}
         </Box>
 
         <Box
@@ -226,20 +213,6 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           >
             <RefreshOutlined />
           </IconButton>
-
-          {!isMobile ? (
-            <Box
-              sx={{
-                width: isMobile ? "100%" : "auto",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <UserMenu />
-            </Box>
-          ) : (
-            []
-          )}
         </Box>
       </Toolbar>
     </AppBar>

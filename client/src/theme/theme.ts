@@ -45,6 +45,30 @@ const theme = createTheme({
   },
   // Add the MuiDialog component styling to the components section
   components: {
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          borderBottom: "none",
+          padding: 16,
+        },
+      },
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          border: "none",
+          padding: 16,
+        },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          borderTop: "none",
+          padding: 16,
+        },
+      },
+    },
     // Add Card component styling
     MuiCard: {
       defaultProps: {

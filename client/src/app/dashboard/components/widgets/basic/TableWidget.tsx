@@ -36,17 +36,25 @@ const TableWidget: React.FC<TableWidgetProps> = ({
     >
       <TableContainer
         component={Paper}
+        elevation={0}
         sx={{
           overflowX: "auto",
           overflowY: "auto",
+          maxHeight: "100%",
           maxWidth: "100%",
+          scrollbarWidth: "thin",
+          scrollbarColor: "rgba(0, 0, 0, 0.08) transparent",
+          border: "1px solid rgba(0, 0, 0, 0.08)",
+          borderRadius: 2,
         }}
       >
         <Table>
           <TableHead>
             <TableRow>
               {data.columns.map((column, index) => (
-                <TableCell key={index}>{column}</TableCell>
+                <TableCell key={index} sx={{ fontWeight: 600 }}>
+                  {column}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>

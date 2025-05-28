@@ -44,12 +44,20 @@ const DataSourcesSidePanel: React.FC<Props> = ({
   const { dataSources, isLoading, refresh } = useDataSources(projectId);
   const { add, del } = useDataSourceDialogs({ projectId, refresh });
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  
+
+  // Refresh when dashboard is loading
   useEffect(() => {
     if (dashboardLoading) {
       refresh();
     }
   }, [dashboardLoading]);
+
+  // Refresh every time the panel opens
+  useEffect(() => {
+    if (DSPanelOpen) {
+      refresh();
+    }
+  }, [DSPanelOpen]); // Remove 'refresh' from dependencies
 
   const renderDataSources = () => {
     if (isLoading) {

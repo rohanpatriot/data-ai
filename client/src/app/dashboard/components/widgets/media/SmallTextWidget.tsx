@@ -12,10 +12,31 @@ interface SmallTextWidgetProps {
   onReference?: (widgetId: string) => void;
 }
 
-const SmallTextWidget: React.FC<SmallTextWidgetProps> = ({ data, id, refresh, onReference }) => {
+const SmallTextWidget: React.FC<SmallTextWidgetProps> = ({
+  data,
+  id,
+  refresh,
+  onReference,
+}) => {
   return (
-    <WidgetBase widgetId={id} title={data.title} refresh={refresh} onReference={onReference}>
-      <Typography>{data.content}</Typography>
+    <WidgetBase
+      widgetId={id}
+      title={data.title}
+      refresh={refresh}
+      onReference={onReference}
+    >
+      <Typography
+        sx={{
+          overflowX: "auto",
+          overflowY: "auto",
+          maxHeight: "100%",
+          maxWidth: "100%",
+          scrollbarWidth: "thin",
+          scrollbarColor: "rgba(0, 0, 0, 0.08) transparent",
+        }}
+      >
+        {data.content}
+      </Typography>
     </WidgetBase>
   );
 };
