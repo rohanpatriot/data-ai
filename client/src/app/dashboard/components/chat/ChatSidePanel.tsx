@@ -169,7 +169,7 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
         ))}
 
         {/* Show skeleton when dashboardLoading is true */}
-        {true && (
+        {dashboardLoading && (
           <Box sx={{ mb: 3, display: "flex", alignItems: "flex-start" }}>
             <Avatar
               src={brandmark}
