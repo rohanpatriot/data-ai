@@ -6,6 +6,8 @@ export const exportWidgetToPng = async (widgetElement: HTMLElement, widgetName: 
             throw new Error('Widget element not found');
         }
 
+        console.debug('Exporting widget:', widgetName);
+
         const canvas = await html2canvas(widgetElement, {
             scale: 2, // Higher quality
             useCORS: true,
@@ -13,7 +15,7 @@ export const exportWidgetToPng = async (widgetElement: HTMLElement, widgetName: 
         });
 
         const link = document.createElement('a');
-        link.download = `${widgetName || 'widget'}.png`;
+        link.download = `perplexigrid-wdiget.png`;
         link.href = canvas.toDataURL('image/png', 1.0);
         link.click();
 
