@@ -44,12 +44,12 @@ const DashboardPage: React.FC = () => {
   // Added to handle size issues
   React.useEffect(() => {
     setContainerWidth(101);
-      const timer = setTimeout(() => {
-        if(!loading) {
+    const timer = setTimeout(() => {
+      if (!loading) {
         setContainerWidth(100);
-        }
-      }, 500);
-        return () => clearTimeout(timer);
+      }
+    }, 500);
+    return () => clearTimeout(timer);
   }, [loading, dashboardLoading]);
 
   //refresh dashboard
@@ -70,102 +70,105 @@ const DashboardPage: React.FC = () => {
       transition={{ duration: 0.5 }}
     >
       <WidgetThemeProvider project={currentProject}>
-      <Box sx={{ display: "flex", height: "100vh", overflow: "hidden" }}>
-        <AnimatePresence>
-          {chatOpen && !isMobile && (
-            <motion.div
-              key="chat-sidebar"
-              initial={{ x: -330, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -330, opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
-            >
-              <ChatSidePanel
-                setChatOpen={setChatOpen}
-                user={user}
-                chatOpen={chatOpen}
-                projectId={projectId || undefined}
-                setDashboardLoading={setDashboardLoading}
-              />
-            </motion.div>
+        <Box sx={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+          <AnimatePresence>
+            {chatOpen && !isMobile && (
+              <motion.div
+                key="chat-sidebar"
+                initial={{ x: -330, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -330, opacity: 0 }}
+                transition={{ duration: 0.25, ease: "easeInOut" }}
+              >
+                <ChatSidePanel
+                  setChatOpen={setChatOpen}
+                  user={user}
+                  chatOpen={chatOpen}
+                  projectId={projectId || undefined}
+                  setDashboardLoading={setDashboardLoading}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {isMobile && (
+            <ChatSidePanel
+              setChatOpen={setChatOpen}
+              user={user}
+              chatOpen={chatOpen}
+              projectId={projectId || undefined}
+              setDashboardLoading={setDashboardLoading}
+            />
           )}
-        </AnimatePresence>
 
-        {isMobile && (
-          <ChatSidePanel
-            setChatOpen={setChatOpen}
-            user={user}
-            chatOpen={chatOpen}
-            projectId={projectId || undefined}
-            setDashboardLoading={setDashboardLoading}
-          />
-        )}
+          {/* Main Content */}
+          <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+            <DashboardHeader
+              loading={loading}
+              projectId={projectId || ""}
+              projectName={currentProject?.name}
+              chatOpen={chatOpen}
+              setChatOpen={setChatOpen}
+              setDSPanelOpen={setDSPanelOpen}
+              exportMenuOpen={exportMenuOpen}
+              setExportMenuOpen={setExportMenuOpen}
+              shareMenuAnchor={shareMenuAnchor}
+              setShareMenuAnchor={setShareMenuAnchor}
+              setIsShareModalOpen={setIsShareModalOpen}
+              refreshDash={refreshDash}
+            />
 
-        {/* Main Content */}
-        <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-          <DashboardHeader
-            loading={loading}
-            projectId={projectId || ""}
-            projectName={currentProject?.name}
-            chatOpen={chatOpen}
-            setChatOpen={setChatOpen}
-            setDSPanelOpen={setDSPanelOpen}
-            exportMenuOpen={exportMenuOpen}
-            setExportMenuOpen={setExportMenuOpen}
-            shareMenuAnchor={shareMenuAnchor}
-            setShareMenuAnchor={setShareMenuAnchor}
-            setIsShareModalOpen={setIsShareModalOpen}
-            refreshDash={refreshDash}
-          />
-
-          <Box
-            sx={{ flexGrow: 1, padding: 0, overflowY: "auto" }}
-            id="grid-container"
-          >
-            <Container maxWidth="xl" sx={{ padding: 0, width: `${containerWidth}%` }}>
-              <Box sx={{ p: 0 }}>
-                <DashboardGrid dashboardLoading={dashboardLoading} />
-              </Box>
-            </Container>
+            <Box
+              sx={{ flexGrow: 1, padding: 0, overflowY: "auto" }}
+              id="grid-container"
+            >
+              <Container
+                maxWidth="xl"
+                sx={{ padding: 0, width: `${containerWidth}%` }}
+              >
+                <Box sx={{ p: 0 }}>
+                  <DashboardGrid dashboardLoading={dashboardLoading} />
+                </Box>
+              </Container>
+            </Box>
           </Box>
+
+          {/* Panels */}
+          <DataSourcesSidePanel
+            DSPanelOpen={DSPanelOpen}
+            setDSPanelOpen={setDSPanelOpen}
+            dashboardLoading={dashboardLoading}
+          />
+
+          {/* Dialogs */}
+          <AddDataSourceDialog
+            open={dialogs.add.isOpen}
+            onClose={dialogs.add.close}
+            onConfirm={dialogs.add.confirm}
+            name={dialogs.add.name}
+            onChangeName={dialogs.add.setName}
+            file={dialogs.add.file}
+            onChangeFile={dialogs.add.setFile}
+            url={dialogs.add.url}
+            onChangeUrl={dialogs.add.setUrl}
+            sourceType={dialogs.add.sourceType}
+            onChangeSourceType={dialogs.add.setSourceType}
+            error={dialogs.add.error}
+            loading={dialogs.add.loading}
+          />
+
+          <DeleteDataSourceDailog
+            open={dialogs.del.isOpen}
+            onClose={dialogs.del.close}
+            onDelete={dialogs.del.confirm}
+          />
+
+          <ShareModal
+            projectId={projectId || ""}
+            isOpen={isShareModalOpen}
+            onClose={() => setIsShareModalOpen(false)}
+          />
         </Box>
-
-        {/* Panels */}
-        <DataSourcesSidePanel
-          DSPanelOpen={DSPanelOpen}
-          setDSPanelOpen={setDSPanelOpen}
-          dashboardLoading={dashboardLoading}
-        />
-
-        {/* Dialogs */}
-        <AddDataSourceDialog
-          open={dialogs.add.isOpen}
-          onClose={dialogs.add.close}
-          onConfirm={dialogs.add.confirm}
-          name={dialogs.add.name}
-          onChangeName={dialogs.add.setName}
-          file={dialogs.add.file}
-          onChangeFile={dialogs.add.setFile}
-          url={dialogs.add.url}
-          onChangeUrl={dialogs.add.setUrl}
-          sourceType={dialogs.add.sourceType}
-          onChangeSourceType={dialogs.add.setSourceType}
-          error={dialogs.add.error}
-          loading={dialogs.add.loading}
-        />
-
-        <DeleteDataSourceDailog
-          open={dialogs.del.isOpen}
-          onClose={dialogs.del.close}
-          onDelete={dialogs.del.confirm}
-        />
-
-        <ShareModal
-          projectId={projectId || ""}
-          isOpen={isShareModalOpen}
-          onClose={() => setIsShareModalOpen(false)}
-        />
-      </Box>
       </WidgetThemeProvider>
     </motion.div>
   );
