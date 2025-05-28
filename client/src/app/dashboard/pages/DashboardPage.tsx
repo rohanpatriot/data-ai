@@ -16,7 +16,7 @@ import { useDataSourceDialogs } from "../components/hooks/useDataSourceDialogs";
 import AddDataSourceDialog from "../components/dataSources/AddDataSourceDialog";
 import DeleteDataSourceDailog from "../components/dataSources/DeleteDataSourceDialog";
 import { WidgetThemeProvider } from "../store/WidgetThemeContext";
-import { useWidgets } from "../hooks/useWidgets";
+// import { useWidgets } from "../hooks/useWidgets";
 
 const DashboardPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -34,7 +34,7 @@ const DashboardPage: React.FC = () => {
   const [containerWidth, setContainerWidth] = useState("100%");
 
   const { refresh } = useDataSources(projectId!);
-  const { refresh: refreshDashboard } = useWidgets(projectId!);
+  // const { refresh: refreshDashboard } = useWidgets(projectId!);
   const dialogs = useDataSourceDialogs({ projectId: projectId!, refresh });
 
   const theme = useTheme();
