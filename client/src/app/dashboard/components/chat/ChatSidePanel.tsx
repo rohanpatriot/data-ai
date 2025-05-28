@@ -188,8 +188,15 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
                   perplexigrid
                 </Typography>
               </Box>
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-                <Skeleton variant="text" width="90%" height={20} />
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 0.5,
+                  width: "",
+                }}
+              >
+                <Skeleton variant="text" width="100%" height={20} />
                 <Skeleton variant="text" width="75%" height={20} />
                 <Skeleton variant="text" width="60%" height={20} />
               </Box>

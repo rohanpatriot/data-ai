@@ -1,3 +1,4 @@
+import React from "react";
 import { Box } from "@mui/material";
 import { useRef, useState, useEffect } from "react";
 import { BaseFormDialog } from "../../../../shared/components/BaseFormDialog";
@@ -24,17 +25,23 @@ const AddProjectModal = ({
   onConfirm,
 }: Props) => {
   const [error, setError] = useState<string | null>(null);
+  const [isAdding, setIsAdding] = useState(false);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const descInputRef = useRef<HTMLInputElement>(null);
 
   useAutoFocusAndSelect(nameInputRef, open);
 
   useEffect(() => {
-    if (open) setError(null);
+    if (open) {
+      setError(null);
+      setIsAdding(false);
+    }
   }, [open]);
 
   const handleConfirm = async () => {
-    if (!name.trim()) return;
+    if (!name.trim() || isAdding) return;
+    
+    setIsAdding(true);
     try {
       await onConfirm();
     } catch (e: any) {
@@ -44,6 +51,8 @@ const AddProjectModal = ({
           ? "A project with this name already exists."
           : "Unexpected error. Please try again."
       );
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -61,7 +70,8 @@ const AddProjectModal = ({
       onClose={onClose}
       onConfirm={handleConfirm}
       confirmLabel="Add"
-      confirmDisabled={!name.trim()}
+      confirmDisabled={!name.trim() || isAdding}
+      confirmLoading={isAdding}
     >
       <Box>
         <CustomTextField
@@ -75,6 +85,7 @@ const AddProjectModal = ({
           error={!!error}
           helperText={error || " "}
           onKeyDown={handleNameKeyDown}
+          disabled={isAdding}
         />
         <CustomTextField
           inputRef={descInputRef}
@@ -83,6 +94,7 @@ const AddProjectModal = ({
           onChange={(e) => onChangeDescription(e.target.value)}
           multiline
           rows={3}
+          disabled={isAdding}
         />
       </Box>
     </BaseFormDialog>
