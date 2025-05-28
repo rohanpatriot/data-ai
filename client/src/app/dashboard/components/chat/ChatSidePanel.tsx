@@ -112,7 +112,15 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
         </IconButton>
       </Box>
 
-      <Box sx={{ flexGrow: 1, overflowY: "auto", p: 2 }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          overflowY: "auto",
+          p: 2,
+          scrollbarWidth: "thin",
+          scrollbarColor: "rgba(0, 0, 0, 0.1) transparent",
+        }}
+      >
         {messages.map((msg, index) => (
           <Box
             key={index}
@@ -121,7 +129,11 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
             {msg.sender === "user" ? (
               <Avatar
                 src={user.avatar_url}
-                sx={{ mr: 2, width: 36, height: 36 }}
+                sx={{
+                  mr: 1.5,
+                  width: 28,
+                  height: 28,
+                }}
               />
             ) : (
               <Avatar
