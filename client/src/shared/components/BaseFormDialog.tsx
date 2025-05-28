@@ -1,4 +1,5 @@
-import { Button } from "@mui/material";
+import React from "react";
+import { Button, CircularProgress } from "@mui/material";
 import { ResponsiveDialog } from "./ResponsiveDialog";
 
 interface BaseFormDialogProps {
@@ -8,6 +9,7 @@ interface BaseFormDialogProps {
   onConfirm: () => void | Promise<void>;
   confirmLabel?: string;
   confirmDisabled?: boolean;
+  confirmLoading?: boolean;
   confirmColor?: "primary" | "secondary" | "error";
   children: React.ReactNode;
 }
@@ -19,6 +21,7 @@ export const BaseFormDialog = ({
   onConfirm,
   confirmLabel = "Conferma",
   confirmDisabled = false,
+  confirmLoading = false,
   confirmColor = "primary",
   children,
 }: BaseFormDialogProps) => {
@@ -34,14 +37,19 @@ export const BaseFormDialog = ({
       title={title}
       actions={
         <>
-          <Button onClick={onClose} color="secondary">
+          <Button onClick={onClose} color="secondary" disabled={confirmLoading}>
             Cancel
           </Button>
           <Button
             variant="contained"
             color={confirmColor}
             onClick={onConfirm}
-            disabled={confirmDisabled}
+            disabled={confirmDisabled || confirmLoading}
+            startIcon={
+              confirmLoading ? (
+                <CircularProgress size={16} color="inherit" />
+              ) : undefined
+            }
           >
             {confirmLabel}
           </Button>
