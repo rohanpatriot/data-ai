@@ -14,10 +14,22 @@ interface LineChartWidgetProps {
   onReference?: (widgetId: string) => void;
 }
 
-const LineChartWidget: React.FC<LineChartWidgetProps> = ({ data, id, refresh, onReference }) => {
+const LineChartWidget: React.FC<LineChartWidgetProps> = ({
+  data,
+  id,
+  refresh,
+  onReference,
+}) => {
   const options = getLineChartOptions(data.xAxis, data.series);
-  return <BaseChartWidget id={id} title={data.title} options={options} refresh={refresh}
-  onReference={onReference} />;
+  return (
+    <BaseChartWidget
+      id={id}
+      title={data.title}
+      options={options}
+      refresh={refresh}
+      onReference={onReference}
+    />
+  );
 };
 
 export default LineChartWidget;
