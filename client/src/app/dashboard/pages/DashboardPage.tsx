@@ -54,7 +54,7 @@ const DashboardPage: React.FC = () => {
     //     }, 50);
     //   });
     // });
-    setContainerWidth("calc(99% + 1px)");
+    setContainerWidth("calc(99% + 5px)");
   };
 
   return (

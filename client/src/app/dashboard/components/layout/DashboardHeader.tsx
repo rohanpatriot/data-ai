@@ -19,6 +19,7 @@ import exportIcon from "@/assets/icons/export_icon.svg";
 import chatIconRound from "@/assets/icons/chat_icon_round.svg";
 import DashboardThemeSelector from "./DashboardThemeSelector";
 import { RefreshOutlined } from "@mui/icons-material";
+import DownloadIcon from "@mui/icons-material/Download";
 
 interface DashboardHeaderProps {
   loading: boolean;
@@ -161,6 +162,14 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               sx={{
                 height: 32,
               }}
+              startIcon={
+                <img
+                  src={databaseIcon}
+                  alt="Database Icon"
+                  width={16}
+                  height={16}
+                />
+              }
             >
               Data sources
             </Button>
@@ -186,6 +195,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               size="small"
               color="secondary"
               fullWidth={isMobile}
+              startIcon={<DownloadIcon />}
               onClick={(e) => {
                 setShareMenuAnchor(e.currentTarget);
                 setExportMenuOpen(true);
@@ -214,10 +224,11 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               border: `1px solid ${theme.palette.divider}`,
               borderRadius: 3,
               height: 32,
+              color: "black",
             }}
             onClick={refreshDash}
           >
-            <RefreshOutlined />
+            <RefreshOutlined fontSize="small" />
           </IconButton>
         </Box>
       </Toolbar>

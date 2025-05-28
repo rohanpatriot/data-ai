@@ -129,20 +129,22 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
               <Avatar
                 src={user.avatar_url}
                 sx={{
-                  mr: 1.5,
+                  mr: 1.25,
                   width: 28,
                   height: 28,
+                  border: "1px solid #eaeaea",
                 }}
               />
             ) : (
               <Avatar
                 src={brandmark}
                 sx={{
-                  mr: 2,
-                  width: 36,
-                  height: 36,
+                  mr: 1.25,
+                  width: 28,
+                  height: 28,
                   bgcolor: "transparent",
-                  padding: 0.8,
+                  padding: 0.4,
+                  border: "1px solid #eaeaea",
                   "& img": {
                     objectFit: "contain",
                   },
@@ -167,16 +169,16 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
         ))}
 
         {/* Show skeleton when dashboardLoading is true */}
-        {dashboardLoading && (
+        {true && (
           <Box sx={{ mb: 3, display: "flex", alignItems: "flex-start" }}>
             <Avatar
               src={brandmark}
               sx={{
-                mr: 2,
-                width: 36,
-                height: 36,
+                mr: 1.25,
+                width: 28,
+                height: 28,
                 bgcolor: "transparent",
-                padding: 0.8,
+                padding: 0.4,
                 "& img": {
                   objectFit: "contain",
                 },
@@ -192,11 +194,11 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: 0.5,
                   wdith: "100%",
                 }}
               >
-                <Skeleton variant="text" width="80%" height={20} />
+                <Skeleton variant="text" width="220px" height={20} />
+                <Skeleton variant="text" width="120px" height={20} />
               </Box>
             </Box>
             <div ref={messagesEndRef} />
