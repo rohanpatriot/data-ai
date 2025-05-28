@@ -20,6 +20,9 @@ interface DashboardGridProps {
   onLayoutChange?: (layout: Layout[], allLayouts: Layouts) => void;
 }
 
+// Add this import at the top
+import { API } from "../../../api/api";
+
 const DashboardGrid: React.FC<DashboardGridProps> = ({
   readonly = false,
   dashboardLoading = false,
@@ -114,7 +117,10 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
       </Box>
     ));
 
-  const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
+  const handleLayoutChange = async (
+    currentLayout: Layout[],
+    allLayouts: Layouts
+  ) => {
     const compactedLayouts: Layouts = {};
 
     Object.keys(allLayouts).forEach((breakpoint) => {
@@ -125,6 +131,32 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({
 
     setLayouts(compactedLayouts);
     onLayoutChange(currentLayout, compactedLayouts);
+
+    // Save position changes to Supabase
+    if (!readonly && projectId) {
+      try {
+        // Sort layout items by their visual position (y first, then x)
+        const sortedLayout = [...currentLayout].sort((a, b) => {
+          if (a.y !== b.y) {
+            return a.y - b.y; // Sort by row first
+          }
+          return a.x - b.x; // Then by column
+        });
+
+        // Update each widget's position based on sorted order
+        const updatePromises = sortedLayout.map((layoutItem, index) =>
+          API.widgets.update(layoutItem.i, { position: index })
+        );
+
+        // Wait for all updates to complete
+        await Promise.all(updatePromises);
+
+        console.log("Widget positions saved successfully");
+      } catch (error) {
+        console.error("Failed to save widget positions:", error);
+        // Optionally show a toast notification to the user
+      }
+    }
   };
 
   if (loading) {

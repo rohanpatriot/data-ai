@@ -27,8 +27,13 @@ export const useWidgets = (projectId?: string) => {
       setLoading(true);
       const widgetsData = await API.widgets.getAll(projectId);
 
+      // Sort widgets by position before formatting
+      const sortedWidgets = widgetsData.sort(
+        (a, b) => (a.position || 0) - (b.position || 0)
+      );
+
       // Transform the API response to match the WidgetConfig format
-      const formattedWidgets: WidgetConfig[] = widgetsData.map(
+      const formattedWidgets: WidgetConfig[] = sortedWidgets.map(
         (widget, index) => {
           // Set different heights based on widget type
           let height = 6;
@@ -44,8 +49,7 @@ export const useWidgets = (projectId?: string) => {
             height = 8; // Larger height for charts
           }
 
-          // Calculate position based on index to avoid overlap
-          // This creates a grid-like layout with 2 widgets per row
+          // Use the index from sorted array for positioning
           const column = index % 2;
           const row = Math.floor(index / 2);
 
@@ -54,9 +58,9 @@ export const useWidgets = (projectId?: string) => {
             name: widget.name,
             type: widget.widget_type as any,
             data: widget.data as any,
-            // Set x and y positions based on column and row
+            // Set x and y positions based on sorted position
             x: column * 6,
-            y: row * 10, // Use a larger value to ensure vertical spacing
+            y: row * 10,
             w: 6,
             h: height,
           };
