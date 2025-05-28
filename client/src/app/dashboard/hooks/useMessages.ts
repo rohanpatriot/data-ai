@@ -10,6 +10,36 @@ interface Message {
   text: string;
 }
 
+// Function to clean AI response text for display only
+const cleanAIResponseForDisplay = (text: string): string => {
+  let cleaned = text;
+
+  // Remove any ```json blocks (complete or incomplete)
+  cleaned = cleaned.replace(/```json[\s\S]*?```/g, "");
+  cleaned = cleaned.replace(/```json[\s\S]*$/g, "");
+
+  // Remove standalone ```json or ``` markers
+  cleaned = cleaned.replace(/```json/g, "");
+  cleaned = cleaned.replace(/```/g, "");
+
+  // Remove JSON fragments that start with array/object patterns
+  // This catches patterns like: ] }, { "title": "...", "type": "..."
+  cleaned = cleaned.replace(/^\s*\]\s*\}[\s\S]*$/g, "");
+  cleaned = cleaned.replace(/\]\s*\}[\s\S]*$/g, "");
+
+  // Remove incomplete JSON objects/arrays
+  cleaned = cleaned.replace(/\{[^}]*"[^"]*"[^}]*$/g, "");
+  cleaned = cleaned.replace(/^[^{]*\{[\s\S]*$/g, "");
+
+  // Remove any line that looks like JSON property definitions
+  cleaned = cleaned.replace(/.*"[^"]*":\s*[^,}\]]*[,}\]]?.*/g, "");
+
+  // Clean up multiple whitespace and trim
+  cleaned = cleaned.replace(/\s+/g, " ").trim();
+
+  return cleaned;
+};
+
 export const useMessages = (projectId?: string) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
@@ -17,7 +47,9 @@ export const useMessages = (projectId?: string) => {
   const [error, setError] = useState<string | null>(null);
   const [dashboardLoading, setDashboardLoading] = useState(false);
   const [returnOnlyMessage, setReturnOnlyMessage] = useState(false);
-  const [referencedWidget, setReferencedWidget] = useState<{id: string; } | null>(null);
+  const [referencedWidget, setReferencedWidget] = useState<{
+    id: string;
+  } | null>(null);
 
   // Fetch messages from API
   const fetchMessages = useCallback(async () => {
@@ -30,7 +62,10 @@ export const useMessages = (projectId?: string) => {
       const messagesData = await MessageAPI.getAll(projectId);
       const formattedMessages = messagesData.map((msg) => ({
         sender: msg.from_user ? "user" : "system",
-        text: msg.message,
+        // Clean AI messages for display only
+        text: msg.from_user
+          ? msg.message
+          : cleanAIResponseForDisplay(msg.message),
       }));
       setMessages(formattedMessages);
     } catch (err) {
@@ -47,48 +82,53 @@ export const useMessages = (projectId?: string) => {
     setLoading(true);
     setDashboardLoading(true);
     setError(null);
-  
+
     try {
       // Save user message with reference
       await saveUserMessage(message, projectId);
-      
+
       // Get structured data
       const structuredData = await getStructuredData(projectId);
-      
+
       // Determine if it's first message
       const isFirstMessage = messages.length === 0;
-      
+
       // Call Edge Function
-      const response = await callEdgeFunction(message, structuredData, isFirstMessage, projectId);
-      
+      const response = await callEdgeFunction(
+        message,
+        structuredData,
+        isFirstMessage,
+        projectId
+      );
+
       if (!response.data?.choices) {
         throw new Error("Invalid response format from API");
       }
-  
+
       const responseData = response.data.choices[0].message.content;
       let parsedJSON;
-  
+
       try {
-        const cleanData = responseData.replace(/```json|```/g, '').trim();
+        const cleanData = responseData.replace(/```json|```/g, "").trim();
         parsedJSON = JSON.parse(cleanData);
         setReturnOnlyMessage(!parsedJSON.widgets);
       } catch (parseError) {
         parsedJSON = { message: responseData };
         setReturnOnlyMessage(true);
       }
-  
+
       if (!returnOnlyMessage && parsedJSON.widgets) {
         await saveWidgets(parsedJSON.widgets, projectId);
       }
-  
+
+      // Save original AI response to database (not cleaned)
       await saveAIResponse(parsedJSON.message, projectId);
-  
+
       if (!returnOnlyMessage && parsedJSON.sources) {
         await saveDataSources(parsedJSON.sources, projectId);
       }
-  
+
       await fetchMessages();
-  
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error processing message");
       console.error("Error processing message:", err);
@@ -98,7 +138,7 @@ export const useMessages = (projectId?: string) => {
       setReferencedWidget(null); // Clear reference after sending
     }
   };
-  
+
   // Modified saveUserMessage to include reference
   const saveUserMessage = async (message: string, projectId: string) => {
     const messageData = {
@@ -108,13 +148,13 @@ export const useMessages = (projectId?: string) => {
     };
 
     await MessageAPI.create(messageData);
-    const userMessage: Message = { 
-      sender: "user", 
+    const userMessage: Message = {
+      sender: "user",
       text: message,
     };
     setMessages((prev) => [...prev, userMessage]);
   };
-  
+
   const getStructuredData = async (projectId: string) => {
     const dataSources = await API.dataSources.getAll(projectId);
     return dataSources.reduce((acc, source) => {
@@ -122,20 +162,27 @@ export const useMessages = (projectId?: string) => {
       return acc;
     }, {});
   };
-  
-  const callEdgeFunction = async (message: string, structuredData: Record<string, string>, isFirstMessage: boolean, projectId: string) => {
-    return await supabase.functions.invoke('call-perplexity', {
+
+  const callEdgeFunction = async (
+    message: string,
+    structuredData: Record<string, string>,
+    isFirstMessage: boolean,
+    projectId: string
+  ) => {
+    return await supabase.functions.invoke("call-perplexity", {
       body: {
-        mode: isFirstMessage ? 'f1' : 'r1',
+        mode: isFirstMessage ? "f1" : "r1",
         query: message,
         structuredDataSource: structuredData,
         chatHistory: messages,
-        previousWidgets: isFirstMessage ? null : await API.widgets.getAll(projectId),
+        previousWidgets: isFirstMessage
+          ? null
+          : await API.widgets.getAll(projectId),
         focusedWidgetsData: null,
-      }
+      },
     });
   };
-  
+
   const saveWidgets = async (widgets: any[], projectId: string) => {
     let position = 1;
     for (const widget of widgets) {
@@ -150,19 +197,20 @@ export const useMessages = (projectId?: string) => {
       });
     }
   };
-  
+
   const saveAIResponse = async (message: string, projectId: string) => {
+    // Save original message to database (not cleaned)
     await MessageAPI.create({
       message,
       project_id: projectId,
-      from_user: false
+      from_user: false,
     });
   };
-  
+
   const saveDataSources = async (sources: string[], projectId: string) => {
     for (const source of sources) {
       const url = source.trim();
-      const name = url.replace(/^https?:\/\//, '').split('/')[0];
+      const name = url.replace(/^https?:\/\//, "").split("/")[0];
       await DataSourcesAPI.create({
         projectId,
         name,
