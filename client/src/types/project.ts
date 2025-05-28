@@ -6,4 +6,5 @@ export interface Project {
   widgets_number: number;
   created_at: string;
   theme: string;
+  shared_with?: string[];
 }

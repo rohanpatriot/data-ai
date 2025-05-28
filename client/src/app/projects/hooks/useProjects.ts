@@ -21,7 +21,28 @@ export const useProjects = () => {
     fetchProjects();
   }, []);
 
+  const getSharedWith = async (id: string) => {
+    try {
+      const data = await API.projects.getSharedWith(id);
+      return data;
+    } catch (error) {
+      console.error("Failed to fetch shared with:", error);
+      return [];
+    }
+  };
+
+  const updateSharedWith = async (id: string, sharedWith: string[]) => {
+    try {
+      const data = await API.projects.updateSharedWith(id, sharedWith);
+      return data;
+    } catch (error) {
+      console.error("Failed to update shared with:", error);
+    }
+  };
+
   return {
+    getSharedWith,
+    updateSharedWith,
     projects,
     setProjects,
     isLoading,

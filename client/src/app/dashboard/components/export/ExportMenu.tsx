@@ -75,6 +75,7 @@ const ExportMenu: React.FC<ExportMenuProps> = ({
   };
 
   return (
+    <>
     <Menu
       anchorEl={shareMenuAnchor}
       open={exportMenuOpen}
@@ -119,22 +120,25 @@ const ExportMenu: React.FC<ExportMenuProps> = ({
         <FileDownloadIcon fontSize="small" />
         JSON Data
       </MenuItem>
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={4000}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert
-          onClose={() => setSnackbar({ ...snackbar, open: false })}
-          severity={snackbar.severity}
-          variant="standard"
-          sx={{ width: "100%" }}
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
     </Menu>
+
+    <Snackbar
+    open={snackbar.open}
+    autoHideDuration={4000}
+    onClose={() => setSnackbar({ ...snackbar, open: false })}
+    anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+    >
+    <Alert
+      onClose={() => setSnackbar({ ...snackbar, open: false })}
+      severity={snackbar.severity}
+      variant="standard"
+      sx={{ width: "100%" }}
+    >
+      {snackbar.message}
+    </Alert>
+    </Snackbar>
+
+  </>
   );
 };
 
