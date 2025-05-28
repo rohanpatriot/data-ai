@@ -66,10 +66,9 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
         width: isMobile ? "100%" : "330px",
         display: "flex",
         flexDirection: "column",
-        height: isMobile ? "80vh" : "98%",
+        height: isMobile ? "90vh" : "98%",
         border: isMobile ? "none" : "1px solid #eaeaea",
         borderRadius: isMobile ? 0 : "12px",
-        margin: isMobile ? "0" : "2%",
       }}
     >
       <Box
@@ -226,7 +225,7 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
           sx: {
             borderTopLeftRadius: 16,
             borderTopRightRadius: 16,
-            maxHeight: "80vh",
+            maxHeight: "95vh",
           },
         }}
       >
