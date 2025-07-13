@@ -18,6 +18,8 @@ import LanguageIcon from "@mui/icons-material/Language";
 import { DataSource } from "../../../../types/dataSource";
 import { formatRelativeTime } from "../../../../shared/utils/dateUtils";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import { useTheme } from "@mui/material/styles";
+
 interface Props {
   source: DataSource;
   onDeleteClick: () => void;
@@ -127,6 +129,9 @@ const DataSourceCard: React.FC<Props> = ({
     }
   };
 
+  const theme = useTheme();
+  const cardStyle = (theme as any).customStyles.dataSourceCard;
+
   return (
     <Card variant="outlined" sx={{ mb: 2 }}>
       <Box
@@ -205,8 +210,8 @@ const DataSourceCard: React.FC<Props> = ({
                       icon={<AutoAwesomeIcon />}
                       sx={{
                         ml: 1,
-                        bgcolor: "#f0e6ff",
-                        color: "#A224F0",
+                        bgcolor: cardStyle.bgcolor,
+                        color: cardStyle.color,
                         fontWeight: 500,
                         fontSize: "0.7rem",
                         height: 24,

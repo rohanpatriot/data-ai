@@ -24,7 +24,46 @@ const palette = {
   divider: "#E9ECEF",
 };
 
-// Create the theme
+const darkPalette = {
+  primary: {
+    main: "#A224F0",
+    dark: "#8200FF",
+    contrastText: "#FFFFFF",
+  },
+  secondary: {
+    main: "#A224F0", // or any color you want for the button in dark mode
+    light: "#34343a",
+    dark: "#adb5bd",
+    contrastText: "#FFFFFF",
+  },
+  text: {
+    primary: "#FFFFFF",
+    secondary: "#B0B3B8",
+  },
+  background: {
+    default: "#18181b",
+    paper: "#202020",
+  },
+  divider: "#232329",
+};
+
+const customStyles = {
+  dataSourceCard: {
+    bgcolor: "#f0e6ff",
+    color: "#A224F0",
+  },
+  // Add more custom styles as needed
+};
+
+const darkCustomStyles = {
+  dataSourceCard: {
+    bgcolor: "#2a223a", // Example: a dark purple/grey background
+    color: "#A224F0",
+  },
+  // Add more custom styles as needed
+};
+
+// Create the light theme
 const theme = createTheme({
   palette,
   typography: {
@@ -157,6 +196,7 @@ const theme = createTheme({
             borderRadius: 4,
             py: 0.5,
             px: 0.5,
+            backgroundColor: palette.background.paper,
           },
         },
       },
@@ -181,7 +221,108 @@ const theme = createTheme({
         },
       },
     },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8, // or 2 if you prefer
+          alignItems: "flex-start",
+        },
+        input: {
+          padding: "8.5px 14px",
+        },
+        inputMultiline: {
+          padding: "8.5px 14px",
+          lineHeight: 1.5,
+        },
+      },
+    },
   },
 });
+(theme as any).customStyles = customStyles;
+
+const darkTheme = createTheme({
+  palette: {
+    ...darkPalette,
+    mode: "dark",
+  },
+  typography: theme.typography,
+  components: {
+    ...theme.components,
+    MuiCard: {
+      ...theme.components?.MuiCard,
+      styleOverrides: {
+        ...theme.components?.MuiCard?.styleOverrides,
+        root: {
+          ...((theme.components?.MuiCard?.styleOverrides?.root as object) || {}),
+          backgroundColor: darkPalette.background.paper,
+          border: `1px solid ${darkPalette.divider}`,
+        },
+      },
+    },
+    MuiTextField: {
+      ...theme.components?.MuiTextField,
+      styleOverrides: {
+        ...theme.components?.MuiTextField?.styleOverrides,
+        root: {
+          ...((theme.components?.MuiTextField?.styleOverrides?.root as object) || {}),
+          backgroundColor: darkPalette.background.paper,
+        },
+      },
+    },
+    MuiButton: {
+      ...theme.components?.MuiButton,
+      styleOverrides: {
+        ...theme.components?.MuiButton?.styleOverrides,
+        outlinedSecondary: {
+          color: "#FFFFFF", // or your preferred color
+          borderColor: "#FFFFFF",
+          "&:hover": {
+            backgroundColor: "rgba(162,36,240,0.08)",
+            borderColor: "#A224F0",
+          },
+        },
+      },
+    },
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          backgroundColor: darkPalette.background.default,
+          color: darkPalette.text.primary,
+        },
+        '.react-grid-item.react-grid-placeholder': {
+          background: darkPalette.primary.main,
+        },
+        "*::-webkit-scrollbar": {
+          width: "8px",
+          height: "8px",
+          backgroundColor: "transparent",
+        },
+        "*::-webkit-scrollbar-thumb": {
+          backgroundColor: "#A224E0", // Or use theme.palette.primary.main
+          borderRadius: "8px",
+        },
+        "*::-webkit-scrollbar-track": {
+          backgroundColor: "transparent",
+        },
+        // For Firefox
+        "*": {
+          scrollbarWidth: "thin",
+          scrollbarColor: "#A224F0 transparent",
+        },
+      },
+    },
+    MuiDialog: {
+      defaultProps: {
+        PaperProps: {
+          sx: {
+            backgroundColor: darkPalette.background.paper,
+          },
+        },
+      },
+    },
+  },
+});
+(darkTheme as any).customStyles = darkCustomStyles;
 
 export default theme;
+export { darkTheme };

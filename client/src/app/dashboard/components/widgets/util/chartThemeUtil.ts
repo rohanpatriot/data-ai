@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react';
+import { useAppTheme } from '../../../../../theme/ThemeContext';
 // import { EChartOption } from 'echarts-for-react';
 
 export type WidgetThemePreset = 'business' | 'modern' | 'legacy';
@@ -15,7 +16,7 @@ export const themePresets: Record<WidgetThemePreset, WidgetThemeColors> = {
   legacy: {
     primary: ['#A224F0', '#6C757D', '#495057', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074'],
     accent: '#A224F0',
-    background: '#FFFFFF',
+    background: 'transparent',
     text: '#212529',
     grid: '#E9ECEF',
     axisLine: '#6C757D'
@@ -23,7 +24,7 @@ export const themePresets: Record<WidgetThemePreset, WidgetThemeColors> = {
   business: {
     primary: ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'],
     accent: '#5470c6',
-    background: '#ffffff',
+    background: 'transparent',
     text: '#333333',
     grid: '#f5f5f5',
     axisLine: '#cccccc'
@@ -31,7 +32,7 @@ export const themePresets: Record<WidgetThemePreset, WidgetThemeColors> = {
   modern: {
     primary: ['#80FFA5', '#00DDFF', '#A149FA', '#37A2FF', '#FF0087', '#FFBF00', '#0CC0DF', '#FF7C43', '#46AF78'],
     accent: '#00DDFF',
-    background: '#ffffff',
+    background: 'transparent',
     text: '#333333',
     grid: '#f5f5f5',
     axisLine: '#cccccc'
@@ -51,7 +52,16 @@ export const WidgetThemeContext = createContext<WidgetThemeContextType>({
     setThemePreset: () => {}
   });
 // Hook for using the widget theme
-export const useWidgetTheme = () => useContext(WidgetThemeContext);
+export const useWidgetTheme = () => {
+  const context = useContext(WidgetThemeContext);
+  const { mode } = useAppTheme();
+  // Dynamically override text color based on app theme
+  const dynamicColors = {
+    ...context.colors,
+    text: mode === 'dark' ? '#fff' : '#212529',
+  };
+  return { ...context, colors: dynamicColors };
+};
 
 export const applyThemeToChartOptions = (
   options: any, 

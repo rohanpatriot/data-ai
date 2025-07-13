@@ -20,6 +20,7 @@ import chatIconRound from "@/assets/icons/chat_icon_round.svg";
 import DashboardThemeSelector from "./DashboardThemeSelector";
 import { RefreshOutlined } from "@mui/icons-material";
 import DownloadIcon from "@mui/icons-material/Download";
+import { useAppTheme } from "../../../../theme/ThemeContext";
 
 interface DashboardHeaderProps {
   loading: boolean;
@@ -53,6 +54,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const { mode } = useAppTheme();
+  const iconColor = mode === "dark" ? "#fff" : "#000";
 
   return (
     <AppBar position="static" color="transparent" elevation={0}>
@@ -73,7 +76,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         >
           {!isMobile && !chatOpen && (
             <IconButton onClick={() => setChatOpen(true)} sx={{ mr: 0.5 }}>
-              <ChatIcon />
+              <ChatIcon color={iconColor} />
             </IconButton>
           )}
 
@@ -81,7 +84,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             onClick={() => navigate("/projects")}
             sx={{ mr: 1, color: "black" }}
           >
-            <ArrowBackIcon />
+            <ArrowBackIcon sx={{ color: iconColor }} />
           </IconButton>
           <Box sx={{ width: "100%" }}>
             <Typography
@@ -127,7 +130,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 flexGrow: 1,
               }}
             >
-              <img src={chatIconRound} alt="Chat Icon" width={20} height={20} />
+              <img src={chatIconRound} alt="Chat Icon" width={20} height={20} style={{filter: mode === "dark" ? "invert(1)" : "none"}}/>
               <Box ml={1} fontSize={16}>
                 Chat
               </Box>
@@ -150,6 +153,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 alt="Database Icon"
                 width={20}
                 height={20}
+                style={{filter: mode === "dark" ? "invert(1)" : "none",}}
               />
             </IconButton>
           ) : (
@@ -161,6 +165,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               onClick={() => setDSPanelOpen(true)}
               sx={{
                 height: 32,
+                border: `1px solid ${theme.palette.divider}`,
               }}
               startIcon={
                 <img
@@ -168,6 +173,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                   alt="Database Icon"
                   width={16}
                   height={16}
+                  style={{filter: mode === "dark" ? "invert(1)" : "none",}}
                 />
               }
             >
@@ -187,7 +193,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 borderRadius: 3,
               }}
             >
-              <img src={exportIcon} alt="Export Icon" width={20} height={20} />
+              <img src={exportIcon} alt="Export Icon" width={20} height={20} style={{filter: mode === "dark" ? "invert(1)" : "none",}} />
             </IconButton>
           ) : (
             <Button
@@ -202,6 +208,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               }}
               sx={{
                 height: 32,
+                border: `1px solid ${theme.palette.divider}`
               }}
             >
               Export
@@ -224,7 +231,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               border: `1px solid ${theme.palette.divider}`,
               borderRadius: 3,
               height: 32,
-              color: "black",
+              color: iconColor,
             }}
             onClick={refreshDash}
           >

@@ -41,7 +41,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
           />
         </Box>
       )}
-      <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ display: "flex", alignItems: "end" }}>
         <TextField
           fullWidth
           placeholder="Type a message..."
@@ -51,11 +51,9 @@ const ChatBox: React.FC<ChatBoxProps> = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              borderRadius: 2,
-            },
-          }}
+          multiline
+          minRows={1}
+          maxRows={10}
         />
         <IconButton
           color="primary"

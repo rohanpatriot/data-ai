@@ -83,7 +83,7 @@ const AddProjectModal = ({
             if (error) setError(null);
           }}
           error={!!error}
-          helperText={error || " "}
+          helperText={error || null}
           onKeyDown={handleNameKeyDown}
           disabled={isAdding}
         />

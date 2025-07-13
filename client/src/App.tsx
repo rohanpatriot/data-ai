@@ -1,7 +1,7 @@
 import Login from "./app/auth/pages/LoginPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider, CssBaseline } from "@mui/material";
-import theme from "./theme/theme"; // Import the new theme
+import { ThemeProviderContext, useAppTheme } from "./theme/ThemeContext";
 import NotFound from "./shared/pages/NotFoundPage";
 import ForgotPassword from "./app/auth/pages/ForgotPasswordPage";
 import { AnimatePresence } from "motion/react";
@@ -17,7 +17,8 @@ import Loading from "./shared/pages/LoadingPage";
 import ProtectedRoute from "./app/auth/components/ProtectedRoute";
 import SharedProject from "./app/projects/pages/SharedProjectPage";
 
-function App() {
+function AppContent() {
+  const { muiTheme } = useAppTheme();
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -44,7 +45,7 @@ function App() {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={muiTheme}>
       <CssBaseline />
       <BrowserRouter>
         <AnimatePresence>
@@ -99,6 +100,14 @@ function App() {
         </AnimatePresence>
       </BrowserRouter>
     </ThemeProvider>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProviderContext>
+      <AppContent />
+    </ThemeProviderContext>
   );
 }
 

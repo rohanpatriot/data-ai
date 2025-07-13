@@ -40,6 +40,7 @@ export const ResponsiveSidePanel: React.FC<ResponsiveSidePanelProps> = ({
     pt: isMobile ? 0 : 3,
     display: "flex",
     flexDirection: "column" as const,
+    backgroundColor: theme.palette.background.default,
   };
 
   const dragHandleStyles = {

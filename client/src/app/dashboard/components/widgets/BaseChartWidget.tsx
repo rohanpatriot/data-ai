@@ -5,6 +5,7 @@ import {
   applyThemeToChartOptions,
   useWidgetTheme,
 } from "./util/chartThemeUtil";
+import { useAppTheme } from "../../../../theme/ThemeContext";
 
 interface BaseChartWidgetProps {
   id: string;
@@ -24,6 +25,7 @@ const BaseChartWidget: React.FC<BaseChartWidgetProps> = ({
   const { colors, themePreset } = useWidgetTheme();
   const themedOptions = applyThemeToChartOptions(options, colors);
   const chartRef = useRef<any>(null);
+  const { mode } = useAppTheme();
 
   // Force resize after mount to fix initial sizing issue
   useEffect(() => {
@@ -52,6 +54,8 @@ const BaseChartWidget: React.FC<BaseChartWidgetProps> = ({
         style={{ height: "100%", width: "100%" }}
         key={`chart-${id}-${themePreset}`}
         opts={{ renderer: "canvas" }}
+        theme={mode === "dark" ? "dark" : undefined}
+
       />
     </WidgetBase>
   );

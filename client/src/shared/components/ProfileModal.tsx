@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { ResponsiveDialog } from "./ResponsiveDialog";
+import { useTheme } from '@mui/material/styles';
 
 interface ProfileProps {
   open: boolean;
@@ -22,6 +23,8 @@ interface ProfileProps {
 const ProfileModal: React.FC<ProfileProps> = ({ open, onClose, user }) => {
   if (!open) return null;
 
+  const theme = useTheme();
+
   return (
     <ResponsiveDialog open={open} onClose={onClose} title="My profile">
       <DialogContent>
@@ -34,8 +37,8 @@ const ProfileModal: React.FC<ProfileProps> = ({ open, onClose, user }) => {
             />
             <Box>
               <Typography
-                sx={{ color: "black", fontWeight: 300 }}
-                variant="body1"
+                sx={{ fontWeight: 300, color: theme.palette.secondary.dark }}
+                variant="body2"
               >
                 {user.email}
               </Typography>

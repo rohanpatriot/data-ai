@@ -55,7 +55,6 @@ const ForgotPasswordPage = () => {
           sx={{
             width: "50%",
             position: "relative",
-            background: "#fff",
             display: { xs: "none", md: "block" },
             padding: "2.5%",
           }}
