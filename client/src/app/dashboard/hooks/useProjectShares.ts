@@ -26,7 +26,7 @@ export const useProjectShare = (projectId?: string, token?: string) => {
     try {
       const token = await ProjectSharesAPI.create(projectId);
       setShareToken(token);
-      const url = `${window.location.origin}/share/${token}`;
+      const url = `https://app.perplexigrid.com/share/${token}`;
       await navigator.clipboard.writeText(url);
       return url;
     } catch (err) {
