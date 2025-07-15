@@ -45,8 +45,12 @@ export default function ShareModal({ isOpen, onClose, projectId }: ShareModalPro
     const fetchCollaborators = async () => {
       try {
           const sharedEmails = await getSharedWith(projectId);
-          setCollaborators(sharedEmails.map((email: string) => ({ id: Date.now().toString(), email })));
-        } catch (error) {
+          if (Array.isArray(sharedEmails)) {
+            setCollaborators(sharedEmails.map((email: string) => ({ id: Date.now().toString(), email })));
+          } else {
+            setCollaborators([]);
+          }
+          } catch (error) {
         console.error("Failed to fetch collaborators:", error);
         showSnackbar("Failed to load collaborators", "error");
       }
@@ -208,14 +212,14 @@ export default function ShareModal({ isOpen, onClose, projectId }: ShareModalPro
           <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
             <TextField
               fullWidth
-              placeholder="Enter an email address to"
+              placeholder="peter@perplexigrid.com"
               variant="outlined"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleAddCollaborator()}
               sx={{
                 "& .MuiOutlinedInput-root": {
-                  borderRadius: "28px",
+                  borderRadius: "8px",
                 },
               }}
             />

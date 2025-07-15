@@ -73,6 +73,7 @@ const ChatSidePanel: React.FC<ChatSidePanelProps> = ({
         height: isMobile ? "90vh" : "98%",
         border: isMobile ? "none" : `1px solid ${theme.palette.divider}`,
         borderRadius: isMobile ? 0 : "12px",
+        bgcolor: theme.palette.background.default
       }}
     >
       <Box

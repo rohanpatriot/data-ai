@@ -29,7 +29,7 @@ const ProjectMoreMenu: React.FC<ProjectMoreMenuProps> = ({
   };
 
   const handleDeleteClick = () => {
-    setDeleteConfirmOpen(true);
+    onDelete(projectId);
     onClose();
   };
 

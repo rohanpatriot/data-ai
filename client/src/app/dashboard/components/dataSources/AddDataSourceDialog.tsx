@@ -11,6 +11,7 @@ import { useRef, useState } from "react";
 import { useAutoFocusAndSelect } from "../../../../shared/components/useAutoFocusAndSelect";
 import { BaseFormDialog } from "../../../../shared/components/BaseFormDialog";
 import CustomTextField from "../../../../shared/components/CustomTextField";
+import { useTheme } from "@mui/material/styles";
 
 interface Props {
   open: boolean;
@@ -47,6 +48,7 @@ const AddDataSourceDialog = ({
   const nameInputRef = useRef<HTMLInputElement>(null);
   const [urlError, setUrlError] = useState<string | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
+  const theme = useTheme();
 
   useAutoFocusAndSelect(nameInputRef, open);
 
@@ -160,8 +162,8 @@ const AddDataSourceDialog = ({
             <Card
               variant="outlined"
               sx={{
-                border: fileError ? "2px dashed #f44336" : "2px dashed #A224F0",
-                bgcolor: "#faf7fd",
+                border: fileError ? "2px dashed #f44336" : `2px dashed ${theme.palette.primary.main}`,
+                bgcolor: theme.palette.background.paper,
                 p: 3,
                 cursor: "pointer",
                 textAlign: "center",

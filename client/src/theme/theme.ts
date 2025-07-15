@@ -26,12 +26,12 @@ const palette = {
 
 const darkPalette = {
   primary: {
-    main: "#A224F0",
+    main: "#C266F5",
     dark: "#8200FF",
     contrastText: "#FFFFFF",
   },
   secondary: {
-    main: "#A224F0", // or any color you want for the button in dark mode
+    main: "#C266F5", // or any color you want for the button in dark mode
     light: "#34343a",
     dark: "#adb5bd",
     contrastText: "#FFFFFF",
@@ -196,7 +196,7 @@ const theme = createTheme({
             borderRadius: 4,
             py: 0.5,
             px: 0.5,
-            backgroundColor: palette.background.paper,
+            backgroundColor: palette.background.default,
           },
         },
       },
@@ -315,7 +315,7 @@ const darkTheme = createTheme({
       defaultProps: {
         PaperProps: {
           sx: {
-            backgroundColor: darkPalette.background.paper,
+            backgroundColor: '#18181a',
           },
         },
       },
