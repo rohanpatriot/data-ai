@@ -24,7 +24,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose }) => {
           >
             <MenuItem value="light">Light</MenuItem>
             <MenuItem value="dark">Dark</MenuItem>
-            <MenuItem value="system">System</MenuItem>
           </Select>
         </FormControl>
       </DialogContent>

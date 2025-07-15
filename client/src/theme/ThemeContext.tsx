@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useContext, useMemo, useState } from "react";
 import theme, { darkTheme } from "./theme";
 import { Theme } from "@mui/material";
 
-export type AppThemeMode = "light" | "dark" | "system";
+export type AppThemeMode = "light" | "dark";
 
 interface ThemeContextType {
   mode: AppThemeMode;
@@ -17,25 +17,17 @@ const ThemeContext = createContext<ThemeContextType>({
 });
 
 export const ThemeProviderContext: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Get system preference
+  // Get system preference (only used on first load if no user preference)
   const getSystemMode = () =>
     window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 
   const getInitialMode = (): AppThemeMode => {
     const stored = localStorage.getItem("appThemeMode") as AppThemeMode | null;
-    return stored || "system";
+    if (stored === "light" || stored === "dark") return stored;
+    return getSystemMode();
   };
 
   const [mode, setModeState] = useState<AppThemeMode>(getInitialMode());
-  const [systemMode, setSystemMode] = useState<"light" | "dark">(getSystemMode());
-
-  // Listen to system changes
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const handler = () => setSystemMode(mq.matches ? "dark" : "light");
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
 
   // Persist mode
   const setMode = (newMode: AppThemeMode) => {
@@ -45,9 +37,8 @@ export const ThemeProviderContext: React.FC<{ children: React.ReactNode }> = ({ 
 
   // Compute theme
   const muiTheme = useMemo(() => {
-    const effectiveMode = mode === "system" ? systemMode : mode;
-    return effectiveMode === "dark" ? darkTheme : theme;
-  }, [mode, systemMode]);
+    return mode === "dark" ? darkTheme : theme;
+  }, [mode]);
 
   return (
     <ThemeContext.Provider value={{ mode, setMode, muiTheme }}>
