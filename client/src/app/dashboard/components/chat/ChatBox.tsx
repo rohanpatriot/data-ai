@@ -57,7 +57,10 @@ const ChatBox: React.FC<ChatBoxProps> = ({
         />
         <IconButton
           color="primary"
-          onClick={() => onSend(value)}
+          onClick={() => {
+            onSend(value);
+            onChange(""); 
+          }}          
           disabled={!value.trim() || disabledSend}
           sx={{ ml: 1 }}
         >
