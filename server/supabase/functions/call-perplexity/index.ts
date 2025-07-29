@@ -17,6 +17,7 @@ serve(async (req) => {
   try {
     const payload = await req.json();
     const result = await handleDashboardRequest(payload);
+    console.log('result payload!', payload)
 
     return new Response(JSON.stringify(result), {
       status: 200,
