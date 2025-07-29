@@ -1,0 +1,50 @@
+name: PerplexiGrid, Deno CI & Supabase CD
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_REF }}
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@61fe2df320078202e33d7d5ad347e7dcfa0e8f31
+        with:
+          deno-version: v1.x
+
+      - name: Format check
+        run: deno fmt --check server/supabase/functions
+
+      - name: Lint
+        run: deno lint server/supabase/functions
+
+      - name: Type check
+        run: deno check server/supabase/functions/**/*.ts
+
+      # Optional: if we decide to write tests
+      # - name: Run tests
+      #   run: deno test -A supabase/functions
+
+      - name: Setup Supabase CLI (official action)
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Deploy Edge Functions to Supabase
+        if: github.event_name == 'push'
+        run: supabase functions deploy --project-ref $PROJECT_ID

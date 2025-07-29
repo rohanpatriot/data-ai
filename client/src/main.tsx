@@ -5,9 +5,6 @@ import App from "./App";
 console.debug = () => {};
 
 createRoot(document.getElementById("root")!).render(
-  // TODO PLZ remember to remove the
-  // StrictMode when we wanna see prod or we can just make prod/dev build
-  
   <StrictMode>
     <App />
   </StrictMode>
