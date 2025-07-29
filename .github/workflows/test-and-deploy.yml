@@ -48,3 +48,4 @@ jobs:
       - name: Deploy Edge Functions to Supabase
         if: github.event_name == 'push'
         run: supabase functions deploy --project-ref $PROJECT_ID
+        working-directory: server
