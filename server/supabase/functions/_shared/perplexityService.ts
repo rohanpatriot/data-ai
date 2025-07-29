@@ -21,6 +21,8 @@ async function callPerplexityAPI(systemPrompt: string, messages: Message[]) {
     }),
   });
 
+  console.log('PPLX Api response: ', response)
+
   return await response.json();
 }
 
