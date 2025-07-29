@@ -1,6 +1,6 @@
 ![image](https://github.com/user-attachments/assets/8b614a14-1511-4407-9617-d92527854b0f)
 
-[![Go to Website](https://img.shields.io/badge/Go_to_Website-%238200FF?style=for-the-badge&labelColor=212529)](https://perplexigrid.framer.website/)
+[![Go to Website](https://img.shields.io/badge/Go_to_Website-%238200FF?style=for-the-badge&labelColor=212529)](https://www.perplexigrid.com/)
 
 ![Powered by Perplexity](https://img.shields.io/badge/Powered%20by%20Perplexity%20Sonar%20API-000000?style=for-the-badge&logo=perplexity&logoColor=088F8F)
 
