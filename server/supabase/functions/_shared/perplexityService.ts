@@ -21,8 +21,6 @@ async function callPerplexityAPI(systemPrompt: string, messages: Message[]) {
     }),
   });
 
-  console.log("PPLX Api response: ", response);
-
   return await response.json();
 }
 
@@ -35,8 +33,6 @@ export async function handleDashboardRequest(payload: DashboardRequestPayload) {
     previousWidgetsJSON,
     focusedWidgetsData,
   } = payload;
-
-  console.log("payload: ", payload);
 
   const systemPrompt = systemPrompts[mode];
   if (!systemPrompt) throw new Error("Invalid mode");
@@ -68,13 +64,9 @@ export async function handleDashboardRequest(payload: DashboardRequestPayload) {
       );
   }
 
-  console.log("formattedPrompt: ", formattedPrompt);
-
   const response = await callPerplexityAPI(formattedPrompt, [
     { role: "user", content: query || "Default user message." },
   ]);
-
-  console.log("callPerplexityAPI response: ", response);
 
   return response;
 }
