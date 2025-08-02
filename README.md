@@ -4,7 +4,9 @@
 
 ![Powered by Perplexity](https://img.shields.io/badge/Powered%20by%20Perplexity%20Sonar%20API-000000?style=for-the-badge&logo=perplexity&logoColor=088F8F)
 
-### **PerplexiGrid** is an analytics tool that enables rapid dashboard creation by combining your datasources with live web search. Built as a Perplexity Sonar API wrapper, it transforms natural language into interactive dashboards, instantly!
+### Featured on the official [perplexity.ai sonar api cookbook](https://docs.perplexity.ai/cookbook/showcase/perplexigrid)!
+
+**PerplexiGrid** is an analytics tool that enables rapid dashboard creation by combining your datasources with live web search. Built as a Perplexity Sonar API wrapper, it transforms natural language into interactive dashboards, instantly!
 
 > _Think of it as the first Data Visualization Platform built on and FOR Perplexity._
 
